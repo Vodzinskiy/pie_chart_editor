@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.MainController">
    <children>
       <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="960.0">
         <menus>
@@ -40,7 +40,7 @@
          </cursor>
       </MenuBar>
       <PieChart layoutX="339.0" layoutY="42.0" prefHeight="574.0" prefWidth="598.0" />
-      <TableView fx:id="tabelView" editable="true" layoutX="24.0" layoutY="116.0" prefHeight="470.0" prefWidth="279.0">
+      <TableView fx:id="tableView" editable="true" layoutX="24.0" layoutY="116.0" prefHeight="470.0" prefWidth="279.0">
         <columns>
           <TableColumn fx:id="interest" prefWidth="152.8000030517578" text="Відсоток" />
           <TableColumn fx:id="name" prefWidth="115.20000839233398" text="Назва" />
@@ -52,5 +52,6 @@
       </TableView>
       <Button layoutX="234.0" layoutY="80.0" mnemonicParsing="false" onAction="#addToList" text="+" />
       <Button layoutX="277.0" layoutY="80.0" mnemonicParsing="false" onAction="#removeFromList" prefHeight="26.0" prefWidth="25.0" text="-" />
+      <Button layoutX="142.0" layoutY="80.0" mnemonicParsing="false" onAction="#clear" text="Очистити" />
    </children>
 </AnchorPane>
