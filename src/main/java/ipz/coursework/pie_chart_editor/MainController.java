@@ -4,15 +4,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainController {
@@ -35,9 +38,13 @@ public class MainController {
     @FXML
     private TableView<DataForPieChart> tableView;
 
+    @FXML
+    private PieChart pieChart;
+
     private ObservableList<DataForPieChart> dataForPieChart = FXCollections.observableArrayList(
-            new DataForPieChart("0","Змінна1")
-    );
+            new DataForPieChart("0","Змінна1"));
+
+    public ArrayList<String> variableName = new ArrayList<String>();
 
     @FXML
     void addToList(ActionEvent event) {
@@ -66,6 +73,30 @@ public class MainController {
         interest.setCellFactory(TextFieldTableCell.forTableColumn());
 
         tableView.setItems(dataForPieChart);
+
+
+
+        PieChart.Data slice1 = new PieChart.Data("USA", 20);
+        PieChart.Data slice2 = new PieChart.Data("EU", 20);
+        PieChart.Data slice3 = new PieChart.Data("China", 20);
+        PieChart.Data slice4 = new PieChart.Data("Japan", 20);
+        PieChart.Data slice5 = new PieChart.Data("Others", 100);
+
+        pieChart.getData().add(slice1);
+        pieChart.getData().add(slice2);
+        pieChart.getData().add(slice3);
+        pieChart.getData().add(slice4);
+        pieChart.getData().add(slice5);
     }
 
+    public void onEditName(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
+        DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
+        dataForPieChart.setName(dataForPieChartStringCellEditEvent.getNewValue());
+    }
+
+    public void onEditInterest(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
+        DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
+        dataForPieChart.setInterest(dataForPieChartStringCellEditEvent.getNewValue());
+
+    }
 }

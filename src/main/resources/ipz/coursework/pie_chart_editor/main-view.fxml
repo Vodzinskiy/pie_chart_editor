@@ -39,12 +39,12 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </MenuBar>
-      <PieChart layoutX="339.0" layoutY="42.0" prefHeight="574.0" prefWidth="598.0" />
+      <PieChart fx:id="pieChart" layoutX="339.0" layoutY="42.0" prefHeight="574.0" prefWidth="598.0" />
       <TableView fx:id="tableView" editable="true" layoutX="24.0" layoutY="116.0" prefHeight="470.0" prefWidth="279.0">
         <columns>
-          <TableColumn fx:id="interest" prefWidth="152.8000030517578" text="Відсоток" />
-          <TableColumn fx:id="name" prefWidth="115.20000839233398" text="Назва" />
-            <TableColumn fx:id="color" editable="false" prefWidth="32.800018310546875" sortable="false" text="Колір" />
+          <TableColumn fx:id="interest" onEditCommit="#onEditInterest" prefWidth="152.8000030517578" text="Відсоток" />
+          <TableColumn fx:id="name" onEditCommit="#onEditName" prefWidth="115.20000839233398" text="Назва" />
+          <TableColumn fx:id="color" editable="false" prefWidth="32.800018310546875" sortable="false" text="Колір" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

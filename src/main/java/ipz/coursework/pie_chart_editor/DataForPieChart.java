@@ -1,6 +1,5 @@
 package ipz.coursework.pie_chart_editor;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class DataForPieChart {
