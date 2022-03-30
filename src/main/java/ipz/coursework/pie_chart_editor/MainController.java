@@ -45,7 +45,8 @@ public class MainController {
     private ObservableList<DataForPieChart> dataForPieChart = FXCollections.observableArrayList();
 
     //public ArrayList<String> variableName = new ArrayList<String>();
-
+    List<String> columnDataName;
+    List<String> columnDataInterest;
 
     @FXML
     void addToList(ActionEvent event) {
@@ -54,6 +55,7 @@ public class MainController {
 
         refractArrayName();
         refractArrayInterest();
+        addArrayToPieChart();
 
     }
 
@@ -62,6 +64,7 @@ public class MainController {
         tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
         refractArrayName();
         refractArrayInterest();
+        addArrayToPieChart();
     }
 
     @FXML
@@ -70,6 +73,7 @@ public class MainController {
 
         refractArrayName();
         refractArrayInterest();
+        addArrayToPieChart();
 
 
     }
@@ -89,17 +93,7 @@ public class MainController {
 
 
 
-        PieChart.Data slice1 = new PieChart.Data("USA", 20);
-        PieChart.Data slice2 = new PieChart.Data("EU", 20);
-        PieChart.Data slice3 = new PieChart.Data("China", 20);
-        PieChart.Data slice4 = new PieChart.Data("Japan", 20);
-        PieChart.Data slice5 = new PieChart.Data("Others", 100);
 
-        pieChart.getData().add(slice1);
-        pieChart.getData().add(slice2);
-        pieChart.getData().add(slice3);
-        pieChart.getData().add(slice4);
-        pieChart.getData().add(slice5);
     }
 
     public void onEditName(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
@@ -107,6 +101,7 @@ public class MainController {
         dataForPieChart.setName(dataForPieChartStringCellEditEvent.getNewValue());
 
         refractArrayName();
+        addArrayToPieChart();
     }
 
     public void onEditInterest(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
@@ -114,20 +109,28 @@ public class MainController {
         dataForPieChart.setInterest(dataForPieChartStringCellEditEvent.getNewValue());
 
         refractArrayInterest();
+        addArrayToPieChart();
 
     }
 
     public void refractArrayName(){
-        List<String> columnDataName = new ArrayList<>();
+        columnDataName = new ArrayList<>();
         for (DataForPieChart item : tableView.getItems()) {
             columnDataName.add(name.getCellObservableValue(item).getValue());
         }
     }
 
     public void refractArrayInterest(){
-        List<String> columnDataInterest = new ArrayList<>();
+        columnDataInterest = new ArrayList<>();
         for (DataForPieChart item : tableView.getItems()) {
             columnDataInterest.add(interest.getCellObservableValue(item).getValue());
+        }
+    }
+    public void addArrayToPieChart(){
+        pieChart.getData().clear();
+        for (int i = 0; i<columnDataInterest.size();i++){
+            PieChart.Data slice = new PieChart.Data(columnDataName.get(i),Double.parseDouble(columnDataInterest.get(i)));
+            pieChart.getData().add(slice);
         }
     }
 }
