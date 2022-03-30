@@ -1,16 +1,20 @@
 package ipz.coursework.pie_chart_editor;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.skin.ColorPickerSkin;
 
 public class DataForPieChart {
     private SimpleStringProperty interest;
     private SimpleStringProperty name;
     private SimpleStringProperty num;
+    private ColorPicker picker;
 
     public DataForPieChart(String interest,String num, String name) {
         this.interest = new SimpleStringProperty(interest);
         this.name = new SimpleStringProperty(name);
         this.num = new SimpleStringProperty(num);
+        this.picker = new ColorPicker();
     }
 
     public String getInterest() {
@@ -36,4 +40,8 @@ public class DataForPieChart {
     public void setNum(String num) {
         this.num = new SimpleStringProperty(num);
     }
+
+    public ColorPicker getPicker(){return picker;}
+
+    public void setPicker(ColorPicker picker) {this.picker = picker;}
 }

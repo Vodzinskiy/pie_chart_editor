@@ -57,8 +57,8 @@ public class MainController {
 
     @FXML
     void addToList(ActionEvent event) {
-        int count = tableView.getItems().size() + 1;
-        dataForPieChart.add(new DataForPieChart("0","1","Змінна"+count));
+
+        dataForPieChart.add(new DataForPieChart("0","1","Змінна"+(tableView.getItems().size()+1)));
 
         refractArrayNum();
         refractArrayName();
@@ -91,20 +91,20 @@ public class MainController {
     @FXML
     void initialize() {
 
+        //TableColumn selectColor = new TableColumn("Колір");
+
         interest.setCellValueFactory(new PropertyValueFactory<>("interest"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         num.setCellValueFactory(new PropertyValueFactory<>("num"));
+        //color.getCellObservableValue(new PropertyValueFactory<>("color"));
 
         name.setCellFactory(TextFieldTableCell.forTableColumn());
         interest.setCellFactory(TextFieldTableCell.forTableColumn());
         num.setCellFactory(TextFieldTableCell.forTableColumn());
+        //color.setCellFactory(TextFieldTableCell.forTableColumn());
+
 
         tableView.setItems(dataForPieChart);
-
-
-
-
-
 
     }
 
@@ -128,7 +128,7 @@ public class MainController {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
         dataForPieChart.setNum(dataForPieChartStringCellEditEvent.getNewValue());
 
-        refractArrayInterest();
+        refractArrayNum();
         addArrayToPieChart();
     }
 
@@ -147,12 +147,12 @@ public class MainController {
     }
 
     public void refractArrayNum(){
+
         columnDataNum = new ArrayList<>();
         for (DataForPieChart item : tableView.getItems()) {
             columnDataNum.add(num.getCellObservableValue(item).getValue());
         }
     }
-
 
     public void addArrayToPieChart(){
         pieChart.getData().clear();

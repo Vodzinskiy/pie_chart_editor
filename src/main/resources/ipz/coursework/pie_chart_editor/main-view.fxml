@@ -41,11 +41,11 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </MenuBar>
-      <PieChart fx:id="pieChart" layoutX="339.0" layoutY="42.0" prefHeight="574.0" prefWidth="598.0" />
-      <TableView fx:id="tableView" layoutX="14.0" layoutY="104.0" prefHeight="470.0" prefWidth="306.0">
+      <PieChart fx:id="pieChart" animated="false" labelsVisible="false" layoutX="339.0" layoutY="42.0" prefHeight="574.0" prefWidth="598.0" />
+      <TableView fx:id="tableView" editable="true" layoutX="14.0" layoutY="104.0" prefHeight="470.0" prefWidth="306.0">
         <columns>
-            <TableColumn fx:id="num" editable="false" onEditCommit="#onEditNum" prefWidth="152.8000030517578" text="Число" />
-          <TableColumn fx:id="interest" editable="false" onEditCommit="#onEditInterest" prefWidth="91.20001220703125" text="Відсоток" />
+            <TableColumn fx:id="num" onEditCommit="#onEditNum" prefWidth="152.8000030517578" text="Число" />
+          <TableColumn fx:id="interest" onEditCommit="#onEditInterest" prefWidth="91.20001220703125" text="Відсоток" />
           <TableColumn fx:id="name" onEditCommit="#onEditName" prefWidth="60.79998779296875" text="Назва" />
           <TableColumn fx:id="color" prefWidth="47.20001220703125" sortable="false" text="Колір" />
         </columns>
