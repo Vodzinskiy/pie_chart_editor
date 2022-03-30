@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                ipz.coursework.pie_chart_editor/ipz.coursework.pie_chart_editor.HelloApplication
+                                ipz.coursework.pie_chart_editor/ipz.coursework.pie_chart_editor.Main
                             </mainClass>
                         </configuration>
                     </execution>
