@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController {
@@ -41,26 +42,36 @@ public class MainController {
     @FXML
     private PieChart pieChart;
 
-    private ObservableList<DataForPieChart> dataForPieChart = FXCollections.observableArrayList(
-            new DataForPieChart("0","Змінна1"));
+    private ObservableList<DataForPieChart> dataForPieChart = FXCollections.observableArrayList();
 
-    public ArrayList<String> variableName = new ArrayList<String>();
+    //public ArrayList<String> variableName = new ArrayList<String>();
+
 
     @FXML
     void addToList(ActionEvent event) {
         int count = tableView.getItems().size() + 1;
         dataForPieChart.add(new DataForPieChart("0","Змінна"+count));
+
+        refractArrayName();
+        refractArrayInterest();
+
     }
 
     @FXML
     void removeFromList(ActionEvent event) {
         tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
+        refractArrayName();
+        refractArrayInterest();
     }
 
     @FXML
     void clear(ActionEvent event) {
         tableView.getItems().clear();
-        dataForPieChart.add(new DataForPieChart("0","Змінна1"));
+
+        refractArrayName();
+        refractArrayInterest();
+
+
     }
 
     @FXML
@@ -73,6 +84,8 @@ public class MainController {
         interest.setCellFactory(TextFieldTableCell.forTableColumn());
 
         tableView.setItems(dataForPieChart);
+
+
 
 
 
@@ -92,11 +105,29 @@ public class MainController {
     public void onEditName(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
         dataForPieChart.setName(dataForPieChartStringCellEditEvent.getNewValue());
+
+        refractArrayName();
     }
 
     public void onEditInterest(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
         dataForPieChart.setInterest(dataForPieChartStringCellEditEvent.getNewValue());
 
+        refractArrayInterest();
+
+    }
+
+    public void refractArrayName(){
+        List<String> columnDataName = new ArrayList<>();
+        for (DataForPieChart item : tableView.getItems()) {
+            columnDataName.add(name.getCellObservableValue(item).getValue());
+        }
+    }
+
+    public void refractArrayInterest(){
+        List<String> columnDataInterest = new ArrayList<>();
+        for (DataForPieChart item : tableView.getItems()) {
+            columnDataInterest.add(interest.getCellObservableValue(item).getValue());
+        }
     }
 }
