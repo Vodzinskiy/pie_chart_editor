@@ -5,10 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.InputMethodEvent;
@@ -37,22 +34,33 @@ public class MainController {
     private TableColumn<DataForPieChart, String> name;
 
     @FXML
+    private TableColumn<DataForPieChart, String> num;
+
+    @FXML
     private TableView<DataForPieChart> tableView;
 
     @FXML
     private PieChart pieChart;
+
+    @FXML
+    private RadioButton radioButtonInterest;
+
+    @FXML
+    private RadioButton radioButtonNumber;
 
     private ObservableList<DataForPieChart> dataForPieChart = FXCollections.observableArrayList();
 
     //public ArrayList<String> variableName = new ArrayList<String>();
     List<String> columnDataName;
     List<String> columnDataInterest;
+    List<String> columnDataNum;
 
     @FXML
     void addToList(ActionEvent event) {
         int count = tableView.getItems().size() + 1;
-        dataForPieChart.add(new DataForPieChart("0","Змінна"+count));
+        dataForPieChart.add(new DataForPieChart("0","1","Змінна"+count));
 
+        refractArrayNum();
         refractArrayName();
         refractArrayInterest();
         addArrayToPieChart();
@@ -62,6 +70,8 @@ public class MainController {
     @FXML
     void removeFromList(ActionEvent event) {
         tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
+
+        refractArrayNum();
         refractArrayName();
         refractArrayInterest();
         addArrayToPieChart();
@@ -71,10 +81,10 @@ public class MainController {
     void clear(ActionEvent event) {
         tableView.getItems().clear();
 
+        refractArrayNum();
         refractArrayName();
         refractArrayInterest();
         addArrayToPieChart();
-
 
     }
 
@@ -83,9 +93,11 @@ public class MainController {
 
         interest.setCellValueFactory(new PropertyValueFactory<>("interest"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        num.setCellValueFactory(new PropertyValueFactory<>("num"));
 
         name.setCellFactory(TextFieldTableCell.forTableColumn());
         interest.setCellFactory(TextFieldTableCell.forTableColumn());
+        num.setCellFactory(TextFieldTableCell.forTableColumn());
 
         tableView.setItems(dataForPieChart);
 
@@ -110,7 +122,14 @@ public class MainController {
 
         refractArrayInterest();
         addArrayToPieChart();
+    }
 
+    public void onEditNum(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
+        DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
+        dataForPieChart.setNum(dataForPieChartStringCellEditEvent.getNewValue());
+
+        refractArrayInterest();
+        addArrayToPieChart();
     }
 
     public void refractArrayName(){
@@ -126,11 +145,39 @@ public class MainController {
             columnDataInterest.add(interest.getCellObservableValue(item).getValue());
         }
     }
+
+    public void refractArrayNum(){
+        columnDataNum = new ArrayList<>();
+        for (DataForPieChart item : tableView.getItems()) {
+            columnDataNum.add(num.getCellObservableValue(item).getValue());
+        }
+    }
+
+
     public void addArrayToPieChart(){
         pieChart.getData().clear();
         for (int i = 0; i<columnDataInterest.size();i++){
-            PieChart.Data slice = new PieChart.Data(columnDataName.get(i),Double.parseDouble(columnDataInterest.get(i)));
+            PieChart.Data slice = new PieChart.Data(columnDataName.get(i),Double.parseDouble(columnDataNum.get(i)));
             pieChart.getData().add(slice);
         }
     }
+
+    @FXML
+    void RadioButton(ActionEvent event) {
+       if(radioButtonInterest.isSelected()){
+           System.out.println("interest");
+
+       }
+       else if(radioButtonNumber.isSelected()){
+           System.out.println("num");
+
+       }
+    }
+
+
+
+
+    /*public void updateInterest(){
+
+    }*/
 }

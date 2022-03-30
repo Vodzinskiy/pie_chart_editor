@@ -5,10 +5,12 @@ import javafx.beans.property.SimpleStringProperty;
 public class DataForPieChart {
     private SimpleStringProperty interest;
     private SimpleStringProperty name;
+    private SimpleStringProperty num;
 
-    public DataForPieChart(String interest, String name) {
+    public DataForPieChart(String interest,String num, String name) {
         this.interest = new SimpleStringProperty(interest);
         this.name = new SimpleStringProperty(name);
+        this.num = new SimpleStringProperty(num);
     }
 
     public String getInterest() {
@@ -25,5 +27,13 @@ public class DataForPieChart {
 
     public void setName(String name) {
         this.name = new SimpleStringProperty(name);
+    }
+
+    public String getNum() {
+        return num.get();
+    }
+
+    public void setNum(String num) {
+        this.num = new SimpleStringProperty(num);
     }
 }
