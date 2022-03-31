@@ -121,7 +121,7 @@ public class MainController {
     public void onEditInterest(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
         dataForPieChart.setInterest(dataForPieChartStringCellEditEvent.getNewValue());
-
+        tableView.refresh();
         refractArrayInterest();
         addArrayToPieChart();
     }
@@ -129,10 +129,13 @@ public class MainController {
     public void onEditNum(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
         dataForPieChart.setNum(dataForPieChartStringCellEditEvent.getNewValue());
+        tableView.refresh();
 
         refractArrayNum();
-        addArrayToPieChart();
+        refractArrayInterest();
         updateIntest();
+        addArrayToPieChart();
+
     }
 
     public void refractArrayName(){
