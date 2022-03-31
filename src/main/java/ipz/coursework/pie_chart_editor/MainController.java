@@ -8,10 +8,9 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.layout.HBox;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -55,16 +54,18 @@ public class MainController {
     List<String> columnDataInterest;
     List<String> columnDataNum;
 
+
     @FXML
     void addToList(ActionEvent event) {
 
-        dataForPieChart.add(new DataForPieChart("0","1","Змінна"+(tableView.getItems().size()+1)));
+        dataForPieChart.add(new DataForPieChart("1","Змінна"+(tableView.getItems().size()+1),"100%"));
 
         refractArrayNum();
         refractArrayName();
         refractArrayInterest();
         addArrayToPieChart();
 
+        updateIntest();
     }
 
     @FXML
@@ -74,6 +75,7 @@ public class MainController {
         refractArrayNum();
         refractArrayName();
         refractArrayInterest();
+        updateIntest();
         addArrayToPieChart();
     }
 
@@ -130,6 +132,7 @@ public class MainController {
 
         refractArrayNum();
         addArrayToPieChart();
+        updateIntest();
     }
 
     public void refractArrayName(){
@@ -162,20 +165,32 @@ public class MainController {
         }
     }
 
+    public void updateIntest(){
+
+        double temp = 0;
+        for (int i = 0; i<columnDataNum.size();i++){
+            temp += Double.parseDouble(columnDataNum.get(i));
+        }
+       temp = 100/temp;
+        for (int i = 0; i<columnDataNum.size();i++){
+            columnDataInterest.set(i,Double.toString((Double.parseDouble(columnDataNum.get(i))*temp)));
+        }
+        for (int i = 0; i < columnDataInterest.size() ; i++) {
+            DataForPieChart dataForPieChart = tableView.getItems().get(i);
+            dataForPieChart.setInterest(columnDataInterest.get(i)+" %");
+        }
+    }
+
+
     @FXML
     void RadioButton(ActionEvent event) {
        if(radioButtonInterest.isSelected()){
            System.out.println("interest");
-
        }
        else if(radioButtonNumber.isSelected()){
            System.out.println("num");
-
        }
     }
-
-
-
 
     /*public void updateInterest(){
 

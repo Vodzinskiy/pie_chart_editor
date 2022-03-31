@@ -10,7 +10,7 @@ public class DataForPieChart {
     private SimpleStringProperty num;
     private ColorPicker picker;
 
-    public DataForPieChart(String interest,String num, String name) {
+    public DataForPieChart(String num, String name, String interest) {
         this.interest = new SimpleStringProperty(interest);
         this.name = new SimpleStringProperty(name);
         this.num = new SimpleStringProperty(num);
