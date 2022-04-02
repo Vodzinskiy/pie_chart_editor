@@ -4,15 +4,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.chart.PieChart;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 /**
  * the main controller, which contains the menu bar
@@ -65,28 +70,47 @@ public class MainController {
      * */
     @FXML
     void initialize() {
+
         /*
          create a shortcut keys to create a new tab (Ctrl + N)
         */
         newTab.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 
+        openFile.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
+
         /*
         create a new tab at the start of the window
          */
-        try {
-            Tab tab = new Tab("new tab");//here "new tab" is a name of the tab
-            tabPane.getTabs().add(tab);
-            tab.setContent((Node) FXMLLoader.load(this.getClass().getResource("tab-view.fxml")));//"tab-view.fxml" - is fxlm-file from which the tab is built
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        CreateNewTab();
+    }
+    /**
+     *
+     * open txt file and assigns data to variables 'file'
+     * */
+
+    @FXML
+    void openNewFile(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        File file = fileChooser.showOpenDialog(new Stage());
+
+        String fileName = file.getName();
+        String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, file.getName().length());
+        System.out.println(fileExtension);
+    }
+
+    @FXML
+    void saveToFile(ActionEvent event) {
+
     }
 
     /**
      * creates a window to specify the name of the new tab
      * @param actionEvent
      */
-    public void CreateNewTabName(ActionEvent actionEvent)  {
+    public void CreateNewTabName(ActionEvent actionEvent) throws IOException {
 
         /*
            !!!!
@@ -120,12 +144,19 @@ public class MainController {
      * */
     public void CreateNewTab(){
         try {
-            Tab tab = new Tab("new tab");
+            Tab tab = new Tab("new tab");//here "new tab" is a name of the tab
             tabPane.getTabs().add(tab);
+            //"tab-view.fxml" - is fxlm-file from which the tab is built
             tab.setContent((Node) FXMLLoader.load(this.getClass().getResource("tab-view.fxml")));
+            ContextMenu contextMenu = new ContextMenu();
+            //Creating the menu Items for the context menu
+            MenuItem item1 = new MenuItem("закрити");
+            MenuItem item2 = new MenuItem("переіменувати");
+            contextMenu.getItems().addAll(item1, item2);
+            //Adding the context menu to the button and the text field
+            tab.setContextMenu(contextMenu);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }

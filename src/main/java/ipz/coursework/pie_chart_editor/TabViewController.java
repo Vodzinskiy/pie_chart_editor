@@ -15,7 +15,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
-public class TabView {
+/**
+ * Class - Controller for create a tab
+ *
+ */
+public class TabViewController {
 
     @FXML
     private ResourceBundle resources;
@@ -131,6 +135,13 @@ public class TabView {
 
     }
 
+    /**
+     * saves the specified name
+     * @param dataForPieChartStringCellEditEvent
+     */
+
+
+
     public void onEditName(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
         dataForPieChart.setName(dataForPieChartStringCellEditEvent.getNewValue());
@@ -139,6 +150,10 @@ public class TabView {
         addArrayToPieChart();
     }
 
+    /**
+     * saves the specified interest
+     * @param dataForPieChartStringCellEditEvent
+     */
     public void onEditInterest(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
         dataForPieChart.setInterest(dataForPieChartStringCellEditEvent.getNewValue());
@@ -147,6 +162,10 @@ public class TabView {
         addArrayToPieChart();
     }
 
+    /**
+     * saves the specified number
+     * @param dataForPieChartStringCellEditEvent
+     */
     public void onEditNum(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
         dataForPieChart.setNum(dataForPieChartStringCellEditEvent.getNewValue());
@@ -159,19 +178,30 @@ public class TabView {
 
     }
 
+    /**
+     * update column name
+     *
+     */
     public void updateArrayName(){
         columnDataName = new ArrayList<>();
         for (DataForPieChart item : tableView.getItems()) {
             columnDataName.add(name.getCellObservableValue(item).getValue());
         }
     }
-
+    /**
+     * update column interest
+     *
+     */
     public void updateArrayInterest(){
         columnDataInterest = new ArrayList<>();
         for (DataForPieChart item : tableView.getItems()) {
             columnDataInterest.add(interest.getCellObservableValue(item).getValue());
         }
     }
+    /**
+     * update column num
+     *
+     */
 
     public void updateArrayNum(){
 
@@ -181,6 +211,10 @@ public class TabView {
         }
     }
 
+    /**
+     * add all data to pie chart
+     *
+     */
     public void addArrayToPieChart(){
         pieChart.getData().clear();
         for (int i = 0; i<columnDataInterest.size();i++){
@@ -189,17 +223,24 @@ public class TabView {
         }
     }
 
+    /**
+     * calculates the percentage of the numbers specified
+     *
+     */
     public void updateIntest(){
 
         double temp = 0;
+        //add all number
         for (int i = 0; i<columnDataNum.size();i++){
             temp += Double.parseDouble(columnDataNum.get(i));
         }
+        // "1%"
         temp = 100/temp;
+        // calculates all percentage, and add to column
         for (int i = 0; i<columnDataNum.size();i++){
+            //calculates
             columnDataInterest.set(i,Double.toString((Double.parseDouble(columnDataNum.get(i))*temp)));
-        }
-        for (int i = 0; i < columnDataInterest.size() ; i++) {
+            //add
             DataForPieChart dataForPieChart = tableView.getItems().get(i);
             dataForPieChart.setInterest(columnDataInterest.get(i)+" %");
         }

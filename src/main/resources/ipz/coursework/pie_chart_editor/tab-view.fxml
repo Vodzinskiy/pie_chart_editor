@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="585.6" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.TabView">
+<AnchorPane prefHeight="585.6" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.TabViewController">
    <children>
       <Button layoutX="169.0" layoutY="36.0" mnemonicParsing="false" onAction="#clear" text="Очистити" />
       <Button layoutX="296.0" layoutY="35.0" mnemonicParsing="false" onAction="#removeFromList" prefHeight="26.0" prefWidth="25.0" text="-" />

@@ -14,8 +14,8 @@
           <Menu mnemonicParsing="false" text="Файл">
             <items>
                   <MenuItem fx:id="newTab" mnemonicParsing="false" onAction="#CreateNewTabName" text="Новий " />
-              <MenuItem fx:id="openFile" mnemonicParsing="false" text="Відкрити з файлу" />
-                  <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Зберегти в файл" />
+              <MenuItem fx:id="openFile" mnemonicParsing="false" onAction="#openNewFile" text="Відкрити з файлу" />
+                  <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#saveToFile" text="Зберегти в файл" />
                   <MenuItem fx:id="exit" mnemonicParsing="false" text="Вихід" />
             </items>
           </Menu>
