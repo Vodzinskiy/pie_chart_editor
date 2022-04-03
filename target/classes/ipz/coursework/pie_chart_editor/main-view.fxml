@@ -22,6 +22,12 @@
           <Menu mnemonicParsing="false" text="Налаштування">
             <items>
               <MenuItem mnemonicParsing="false" text="Delete" />
+                  <Menu fx:id="thememenu" mnemonicParsing="false" text="Theme">
+                    <items>
+                      <MenuItem fx:id="Dark" mnemonicParsing="false" text="Dark" />
+                        <MenuItem fx:id="Light" mnemonicParsing="false" text="Light" />
+                    </items>
+                  </Menu>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Допомога">
