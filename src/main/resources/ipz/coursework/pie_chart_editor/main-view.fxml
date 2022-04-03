@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.MainController">
    <children>
       <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="960.0">
         <menus>
@@ -27,7 +27,7 @@
           <Menu mnemonicParsing="false" text="Допомога">
             <items>
               <MenuItem mnemonicParsing="false" text="Розробники" />
-                  <MenuItem mnemonicParsing="false" text="Про програму" />
+                  <MenuItem mnemonicParsing="false" onAction="#openAbout" text="Про програму" />
             </items>
           </Menu>
         </menus>

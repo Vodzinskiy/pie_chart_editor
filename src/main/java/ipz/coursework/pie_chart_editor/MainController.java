@@ -159,4 +159,22 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * create about window
+     * @param event
+     */
+    @FXML
+    void openAbout(ActionEvent event) throws IOException {
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("about-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setTitle("Про програму");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+
+    }
+
 }
