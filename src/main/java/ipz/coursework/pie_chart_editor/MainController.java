@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -136,6 +137,31 @@ public class MainController {
     void saveToFile(ActionEvent event) {
 
     }
+//    MainController main = new MainController();
+//    DataForPieChart
+//
+//    public void directoryChooser() {
+//        FileChooser chooser = new FileChooser();
+//        chooser.setTitle("Choose location To Save Report"):
+//        File selectedFile = null;
+//        while(selectedFile== null){
+//            selectedFile = chooser.showSaveDialog(null);
+//        }
+//
+//        File file = new File(selectedFile);
+//        PrintWriter outFile = null;
+//        try {
+//            outFile = new PrintWriter(file);
+//        } catch (FileNotFoundException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//
+//        for(int i = 0; i<table.getItems().size(); i++){
+//            outFile.println(table.getItems().get(i).toString());
+//        }
+//        outFile.close();
+//    }
 
     /**
      * creates a window to specify the name of the new tab
@@ -158,13 +184,13 @@ public class MainController {
 
         //to better times...
 
-        /*FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("createNewTab.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("createNewTab.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
         stage.setTitle("name");
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.show();*/
+        stage.show();
         CreateNewTab();
 
     }

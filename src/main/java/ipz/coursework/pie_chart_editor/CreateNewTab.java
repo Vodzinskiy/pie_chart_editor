@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class CreateNewTab {
@@ -13,20 +14,25 @@ public class CreateNewTab {
     private ResourceBundle resources;
 
     @FXML
+
     private URL location;
+
+    @FXML
+    private Button createTabButton;
 
     @FXML
     private TextField newTabName;
 
     @FXML
     void createNewTabButton(ActionEvent event) throws IOException {
-       /* if (newTabName.getText().isEmpty()){
+       if (newTabName.getText().isEmpty()){
             newTabName.setText("Нова вкладка");
         }
         else{
             MainController mainController = new MainController();
             mainController.CreateNewTab();
-        }*/
+        //System.out.println(newTabName.getText().isEmpty());
+        }
     }
 
     @FXML
