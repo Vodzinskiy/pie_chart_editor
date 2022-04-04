@@ -20,13 +20,13 @@ public class CreateNewTab {
 
     @FXML
     void createNewTabButton(ActionEvent event) throws IOException {
-       /* if (newTabName.getText().isEmpty()){
+        if (newTabName.getText().isEmpty()){
             newTabName.setText("Нова вкладка");
         }
         else{
             MainController mainController = new MainController();
             mainController.CreateNewTab();
-        }*/
+        }
     }
 
     @FXML

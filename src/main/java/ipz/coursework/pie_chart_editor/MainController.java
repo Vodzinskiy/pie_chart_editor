@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
+
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -13,11 +13,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Scanner;
+
 
 /**
  * the main controller, which contains the menu bar
@@ -93,12 +94,21 @@ public class MainController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xls"));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
         File file = fileChooser.showOpenDialog(new Stage());
 
         String fileName = file.getName();
         String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, file.getName().length());
-        System.out.println(fileExtension);
+
+        if (fileExtension.equals("xlsx")){
+            //here code for xlsx
+        }
+        else if (fileExtension.equals("txt")){
+            //here code for txt
+        }
+
+
     }
 
     @FXML
@@ -135,13 +145,13 @@ public class MainController {
         stage.setResizable(false);
         stage.show();*/
         CreateNewTab();
-
     }
 
     /**
      * create new tab
      *
      * */
+
     public void CreateNewTab(){
         try {
             Tab tab = new Tab("new tab");//here "new tab" is a name of the tab
