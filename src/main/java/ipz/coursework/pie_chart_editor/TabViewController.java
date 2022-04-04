@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Alert;
+
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -76,6 +78,7 @@ public class TabViewController {
         updateArrayNum();
         updateArrayName();
         updateArrayInterest();
+
         /*
         add data to a pie chart
          */
@@ -169,15 +172,32 @@ public class TabViewController {
      * @param dataForPieChartStringCellEditEvent
      */
     public void onEditNum(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
-        DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
-        dataForPieChart.setNum(dataForPieChartStringCellEditEvent.getNewValue());
-        tableView.refresh();
 
-        updateArrayNum();
-        updateArrayInterest();
-        updateIntest();
-        addArrayToPieChart();
+        try{
+            DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
+            dataForPieChart.setNum(dataForPieChartStringCellEditEvent.getNewValue());
+            //replace all "," into "."
+            dataForPieChart.setNum(tableView.getSelectionModel().getSelectedItem().getNum().replaceAll(",","."));
+            tableView.refresh();
 
+            updateArrayNum();
+            updateArrayInterest();
+            updateIntest();
+            addArrayToPieChart();
+        }
+        catch (Exception e){
+            tableView.getSelectionModel().getSelectedItem().setNum("0");
+            updateArrayNum();
+            updateArrayInterest();
+            updateIntest();
+            addArrayToPieChart();
+            //alert window
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Помилка!");
+            alert.setHeaderText("Неправильно введенні данні!");
+            alert.setContentText("в стовпчику можуть бути лише ЧИСЛА");
+            alert.showAndWait();
+        }
     }
 
     /**
