@@ -1,6 +1,7 @@
 package ipz.coursework.pie_chart_editor;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -27,6 +28,14 @@ import java.util.ResourceBundle;
  *
  * */
 public class MainController {
+    @FXML
+    private MenuItem Dark;
+
+    @FXML
+    private MenuItem Light;
+
+    @FXML
+    private Menu thememenu;
 
     @FXML
     private ResourceBundle resources;
@@ -39,6 +48,12 @@ public class MainController {
      * */
     @FXML
     private MenuItem newTab;
+    /**
+     * menu item for change the theme
+     *
+     * */
+    @FXML
+    private MenuItem changeTheme;
     /**
      * menu item for open file
      *
@@ -69,6 +84,7 @@ public class MainController {
      * this method is performed at the start of the window
      *
      * */
+
     @FXML
     void initialize() {
 
@@ -82,8 +98,23 @@ public class MainController {
         /*
         create a new tab at the start of the window
          */
+        Dark.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                tabPane.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+                //System.out.println("pass");
+            }
+        });
+        Light.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                tabPane.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+                //System.out.println("pass");
+            }
+        });
         CreateNewTab();
     }
+
     /**
      *
      * open txt file and assigns data to variables 'file'
@@ -145,6 +176,10 @@ public class MainController {
         stage.setResizable(false);
         stage.show();*/
         CreateNewTab();
+    }
+    @FXML
+    void changetheme(ActionEvent event) {
+
     }
 
     /**

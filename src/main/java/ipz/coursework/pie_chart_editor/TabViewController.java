@@ -10,11 +10,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Alert;
+
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.paint.Color;
 
 /**
  * Class - Controller for create a tab
@@ -32,7 +35,7 @@ public class TabViewController {
     private PieChart pieChart;
 
     @FXML
-    private TableColumn<DataForPieChart, Integer> color;
+    private TableColumn<DataForPieChart, ColorPicker> color;
 
     @FXML
     private TableColumn<DataForPieChart, String> interest;
@@ -56,6 +59,7 @@ public class TabViewController {
     List<String> columnDataName;
     List<String> columnDataInterest;
     List<String> columnDataNum;
+    List<ColorPicker> columnDataColor;
 
     /**
      * adding a new row to the table
@@ -126,12 +130,11 @@ public class TabViewController {
         interest.setCellValueFactory(new PropertyValueFactory<>("interest"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         num.setCellValueFactory(new PropertyValueFactory<>("num"));
-        //color.getCellObservableValue(new PropertyValueFactory<>("color"));
+        //color.setCellValueFactory(new PropertyValueFactory<>("color"));
 
         name.setCellFactory(TextFieldTableCell.forTableColumn());
         interest.setCellFactory(TextFieldTableCell.forTableColumn());
         num.setCellFactory(TextFieldTableCell.forTableColumn());
-        //color.setCellFactory(TextFieldTableCell.forTableColumn());
 
         tableView.setItems(dataForPieChart);
 
@@ -218,10 +221,19 @@ public class TabViewController {
         }
     }
     /**
+     * update column color
+     *
+     */
+    public void updateArrayColor(){
+        columnDataColor = new ArrayList<>();
+        for (DataForPieChart item : tableView.getItems()) {
+            columnDataColor.add(new ColorPicker());
+        }
+    }
+    /**
      * update column num
      *
      */
-
     public void updateArrayNum(){
 
         columnDataNum = new ArrayList<>();
@@ -238,7 +250,9 @@ public class TabViewController {
         pieChart.getData().clear();
         for (int i = 0; i<columnDataInterest.size();i++){
             PieChart.Data slice = new PieChart.Data(columnDataName.get(i),Double.parseDouble(columnDataNum.get(i)));
+
             pieChart.getData().add(slice);
+
         }
     }
 
