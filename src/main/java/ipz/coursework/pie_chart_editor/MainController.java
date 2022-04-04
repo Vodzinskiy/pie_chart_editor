@@ -176,5 +176,15 @@ public class MainController {
         stage.show();
 
     }
+    @FXML
+    void People(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("person-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setTitle("Розробники");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
 
+    }
 }
