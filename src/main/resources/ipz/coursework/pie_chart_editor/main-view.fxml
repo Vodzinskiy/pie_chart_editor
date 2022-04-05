@@ -20,10 +20,9 @@
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Налаштування">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#Settingsmenu" text="Меню" />
+               </items></Menu>
           <Menu mnemonicParsing="false" text="Допомога">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#People" text="Розробники" />

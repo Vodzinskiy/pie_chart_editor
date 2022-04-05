@@ -187,4 +187,15 @@ public class MainController {
         stage.show();
 
     }
+    @FXML
+    void Settingsmenu(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("settingsmenu-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setTitle("Menu");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+
+    }
 }
