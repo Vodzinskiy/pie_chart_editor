@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 /**
  * Class - Controller for create a tab
@@ -49,11 +50,16 @@ public class TabViewController {
     @FXML
     private TableView<DataForPieChart> tableView;
 
+    private Stage thisStage;
+
+
     /**
      * create a list for the table
      *
      * */
     private ObservableList<DataForPieChart> dataForPieChart = FXCollections.observableArrayList();
+
+    MainController mainController = new MainController();
 
 
     List<String> columnDataName;
@@ -89,6 +95,7 @@ public class TabViewController {
         updateIntest();
     }
 
+
     /**
      *remove rows from the table
      * @param event
@@ -118,8 +125,17 @@ public class TabViewController {
         updateArrayNum();
         updateArrayName();
         updateArrayInterest();
+        updateIntest();
         addArrayToPieChart();
 
+    }
+
+    List<String> openColumnName = new ArrayList<>();
+    List<String> openColumnNum = new ArrayList<>();
+
+    public void setOpenColumnName(List<String> openColumnName){
+        this.openColumnName = openColumnName;
+        System.out.println(this.openColumnName);
     }
 
     @FXML
@@ -138,15 +154,29 @@ public class TabViewController {
 
         tableView.setItems(dataForPieChart);
 
+        createTableOpenFile();
+
     }
+
+
+
+
+    public void createTableOpenFile(){
+        for(int i = 0; i < openColumnName.size();i++){
+            dataForPieChart.add(new DataForPieChart("1",this.openColumnName.get(i),"100"));
+        }
+        updateArrayNum();
+        updateArrayName();
+        updateArrayInterest();
+        updateIntest();
+        addArrayToPieChart();
+    }
+
 
     /**
      * saves the specified name
      * @param dataForPieChartStringCellEditEvent
      */
-
-
-
     public void onEditName(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
         dataForPieChart.setName(dataForPieChartStringCellEditEvent.getNewValue());
@@ -278,4 +308,5 @@ public class TabViewController {
             dataForPieChart.setInterest(columnDataInterest.get(i)+" %");
         }
     }
+
 }
