@@ -25,25 +25,23 @@ public class CreateNewTab {
 
     @FXML
     void createNewTabButton(ActionEvent event) throws IOException {
-       if (newTabName.getText().isEmpty()){
-            newTabName.setText("Нова вкладка");
+        if (newTabName.getText().isEmpty()) {
+            if (newTabName.getText().isEmpty()) {
+                newTabName.setText("Нова вкладка");
+            } else {
+                MainController mainController = new MainController();
+                mainController.CreateNewTab();
+                //System.out.println(newTabName.getText().isEmpty());
+            }
         }
-        else{
-            MainController mainController = new MainController();
-            mainController.CreateNewTab();
-        //System.out.println(newTabName.getText().isEmpty());
-        }
+
+//        @FXML
+//        void initialize(){
+//
+//        }
+//
+//        String getNewTabName() {
+//            return newTabName.getText();
+//        }
     }
-
-    @FXML
-    void initialize() {
-
-    }
-
-    String getNewTabName(){
-        return newTabName.getText();
-    }
-
-
-
 }

@@ -23,5 +23,6 @@
          </columnResizePolicy>
       </TableView>
       <Button layoutX="256.0" layoutY="36.0" mnemonicParsing="false" onAction="#addToList" text="+" />
+      <Button layoutX="35.0" layoutY="36.0" mnemonicParsing="false" onAction="#setColorOfPieChart" prefHeight="26.0" prefWidth="111.0" text="Задати кольори" />
    </children>
 </AnchorPane>
