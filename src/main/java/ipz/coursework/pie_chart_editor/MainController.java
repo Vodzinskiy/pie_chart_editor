@@ -175,57 +175,59 @@ public class MainController {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
         File openFile = fileChooser.showOpenDialog(new Stage());
 
-        String fileName = openFile.getName();
-        String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, openFile.getName().length());
+        if(openFile != null){
+            String fileName = openFile.getName();
+            String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, openFile.getName().length());
 
-        if (fileExtension.equals("xlsx")) {
-            int j = 0;
-            try {
-                FileInputStream file = new FileInputStream(new File(openFile.getPath()));
-                Workbook workbook = new XSSFWorkbook(file);
-                DataFormatter dataFormatter = new DataFormatter();
-                Iterator<Sheet> sheets = workbook.sheetIterator();
-                while (sheets.hasNext()) {
-                    Sheet sh = sheets.next();
-                    Iterator<Row> iterator = sh.iterator();
-                    while (iterator.hasNext()) {
-                        Row row = iterator.next();
-                        Iterator<Cell> cellIterator = row.iterator();
-                        for (int i = 0; i < 2; i++) {
-                            Cell cell = cellIterator.next();
-                            String cellValue = dataFormatter.formatCellValue(cell);
-                            if (i == 0) {
-                                columnOpenName.add(j, cellValue);
+            if (fileExtension.equals("xlsx")) {
+                int j = 0;
+                try {
+                    FileInputStream file = new FileInputStream(new File(openFile.getPath()));
+                    Workbook workbook = new XSSFWorkbook(file);
+                    DataFormatter dataFormatter = new DataFormatter();
+                    Iterator<Sheet> sheets = workbook.sheetIterator();
+                    while (sheets.hasNext()) {
+                        Sheet sh = sheets.next();
+                        Iterator<Row> iterator = sh.iterator();
+                        while (iterator.hasNext()) {
+                            Row row = iterator.next();
+                            Iterator<Cell> cellIterator = row.iterator();
+                            for (int i = 0; i < 2; i++) {
+                                Cell cell = cellIterator.next();
+                                String cellValue = dataFormatter.formatCellValue(cell);
+                                if (i == 0) {
+                                    columnOpenName.add(j, cellValue);
+                                }
+                                if (i == 1) {
+                                    columnOpenNum.add(j, cellValue);
+                                }
                             }
-                            if (i == 1) {
-                                columnOpenNum.add(j, cellValue);
-                            }
+                            j++;
                         }
+                    }
+                    workbook.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (fileExtension.equals("txt")) {
+                try {
+                    int j = 0;
+                    Scanner scanner = new Scanner(openFile);
+                    while (scanner.hasNextLine()) {
+                        rows.add(j, scanner.nextLine());
                         j++;
                     }
+                    for (int i = 0; i< rows.size();i++){
+                        String[] temp = rows.get(i).replaceAll("\\s", "").split(",");
+                        columnOpenName.add(i,temp[0]);
+                        columnOpenNum.add(i,temp[1]);
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-                workbook.close();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        } else if (fileExtension.equals("txt")) {
-            try {
-                int j = 0;
-                Scanner scanner = new Scanner(openFile);
-                while (scanner.hasNextLine()) {
-                    rows.add(j, scanner.nextLine());
-                    j++;
-                }
-                for (int i = 0; i< rows.size();i++){
-                    String[] temp = rows.get(i).replaceAll("\\s", "").split(",");
-                    columnOpenName.add(i,temp[0]);
-                    columnOpenNum.add(i,temp[1]);
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            CreateNewTab(openFile.getName().replace(".xlsx", "").replace(".txt", ""));
         }
-        CreateNewTab(openFile.getName().replace(".xlsx", "").replace(".txt", ""));
     }
 
     void saveToFile() {
@@ -253,25 +255,27 @@ public class MainController {
      */
     public void CreateNewTab(String name) {
 
-        Tab nTab = new Tab(name);
+        if(name  != null){
+            Tab nTab = new Tab(name);
 
-        FXMLLoader nLoader = new FXMLLoader(getClass().getResource("tab-view.fxml"));
-        try {
-            Parent nRoot = nLoader.load();
-            TabViewController controller = nLoader.getController();
-            controller.createTableOpenFile();
-            nTab.setContent(nRoot);
-            ContextMenu contextMenu = new ContextMenu();
-            //Creating the menu Items for the context menu
-            MenuItem item = new MenuItem("переіменувати");
-            item.setOnAction(event -> ChangeTabName());
-            contextMenu.getItems().addAll(item);
-            //Adding the context menu to the button and the text field
-            nTab.setContextMenu(contextMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
+            FXMLLoader nLoader = new FXMLLoader(getClass().getResource("tab-view.fxml"));
+            try {
+                Parent nRoot = nLoader.load();
+                TabViewController controller = nLoader.getController();
+                controller.createTableOpenFile();
+                nTab.setContent(nRoot);
+                ContextMenu contextMenu = new ContextMenu();
+                //Creating the menu Items for the context menu
+                MenuItem item = new MenuItem("переіменувати");
+                item.setOnAction(event -> ChangeTabName());
+                contextMenu.getItems().addAll(item);
+                //Adding the context menu to the button and the text field
+                nTab.setContextMenu(contextMenu);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            tabPane.getTabs().add(nTab);
         }
-        tabPane.getTabs().add(nTab);
     }
 
 
