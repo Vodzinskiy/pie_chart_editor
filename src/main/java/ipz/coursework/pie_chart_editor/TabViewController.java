@@ -61,11 +61,11 @@ public class TabViewController {
 
     MainController mainController = new MainController();
 
-
     List<String> columnDataName;
     List<String> columnDataInterest;
     List<String> columnDataNum;
     List<ColorPicker> columnDataColor;
+
 
     /**
      * adding a new row to the table
@@ -73,26 +73,38 @@ public class TabViewController {
      */
     @FXML
     void addToList(ActionEvent event) {
-        /*
+
+        try{
+            addArrayToPieChart();
+            /*
         (tableView.getItems().size()+1) -> creates new variable names: 1,2,3,4....
          */
-        dataForPieChart.add(new DataForPieChart("1","Змінна"+(tableView.getItems().size()+1),"100%"));
+            dataForPieChart.add(new DataForPieChart("1","Змінна"+(tableView.getItems().size()+1),"100%"));
 
         /*
         update all column
          */
-        updateArrayNum();
-        updateArrayName();
-        updateArrayInterest();
+            updateArrayNum();
+            updateArrayName();
+            updateArrayInterest();
 
         /*
         add data to a pie chart
          */
-        addArrayToPieChart();
+            addArrayToPieChart();
         /*
         add interest to column,
          */
-        updateIntest();
+            updateIntest();
+
+        }
+        catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Помилка!");
+            alert.setHeaderText("Неправильно введенні данні!");
+            alert.setContentText("в стовпчику можуть бути лише ЧИСЛА");
+            alert.showAndWait();
+        }
     }
 
 
@@ -130,17 +142,8 @@ public class TabViewController {
 
     }
 
-    List<String> openColumnName = new ArrayList<>();
-    List<String> openColumnNum = new ArrayList<>();
-
-    public void setOpenColumnName(List<String> openColumnName){
-        this.openColumnName = openColumnName;
-        System.out.println(this.openColumnName);
-    }
-
     @FXML
     void initialize() {
-
         //TableColumn selectColor = new TableColumn("Колір");
 
         interest.setCellValueFactory(new PropertyValueFactory<>("interest"));
@@ -153,23 +156,26 @@ public class TabViewController {
         num.setCellFactory(TextFieldTableCell.forTableColumn());
 
         tableView.setItems(dataForPieChart);
-
-        createTableOpenFile();
-
     }
 
-
-
-
     public void createTableOpenFile(){
-        for(int i = 0; i < openColumnName.size();i++){
-            dataForPieChart.add(new DataForPieChart("1",this.openColumnName.get(i),"100"));
+        try {
+            for(int i = 0; i < mainController.getColumnOpenName().size();i++){
+                dataForPieChart.add(new DataForPieChart(mainController.getColumnOpenNum().get(i),mainController.getColumnOpenName().get(i),""));
+            }
+            updateArrayNum();
+            updateArrayName();
+            updateArrayInterest();
+            updateIntest();
+            addArrayToPieChart();
         }
-        updateArrayNum();
-        updateArrayName();
-        updateArrayInterest();
-        updateIntest();
-        addArrayToPieChart();
+        catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Помилка!");
+            alert.setHeaderText("Неправильно введенні данні!");
+            alert.setContentText("в стовпчику можуть бути лише ЧИСЛА");
+            alert.showAndWait();
+        }
     }
 
 
@@ -291,7 +297,6 @@ public class TabViewController {
      *
      */
     public void updateIntest(){
-
         double temp = 0;
         //add all number
         for (int i = 0; i<columnDataNum.size();i++){
@@ -308,5 +313,4 @@ public class TabViewController {
             dataForPieChart.setInterest(columnDataInterest.get(i)+" %");
         }
     }
-
 }

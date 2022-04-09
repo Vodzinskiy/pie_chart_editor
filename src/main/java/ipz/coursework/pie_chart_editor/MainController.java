@@ -4,8 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -17,12 +17,10 @@ import javafx.stage.Stage;
 import java.io.File;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 import org.apache.poi.ss.usermodel.*;
@@ -86,34 +84,25 @@ public class MainController {
     @FXML
     private TabPane tabPane;
 
-    /**
-     * this method is performed at the start of the window
-     */
-
-    MenuItem item;
-
-    @FXML
-    private Label helpForCreateNewTab;
+    List<String> rows = new ArrayList<>();
+    public String tabName;
+    static List<String> columnOpenName = new ArrayList<>();
+    static List<String> columnOpenNum = new ArrayList<>();
 
 
     public MainController() {
         // Create the new stage
         thisStage = new Stage();
-
         // Load the FXML file
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
-
             // Set this class as the controller
             loader.setController(this);
-
             // Load the scene
             thisStage.setScene(new Scene(loader.load()));
-
             // Setup the window/stage
             thisStage.setTitle("pie_chart_editor");
             thisStage.setResizable(false);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,9 +115,11 @@ public class MainController {
         thisStage.showAndWait();
     }
 
+    /**
+     * this method is performed at the start of the window
+     */
     @FXML
     void initialize() {
-
         /*
          create a shortcut keys to create a new tab (Ctrl + N)
         */
@@ -137,14 +128,11 @@ public class MainController {
         openFile.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
 
 
-        /*
-        create a new tab at the start of the window
-         */
-        //CreateNewTab("new tab");
-
         newTab.setOnAction(event -> CreateNewTabName());
 
         openFile.setOnAction(event -> openNewFile());
+
+        saveFile.setOnAction(event -> saveToFile());
 
         Dark.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -160,29 +148,27 @@ public class MainController {
                 //System.out.println("pass");
             }
         });
-
     }
 
+    /**
+     * open window to rename the tab
+     *
+     */
     void ChangeTabName(){
-
         CreateNewTab createNewTab = new CreateNewTab(this);
-
         createNewTab.setNewTabName(tabPane.getSelectionModel().getSelectedItem().getText());
-
         // Show the new stage/window
         createNewTab.showStage();
-
-
         tabPane.getSelectionModel().getSelectedItem().setText(tabName);
     }
 
-
-    public List<String> columnOpenName = new ArrayList<>();
-    public List<String> columnOpenNum = new ArrayList<>();
     /**
-     * open txt file and assigns data to variables 'file'
+     * open file and assigns data to list`s
+     *
      */
-    void openNewFile() {
+    void openNewFile(){
+        columnOpenName.clear();
+        columnOpenNum.clear();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
@@ -218,50 +204,45 @@ public class MainController {
                         j++;
                     }
                 }
-                //System.out.println(columnOpenName);
-                TabViewController tabViewController = new TabViewController();
-
                 workbook.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (fileExtension.equals("txt")) {
-            //here code for txt
+            try {
+                int j = 0;
+                Scanner scanner = new Scanner(openFile);
+                while (scanner.hasNextLine()) {
+                    rows.add(j, scanner.nextLine());
+                    j++;
+                }
+                for (int i = 0; i< rows.size();i++){
+                    String[] temp = rows.get(i).replaceAll("\\s", "").split(",");
+                    columnOpenName.add(i,temp[0]);
+                    columnOpenNum.add(i,temp[1]);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
-        System.out.println(columnOpenName);
-        TabViewController tabViewController = new TabViewController();
-        tabViewController.setOpenColumnName(columnOpenName);
-
         CreateNewTab(openFile.getName().replace(".xlsx", "").replace(".txt", ""));
     }
 
-
-    public List<String> getColumnOpenName() {
-        System.out.println(columnOpenName);
-        return columnOpenName;
-    }
-
-    @FXML
-    void saveToFile(ActionEvent event) {
-
-    }
-
-    public String tabName;
-
-    public void setTabName(String tabName) {
-        this.tabName = tabName;
+    void saveToFile() {
+        //save file
     }
 
     /**
      * creates a window to specify the name of the new tab
      */
     public void CreateNewTabName() {
+        columnOpenName.clear();
+        columnOpenNum.clear();
         CreateNewTab createNewTab = new CreateNewTab(this);
         // Show the new stage/window
         createNewTab.showStage();
         CreateNewTab(tabName);
     }
-
 
     @FXML
     void changetheme(ActionEvent event) {
@@ -270,21 +251,50 @@ public class MainController {
     /**
      * create new tab
      */
-    void CreateNewTab(String name) {
+    public void CreateNewTab(String name) {
+
+        Tab nTab = new Tab(name);
+
+        FXMLLoader nLoader = new FXMLLoader(getClass().getResource("tab-view.fxml"));
         try {
-            Tab tab = new Tab(name);//here "name" is a name of the tab
-            tabPane.getTabs().add(tab);
-            //"tab-view.fxml" - is fxlm-file from which the tab is built
-            tab.setContent((Node) FXMLLoader.load(this.getClass().getResource("tab-view.fxml")));
+            Parent nRoot = nLoader.load();
+            TabViewController controller = nLoader.getController();
+            controller.createTableOpenFile();
+            nTab.setContent(nRoot);
             ContextMenu contextMenu = new ContextMenu();
             //Creating the menu Items for the context menu
-            item = new MenuItem("переіменувати");
+            MenuItem item = new MenuItem("переіменувати");
             item.setOnAction(event -> ChangeTabName());
             contextMenu.getItems().addAll(item);
             //Adding the context menu to the button and the text field
-            tab.setContextMenu(contextMenu);
+            nTab.setContextMenu(contextMenu);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        tabPane.getTabs().add(nTab);
+    }
+
+
+    /**
+     * set tab name to create or rename
+     * @param tabName
+     */
+    public void setTabName(String tabName) {
+        this.tabName = tabName;
+    }
+
+    /**
+     * returns a list of names from an open file
+     * @return
+     */
+    public List<String> getColumnOpenName() {
+        return columnOpenName;
+    }
+    /**
+     * returns a list of numbers from an open file
+     * @return
+     */
+    public List<String> getColumnOpenNum() {
+        return columnOpenNum;
     }
 }
