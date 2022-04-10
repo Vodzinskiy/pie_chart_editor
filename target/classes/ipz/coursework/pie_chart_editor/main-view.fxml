@@ -9,45 +9,45 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="960.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Файл">
-            <items>
-                  <MenuItem fx:id="newTab" mnemonicParsing="false" text="Новий " />
-              <MenuItem fx:id="openFile" mnemonicParsing="false" text="Відкрити з файлу" />
-                  <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Зберегти в файл" />
-                  <MenuItem fx:id="exit" mnemonicParsing="false" text="Вихід" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Налаштування">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-                  <Menu fx:id="thememenu" mnemonicParsing="false" text="Theme">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="960.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="Файл">
                     <items>
-                      <MenuItem fx:id="Dark" mnemonicParsing="false" text="Dark" />
-                        <MenuItem fx:id="Light" mnemonicParsing="false" text="Light" />
+                        <MenuItem fx:id="newTab" mnemonicParsing="false" text="Новий " />
+                        <MenuItem fx:id="openFile" mnemonicParsing="false" text="Відкрити з файлу" />
+                        <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Зберегти в файл" />
+                        <MenuItem fx:id="exit" mnemonicParsing="false" text="Вихід" />
                     </items>
-                  </Menu>
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Допомога">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Розробники" />
-                  <MenuItem mnemonicParsing="false" text="Про програму" />
-            </items>
-          </Menu>
-        </menus>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </MenuBar>
-      <TabPane fx:id="tabPane" layoutY="27.0" prefHeight="613.0" prefWidth="960.0" tabClosingPolicy="ALL_TABS" />
-      <Label fx:id="helpForCreateNewTab" layoutX="370.0" layoutY="300.0" prefHeight="74.0" prefWidth="268.0" textAlignment="CENTER" textFill="#595858">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-   </children>
+                </Menu>
+                <Menu fx:id="settings" mnemonicParsing="false" text="Налаштування">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <Menu fx:id="thememenu" mnemonicParsing="false" text="Theme">
+                            <items>
+                                <MenuItem fx:id="Dark" mnemonicParsing="false" text="Dark" />
+                                <MenuItem fx:id="Light" mnemonicParsing="false" text="Light" />
+                            </items>
+                        </Menu>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Допомога">
+                    <items>
+                        <MenuItem fx:id="creators" mnemonicParsing="false" text="Розробники" />
+                        <MenuItem fx:id="aboutProject" mnemonicParsing="false" text="Про програму" />
+                    </items>
+                </Menu>
+            </menus>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </MenuBar>
+        <TabPane fx:id="tabPane" layoutY="27.0" prefHeight="613.0" prefWidth="960.0" tabClosingPolicy="ALL_TABS" />
+        <Label fx:id="helpForCreateNewTab" layoutX="370.0" layoutY="300.0" prefHeight="74.0" prefWidth="268.0" textAlignment="CENTER" textFill="#595858">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+    </children>
 </AnchorPane>

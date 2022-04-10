@@ -42,6 +42,15 @@ public class MainController {
     private MenuItem Dark;
 
     @FXML
+    private MenuItem aboutProject;
+
+    @FXML
+    private MenuItem creators;
+
+    @FXML
+    private Menu settings;
+
+    @FXML
     private MenuItem Light;
 
     @FXML
@@ -134,6 +143,13 @@ public class MainController {
         openFile.setOnAction(event -> openNewFile());
 
         saveFile.setOnAction(event -> saveToFile());
+
+        aboutProject.setOnAction(event -> openAbout());
+
+        creators.setOnAction(event -> People());
+
+        settings.setOnAction(event -> Settingsmenu());
+
 
         Dark.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -280,6 +296,7 @@ public class MainController {
     }
 
 
+
     /**
      * set tab name to create or rename
      * @param tabName
@@ -302,4 +319,55 @@ public class MainController {
     public List<String> getColumnOpenNum() {
         return columnOpenNum;
     }
+
+    /**
+     * create about window
+     *
+     */
+
+    void openAbout() {
+    try {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("about-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setTitle("Про програму");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+
+    }
+
+    void People(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("person-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Розробники");
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void Settingsmenu()  {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("settingsmenu-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setTitle("settings");
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
