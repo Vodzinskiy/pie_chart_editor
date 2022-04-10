@@ -120,6 +120,7 @@ public class MainController {
      */
     @FXML
     void initialize() {
+
         /*
          create a shortcut keys to create a new tab (Ctrl + N)
         */
