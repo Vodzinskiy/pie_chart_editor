@@ -5,11 +5,12 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="960.0">
             <menus>
@@ -17,7 +18,15 @@
                     <items>
                         <MenuItem fx:id="newTab" mnemonicParsing="false" text="Новий " />
                         <MenuItem fx:id="openFile" mnemonicParsing="false" text="Відкрити з файлу" />
-                        <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Зберегти в файл" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Зберегти" />
+                  <Menu mnemonicParsing="false" text="Зберегти як ...">
+                    <items>
+                        <MenuItem fx:id="saveFileAs" mnemonicParsing="false" text="таблиця значень" />
+                      <MenuItem fx:id="savePieChartPicture" mnemonicParsing="false" text="зображення графіка" />
+                    </items>
+                  </Menu>
+                  <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="exit" mnemonicParsing="false" text="Вихід" />
                     </items>
                 </Menu>
