@@ -104,14 +104,12 @@ public class MainController {
             @Override
             public void handle(ActionEvent e) {
                 tabPane.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
-                //System.out.println("pass");
             }
         });
         Light.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 tabPane.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
-                //System.out.println("pass");
             }
         });
         CreateNewTab();

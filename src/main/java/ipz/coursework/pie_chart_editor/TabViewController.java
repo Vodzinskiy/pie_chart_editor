@@ -72,9 +72,9 @@ public class TabViewController {
                 @Override
                 public TableCell<DataForPieChart, Void> call(final TableColumn<DataForPieChart, Void> param) {
                     final TableCell<DataForPieChart, Void> cell = new TableCell<DataForPieChart, Void>() {
-                        private ColorPicker colpicker = new ColorPicker();
+                        private final ColorPicker colpicker = new ColorPicker();
                         {
-                            colpicker.getStyleClass().add("split-button");
+//                            colpicker.getStyleClass().add("split-button");
                             colpicker.setOnAction(event -> {
                                 String col = colpicker.getValue().toString();
                                 String str = "-fx-pie-color:" + col.substring(0, 8).replaceAll("0x", "#") + ";";
@@ -167,7 +167,6 @@ public class TabViewController {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         num.setCellValueFactory(new PropertyValueFactory<>("num"));
         //color.setCellValueFactory(new PropertyValueFactory<DataForPieChart, ColorPicker>("color"));
-        tableView.getColumns().add(color);
 
         name.setCellFactory(TextFieldTableCell.forTableColumn());
         interest.setCellFactory(TextFieldTableCell.forTableColumn());
