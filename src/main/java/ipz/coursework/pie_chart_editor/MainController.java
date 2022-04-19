@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -148,6 +149,8 @@ public class MainController {
             thisStage.setScene(new Scene(loader.load()));
             // Setup the window/stage
             thisStage.setTitle("pie_chart_editor");
+            Image icon = new Image("file:icon.png");
+            thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
