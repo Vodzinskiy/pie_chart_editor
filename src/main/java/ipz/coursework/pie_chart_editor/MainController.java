@@ -1,6 +1,7 @@
 package ipz.coursework.pie_chart_editor;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,7 @@ import java.net.URL;
 import java.util.*;
 
 
+import javafx.stage.WindowEvent;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -129,10 +131,12 @@ public class MainController {
     private PieChart pieChart;
 
     List<String> rows = new ArrayList<>();
-    File fileOpen;
     public String tabName;
     static List<String> columnOpenName = new ArrayList<>();
     static List<String> columnOpenNum = new ArrayList<>();
+    String filePath;
+    SaveViewController saveViewController = new SaveViewController(this);
+
 
     /**
      * method which launches main window
@@ -148,6 +152,12 @@ public class MainController {
             // Load the scene
             thisStage.setScene(new Scene(loader.load()));
             // Setup the window/stage
+            thisStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent e) {
+                    closeWindow(e);
+                }
+            });
             thisStage.setTitle("pie_chart_editor");
             Image icon = new Image("file:icon.png");
             thisStage.getIcons().add(icon);
@@ -201,7 +211,6 @@ public class MainController {
 
         exit.setOnAction(event -> exit());
 
-
         Dark.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -214,7 +223,6 @@ public class MainController {
                 tabPane.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
             }
         });
-
     }
 
     /**
@@ -227,14 +235,125 @@ public class MainController {
     /**
      * open window to rename the tab
      */
-    void ChangeTabName(){
+    void ChangeTabName(Tab ntab){
         CreateNewTab createNewTab = new CreateNewTab(this);
-        createNewTab.setNewTabName(tabPane.getSelectionModel().getSelectedItem().getText());
+        createNewTab.setNewTabName(ntab.getText());
         // Show the new stage/window
         createNewTab.showStage();
-
-        tabPane.getSelectionModel().getSelectedItem().setText(tabName);
+        ntab.setText(tabName);
     }
+
+    /**
+     *start when tab closing
+     */
+    void closeTab(Event arg0, Tab tab){
+        if(!listComparison(tab)){
+            // Show the new stage/window
+            saveViewController.showStage();
+            arg0.consume();
+        }
+    }
+
+
+    /**
+     *start when window closing
+     */
+    void closeWindow(Event e){
+        e.consume();
+
+        for (int i = tabPane.getTabs().size();i>0;i--){
+
+            if(!listComparison(tabPane.getTabs().get(i-1))){
+                // Show the new stage/window
+                saveViewController.setTab(tabPane.getTabs().get(i-1));
+                saveViewController.showStage();
+
+            }
+            else{
+                tabPane.getTabs().get(i-1).getTabPane().getTabs().remove(tabPane.getTabs().get(i-1));
+            }
+            if(tabPane.getTabs().size() == 0){
+                exit();
+            }
+        }
+    }
+
+    /**
+     *Compares the last saved data with the data in the table
+     */
+    public boolean listComparison(Tab tab){
+
+        List<String> nameChange = new ArrayList<>();
+        List<String> numChange = new ArrayList<>();
+
+        List<String> nameLastSave = new ArrayList<>();
+        List<String> numLastSave = new ArrayList<>();
+
+        tableView = (TableView) tab.getContent().lookup("TableView");
+
+        for (int i = 0; i<tableView.getItems().size();i++){
+            nameChange.add(i,tableView.getItems().get(i).getName());
+        }
+
+        for (int i = 0; i<tableView.getItems().size();i++){
+            numChange.add(i,tableView.getItems().get(i).getNum());
+        }
+
+        if(tab.getUserData() != null) {
+            String fileName = (String) tab.getUserData();
+            String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, ((String) tab.getUserData()).length());
+
+            if (fileExtension.equals("xlsx")) {
+                int j = 0;
+                try {
+                    FileInputStream file = new FileInputStream((String) tab.getUserData());
+                    Workbook workbook = new XSSFWorkbook(file);
+                    DataFormatter dataFormatter = new DataFormatter();
+                    Iterator<Sheet> sheets = workbook.sheetIterator();
+                    while (sheets.hasNext()) {
+                        Sheet sh = sheets.next();
+                        for (Row row : sh) {
+                            Iterator<Cell> cellIterator = row.iterator();
+                            for (int i = 0; i < 2; i++) {
+                                Cell cell = cellIterator.next();
+                                String cellValue = dataFormatter.formatCellValue(cell);
+                                if (i == 0) {
+                                    nameLastSave.add(j, cellValue);
+                                }
+                                if (i == 1) {
+                                    numLastSave.add(j, cellValue);
+                                }
+                            }
+                            j++;
+                        }
+                    }
+                    workbook.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (fileExtension.equals("txt")) {
+                int j = 0;
+                Scanner scanner = new Scanner((String) tab.getUserData());
+                while (scanner.hasNextLine()) {
+                    rows.add(j, scanner.nextLine());
+                    j++;
+                }
+                for (int i = 0; i < rows.size(); i++) {
+                    String[] temp = rows.get(i).replaceAll("\\s", "").split(",");
+                    nameLastSave.add(i, temp[0]);
+                    numLastSave.add(i, temp[1]);
+                }
+            }
+        }
+        if (nameChange.equals(nameLastSave)){
+            if (numChange.equals(numLastSave)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /*
     *
     * Open,create tab
@@ -246,6 +365,8 @@ public class MainController {
     public void CreateNewTabName() {
         columnOpenName.clear();
         columnOpenNum.clear();
+        filePath = null;
+        tabName = null;
         CreateNewTab createNewTab = new CreateNewTab(this);
         // Show the new stage/window
         createNewTab.showStage();
@@ -264,10 +385,20 @@ public class MainController {
                 TabViewController controller = nLoader.getController();
                 controller.createTableOpenFile();
                 nTab.setContent(nRoot);
+                nTab.setUserData(filePath);
+                nTab.setOnCloseRequest(new EventHandler<Event>()
+                {
+                    @Override
+                    public void handle(Event arg0)
+                    {
+                        closeTab(arg0, nTab);
+                    }
+                });
+                saveViewController.setTab(nTab);
                 ContextMenu contextMenu = new ContextMenu();
                 //Creating the menu Items for the context menu
                 MenuItem item = new MenuItem("переіменувати");
-                item.setOnAction(event -> ChangeTabName());
+                item.setOnAction(event -> ChangeTabName(nTab));
                 contextMenu.getItems().addAll(item);
                 //Adding the context menu to the button and the text field
                 nTab.setContextMenu(contextMenu);
@@ -288,7 +419,8 @@ public class MainController {
             fileChooser.setTitle("Open Resource File");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
-            fileOpen = fileChooser.showOpenDialog(new Stage());
+            File fileOpen = fileChooser.showOpenDialog(new Stage());
+            filePath = fileOpen.getAbsolutePath();
 
             if(openFile != null){
                 String fileName = fileOpen.getName();
@@ -394,8 +526,9 @@ public class MainController {
     /**
      * save data from table view as .xlsx or txt
      */
-    void saveToFileAs(){
+    boolean saveToFileAs(){
         try {
+
         tableView = (TableView)tabPane.getSelectionModel().getSelectedItem().getContent().lookup("TableView");
 
         List<String> finalNameList = new ArrayList<>();
@@ -414,6 +547,7 @@ public class MainController {
         }
 
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(tabPane.getSelectionModel().getSelectedItem().getText());
 
         //Set extension filter to .xlsx files
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Excel files (*.xlsx)", "*.xlsx");
@@ -451,6 +585,8 @@ public class MainController {
             if (fileExtension.equals("xlsx")) {
                 try (FileOutputStream outputStream = new FileOutputStream(file.getAbsolutePath())) {
                     workbook.write(outputStream);
+                    tabPane.getSelectionModel().getSelectedItem().setUserData(file.getAbsolutePath());
+                    return true;
                 }
                 catch (IOException ignored) {
                 }
@@ -468,6 +604,8 @@ public class MainController {
                     }
                     writer.flush();
                     writer.close();
+                    tabPane.getSelectionModel().getSelectedItem().setUserData(file.getAbsolutePath());
+                    return true;
                 }
                 catch (IOException ignored) {
                 }
@@ -476,9 +614,85 @@ public class MainController {
         }
         catch (Exception ignored){
         }
+        return false;
     }
 
-    void saveToFile() {
+    boolean saveToFile() {
+        if (tabPane.getSelectionModel().getSelectedItem().getUserData() == null) {
+            return saveToFileAs();
+        } else {
+
+            tableView = (TableView) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("TableView");
+
+            List<String> finalNameList = new ArrayList<>();
+            for (int i = 0; i < tableView.getItems().size(); i++) {
+                finalNameList.add(i, tableView.getItems().get(i).getName());
+            }
+
+            List<String> finalNumList = new ArrayList<>();
+            for (int i = 0; i < tableView.getItems().size(); i++) {
+                finalNumList.add(i, tableView.getItems().get(i).getNum());
+            }
+
+            List<String> finalInterestList = new ArrayList<>();
+            for (int i = 0; i < tableView.getItems().size(); i++) {
+                finalInterestList.add(i, tableView.getItems().get(i).getInterest());
+            }
+
+            String fileName = (String) tabPane.getSelectionModel().getSelectedItem().getUserData();
+            String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+            if (!tableView.getItems().get(0).getNum().isEmpty()) {
+
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet sheet = workbook.createSheet("1");
+
+                //Data to write to Excel file.
+                int rowCount = 0;
+
+                for (int i = 0; i < finalNameList.size(); i++) {
+                    XSSFRow row = sheet.createRow(rowCount++);
+                    int columnCount = 0;
+
+                    XSSFCell cell = row.createCell(columnCount++);
+                    cell.setCellValue(finalNameList.get(i));
+                    cell = row.createCell(columnCount++);
+                    cell.setCellValue(finalNumList.get(i));
+                    cell = row.createCell(columnCount);
+                    cell.setCellValue(finalInterestList.get(i));
+                }
+
+                if (fileExtension.equals("xlsx")) {
+
+                    try (FileOutputStream outputStream = new FileOutputStream(String.valueOf(tabPane.getSelectionModel().getSelectedItem().getUserData()))) {
+                        workbook.write(outputStream);
+                        return true;
+                    } catch (IOException ignored) {
+                    }
+                }
+                if (fileExtension.equals("txt")) {
+                    try {
+                        File fileTxt = new File(String.valueOf(tabPane.getSelectionModel().getSelectedItem().getUserData()));
+
+                        // Создание объекта FileWriter
+                        FileWriter writer = new FileWriter(fileTxt);
+
+                        // Запись содержимого в файл
+                        for (int i = 0; i < finalNameList.size(); i++) {
+                            writer.write(finalNameList.get(i) + ", " + finalNumList.get(i) + "\n");
+                        }
+                        writer.flush();
+                        writer.close();
+                        return true;
+                    } catch (IOException ignored) {
+                    }
+                }
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText("Збережено");
+            alert.showAndWait();
+        }
+        return false;
     }
 
     /**

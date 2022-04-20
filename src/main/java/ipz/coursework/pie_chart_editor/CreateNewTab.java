@@ -1,25 +1,16 @@
 package ipz.coursework.pie_chart_editor;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
+/**
+ * Class - controller for set/change tab name window
+ */
 public class CreateNewTab {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private TextField newTabName;
@@ -37,11 +28,11 @@ public class CreateNewTab {
         // We received the first controller, now let's make it usable throughout this controller.
         this.mainController = mainController;
 
-        // Create the new stage
-        thisStage = new Stage();
-
-        // Load the FXML file
         try {
+            // Create the new stage
+            thisStage = new Stage();
+
+            // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateNewTab.fxml"));
 
             // Set this class as the controller
@@ -53,8 +44,7 @@ public class CreateNewTab {
             // Setup the window/stage
             thisStage.setTitle("CreateNewTab");
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 
@@ -69,6 +59,7 @@ public class CreateNewTab {
     @FXML
     void initialize() throws IOException {
         createNewTabButton.setOnAction(event -> showCreateNewTabWindow());
+        newTabName.setText("Новий");
     }
 
     public void setNewTabName(String name){
@@ -77,7 +68,7 @@ public class CreateNewTab {
 
     public void showCreateNewTabWindow() {
         if (newTabName.getText().isEmpty()){
-            newTabName.setText("Нова вкладка");
+            newTabName.setText("Новий");
         }
         else{
             mainController.setTabName(newTabName.getText());
