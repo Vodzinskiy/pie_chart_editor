@@ -37,11 +37,11 @@ public class CreateNewTab {
         // We received the first controller, now let's make it usable throughout this controller.
         this.mainController = mainController;
 
-        // Create the new stage
-        thisStage = new Stage();
-
-        // Load the FXML file
         try {
+            // Create the new stage
+            thisStage = new Stage();
+
+            // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateNewTab.fxml"));
 
             // Set this class as the controller
@@ -53,8 +53,7 @@ public class CreateNewTab {
             // Setup the window/stage
             thisStage.setTitle("CreateNewTab");
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 
@@ -77,7 +76,7 @@ public class CreateNewTab {
 
     public void showCreateNewTabWindow() {
         if (newTabName.getText().isEmpty()){
-            newTabName.setText("Нова вкладка");
+            newTabName.setText("Новий");
         }
         else{
             mainController.setTabName(newTabName.getText());

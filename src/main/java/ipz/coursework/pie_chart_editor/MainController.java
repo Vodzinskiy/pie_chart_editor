@@ -133,6 +133,7 @@ public class MainController {
     public String tabName;
     static List<String> columnOpenName = new ArrayList<>();
     static List<String> columnOpenNum = new ArrayList<>();
+    String filePath;
 
     /**
      * method which launches main window
@@ -227,13 +228,12 @@ public class MainController {
     /**
      * open window to rename the tab
      */
-    void ChangeTabName(){
+    void ChangeTabName(Tab ntab){
         CreateNewTab createNewTab = new CreateNewTab(this);
-        createNewTab.setNewTabName(tabPane.getSelectionModel().getSelectedItem().getText());
+        createNewTab.setNewTabName(ntab.getText());
         // Show the new stage/window
         createNewTab.showStage();
-
-        tabPane.getSelectionModel().getSelectedItem().setText(tabName);
+        ntab.setText(tabName);
     }
     /*
     *
@@ -246,6 +246,8 @@ public class MainController {
     public void CreateNewTabName() {
         columnOpenName.clear();
         columnOpenNum.clear();
+        filePath = null;
+        tabName = null;
         CreateNewTab createNewTab = new CreateNewTab(this);
         // Show the new stage/window
         createNewTab.showStage();
@@ -264,10 +266,11 @@ public class MainController {
                 TabViewController controller = nLoader.getController();
                 controller.createTableOpenFile();
                 nTab.setContent(nRoot);
+                nTab.setUserData(filePath);
                 ContextMenu contextMenu = new ContextMenu();
                 //Creating the menu Items for the context menu
                 MenuItem item = new MenuItem("переіменувати");
-                item.setOnAction(event -> ChangeTabName());
+                item.setOnAction(event -> ChangeTabName(nTab));
                 contextMenu.getItems().addAll(item);
                 //Adding the context menu to the button and the text field
                 nTab.setContextMenu(contextMenu);
@@ -289,6 +292,7 @@ public class MainController {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
             fileOpen = fileChooser.showOpenDialog(new Stage());
+            filePath = fileOpen.getAbsolutePath();
 
             if(openFile != null){
                 String fileName = fileOpen.getName();
@@ -396,6 +400,7 @@ public class MainController {
      */
     void saveToFileAs(){
         try {
+
         tableView = (TableView)tabPane.getSelectionModel().getSelectedItem().getContent().lookup("TableView");
 
         List<String> finalNameList = new ArrayList<>();
@@ -414,6 +419,7 @@ public class MainController {
         }
 
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(tabPane.getSelectionModel().getSelectedItem().getText());
 
         //Set extension filter to .xlsx files
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Excel files (*.xlsx)", "*.xlsx");
@@ -479,6 +485,77 @@ public class MainController {
     }
 
     void saveToFile() {
+        if (tabPane.getSelectionModel().getSelectedItem().getUserData() == null) {
+            saveToFileAs();
+        } else {
+            tableView = (TableView) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("TableView");
+
+            List<String> finalNameList = new ArrayList<>();
+            for (int i = 0; i < tableView.getItems().size(); i++) {
+                finalNameList.add(i, tableView.getItems().get(i).getName());
+            }
+
+            List<String> finalNumList = new ArrayList<>();
+            for (int i = 0; i < tableView.getItems().size(); i++) {
+                finalNumList.add(i, tableView.getItems().get(i).getNum());
+            }
+
+            List<String> finalInterestList = new ArrayList<>();
+            for (int i = 0; i < tableView.getItems().size(); i++) {
+                finalInterestList.add(i, tableView.getItems().get(i).getInterest());
+            }
+
+            String fileName = (String) tabPane.getSelectionModel().getSelectedItem().getUserData();
+            String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+            if (!tableView.getItems().get(0).getNum().isEmpty()) {
+
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet sheet = workbook.createSheet("1");
+
+                //Data to write to Excel file.
+                int rowCount = 0;
+
+                for (int i = 0; i < finalNameList.size(); i++) {
+                    XSSFRow row = sheet.createRow(rowCount++);
+                    int columnCount = 0;
+
+                    XSSFCell cell = row.createCell(columnCount++);
+                    cell.setCellValue(finalNameList.get(i));
+                    cell = row.createCell(columnCount++);
+                    cell.setCellValue(finalNumList.get(i));
+                    cell = row.createCell(columnCount);
+                    cell.setCellValue(finalInterestList.get(i));
+                }
+
+                if (fileExtension.equals("xlsx")) {
+
+                    try (FileOutputStream outputStream = new FileOutputStream(String.valueOf(tabPane.getSelectionModel().getSelectedItem().getUserData()))) {
+                        workbook.write(outputStream);
+                    } catch (IOException ignored) {
+                    }
+                }
+                if (fileExtension.equals("txt")) {
+                    try {
+                        File fileTxt = new File(String.valueOf(tabPane.getSelectionModel().getSelectedItem().getUserData()));
+
+                        // Создание объекта FileWriter
+                        FileWriter writer = new FileWriter(fileTxt);
+
+                        // Запись содержимого в файл
+                        for (int i = 0; i < finalNameList.size(); i++) {
+                            writer.write(finalNameList.get(i) + ", " + finalNumList.get(i) + "\n");
+                        }
+                        writer.flush();
+                        writer.close();
+                    } catch (IOException ignored) {
+                    }
+                }
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText("Збережено");
+            alert.showAndWait();
+        }
     }
 
     /**
