@@ -293,16 +293,6 @@ public class TabViewController {
     }
 
     /**
-     * update column color
-     *
-     */
-    public void updateArrayColor(){
-        columnDataColor = new ArrayList<>();
-        for (DataForPieChart ignored : tableView.getItems()) {
-            columnDataColor.add(new ColorPicker());
-        }
-    }
-    /**
      * update column num
      *
      */
