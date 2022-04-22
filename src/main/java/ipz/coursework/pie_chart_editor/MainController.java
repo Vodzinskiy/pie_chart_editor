@@ -135,8 +135,8 @@ public class MainController {
     static List<String> columnOpenName = new ArrayList<>();
     static List<String> columnOpenNum = new ArrayList<>();
     String filePath;
-    SaveViewController saveViewController = new SaveViewController(this);
 
+    SaveViewController saveViewController = new SaveViewController(this);
 
     /**
      * method which launches main window
@@ -386,6 +386,7 @@ public class MainController {
                 controller.createTableOpenFile();
                 nTab.setContent(nRoot);
                 nTab.setUserData(filePath);
+
                 nTab.setOnCloseRequest(new EventHandler<Event>()
                 {
                     @Override
@@ -395,6 +396,7 @@ public class MainController {
                     }
                 });
                 saveViewController.setTab(nTab);
+
                 ContextMenu contextMenu = new ContextMenu();
                 //Creating the menu Items for the context menu
                 MenuItem item = new MenuItem("переіменувати");
@@ -420,6 +422,7 @@ public class MainController {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
             File fileOpen = fileChooser.showOpenDialog(new Stage());
+
             filePath = fileOpen.getAbsolutePath();
 
             if(openFile != null){
@@ -617,10 +620,12 @@ public class MainController {
         return false;
     }
 
+
     boolean saveToFile() {
         if (tabPane.getSelectionModel().getSelectedItem().getUserData() == null) {
             return saveToFileAs();
         } else {
+
 
             tableView = (TableView) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("TableView");
 
@@ -666,6 +671,7 @@ public class MainController {
                     try (FileOutputStream outputStream = new FileOutputStream(String.valueOf(tabPane.getSelectionModel().getSelectedItem().getUserData()))) {
                         workbook.write(outputStream);
                         return true;
+
                     } catch (IOException ignored) {
                     }
                 }
@@ -683,6 +689,7 @@ public class MainController {
                         writer.flush();
                         writer.close();
                         return true;
+
                     } catch (IOException ignored) {
                     }
                 }
@@ -692,6 +699,7 @@ public class MainController {
             alert.setHeaderText("Збережено");
             alert.showAndWait();
         }
+
         return false;
     }
 
