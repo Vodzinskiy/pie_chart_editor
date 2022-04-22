@@ -16,12 +16,9 @@ import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-<<<<<<< HEAD
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
-=======
 
->>>>>>> master
 
 /**
  * Class - Controller for create a tab
@@ -118,22 +115,7 @@ public class TabViewController {
         /*
         update all column
          */
-<<<<<<< HEAD
-        updateArrayNum();
-        updateArrayName();
-        updateArrayInterest();
-//        addPickerToTable();
-        /*
-        add data to a pie chart
-         */
-        addArrayToPieChart();
 
-        /*
-        add interest to column,
-         */
-//        updateArrayColor();
-        updateIntest();
-=======
             updateArrayNum();
             updateArrayName();
             updateArrayInterest();
@@ -155,7 +137,6 @@ public class TabViewController {
             alert.setContentText("в стовпчику можуть бути лише числа");
             alert.showAndWait();
         }
->>>>>>> master
     }
 
 
@@ -310,9 +291,7 @@ public class TabViewController {
             columnDataInterest.add(interest.getCellObservableValue(item).getValue());
         }
     }
-<<<<<<< HEAD
 
-=======
     /**
      * update column color
      *
@@ -323,7 +302,6 @@ public class TabViewController {
             columnDataColor.add(new ColorPicker());
         }
     }
->>>>>>> master
     /**
      * update column num
      *
@@ -371,8 +349,6 @@ public class TabViewController {
             dataForPieChart.setInterest(columnDataInterest.get(i)+" %");
         }
     }
-
-
 
 }
 
