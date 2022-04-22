@@ -2,15 +2,10 @@ package ipz.coursework.pie_chart_editor;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
-<<<<<<< HEAD
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-=======
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
->>>>>>> master
 
 /**
  * Class - controller for set/change tab name window
@@ -18,30 +13,6 @@ import javafx.stage.Stage;
 public class CreateNewTab {
 
     @FXML
-<<<<<<< HEAD
-    private ResourceBundle resources;
-
-    @FXML
-
-    private URL location;
-
-    @FXML
-    private Button createTabButton;
-
-    @FXML
-    private TextField newTabName;
-
-    @FXML
-    void createNewTabButton(ActionEvent event) throws IOException {
-        if (newTabName.getText().isEmpty()) {
-            if (newTabName.getText().isEmpty()) {
-                newTabName.setText("Нова вкладка");
-            } else {
-                MainController mainController = new MainController();
-                mainController.CreateNewTab();
-                //System.out.println(newTabName.getText().isEmpty());
-            }
-=======
     private TextField newTabName;
 
     @FXML
@@ -74,20 +45,8 @@ public class CreateNewTab {
             thisStage.setTitle("CreateNewTab");
 
         } catch (Exception ignored) {
->>>>>>> master
         }
-
-//        @FXML
-//        void initialize(){
-//
-//        }
-//
-//        String getNewTabName() {
-//            return newTabName.getText();
-//        }
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Show the stage that was loaded in the constructor
@@ -116,5 +75,4 @@ public class CreateNewTab {
             thisStage.close();
         }
     }
->>>>>>> master
 }
