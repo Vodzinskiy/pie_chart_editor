@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.PersonView">
+   <children>
+      <Label layoutX="211.0" layoutY="30.0" text="розробники:" />
+      <Label layoutX="138.0" layoutY="183.0" text="Карманюк Богдан https://t.me/vodziskiy" />
+      <Label layoutX="132.0" layoutY="72.0" text="Водзінський Роман https://t.me/vodziskiy " />
+      <Label layoutX="139.0" layoutY="296.0" text="Нерода Арсен https://t.me/arseniyb777 " />
+   </children>
+</AnchorPane>

@@ -6,9 +6,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="120.0" prefWidth="240.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.CreateNewTab">
+<AnchorPane prefHeight="120.0" prefWidth="240.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+<<<<<<< HEAD
       <Button fx:id="createTabButton" layoutX="80.0" layoutY="76.0" mnemonicParsing="false" onAction="#createNewTabButton" text="Створити">
+=======
+      <Button fx:id="createNewTabButton" layoutX="88.0" layoutY="76.0" mnemonicParsing="false" text="Готово">
+>>>>>>> master
          <font>
             <Font size="14.0" />
          </font>

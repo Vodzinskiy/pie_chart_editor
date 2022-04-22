@@ -16,8 +16,12 @@ import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+<<<<<<< HEAD
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
+=======
+
+>>>>>>> master
 
 /**
  * Class - Controller for create a tab
@@ -49,6 +53,7 @@ public class TabViewController {
     @FXML
     private TableView<DataForPieChart> tableView;
 
+
     /**
      * create a list for the table
      *
@@ -56,12 +61,15 @@ public class TabViewController {
 
     private ObservableList<DataForPieChart> dataForPieChart = FXCollections.observableArrayList();
 
+    MainController mainController = new MainController();
 
     List<String> columnDataName;
     List<String> columnDataInterest;
     List<String> columnDataNum;
 
     Map<String, String> colors = new HashMap<>();
+
+
 
     /**
      * adding a new row to the table
@@ -99,14 +107,18 @@ public class TabViewController {
             };
     @FXML
     void addToList(ActionEvent event) {
-        /*
+
+        try{
+            addArrayToPieChart();
+            /*
         (tableView.getItems().size()+1) -> creates new variable names: 1,2,3,4....
          */
-        dataForPieChart.add(new DataForPieChart("1","Змінна"+(tableView.getItems().size()+1),"100%"));
+            dataForPieChart.add(new DataForPieChart("1","Змінна"+(tableView.getItems().size()+1),"100%"));
 
         /*
         update all column
          */
+<<<<<<< HEAD
         updateArrayNum();
         updateArrayName();
         updateArrayInterest();
@@ -121,7 +133,31 @@ public class TabViewController {
          */
 //        updateArrayColor();
         updateIntest();
+=======
+            updateArrayNum();
+            updateArrayName();
+            updateArrayInterest();
+
+        /*
+        add data to a pie chart
+         */
+            addArrayToPieChart();
+        /*
+        add interest to column,
+         */
+            updateIntest();
+
+        }
+        catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Помилка!");
+            alert.setHeaderText("Неправильно введенні данні!");
+            alert.setContentText("в стовпчику можуть бути лише числа");
+            alert.showAndWait();
+        }
+>>>>>>> master
     }
+
 
     /**
      *remove rows from the table
@@ -154,13 +190,12 @@ public class TabViewController {
         updateArrayNum();
         updateArrayName();
         updateArrayInterest();
+        updateIntest();
         addArrayToPieChart();
-
     }
 
     @FXML
     void initialize() {
-
         //TableColumn selectColor = new TableColumn("Колір");
 
         interest.setCellValueFactory(new PropertyValueFactory<>("interest"));
@@ -177,13 +212,31 @@ public class TabViewController {
 
     }
 
+    public void createTableOpenFile(){
+        try {
+            for(int i = 0; i < mainController.getColumnOpenName().size();i++){
+                dataForPieChart.add(new DataForPieChart(mainController.getColumnOpenNum().get(i),mainController.getColumnOpenName().get(i),""));
+            }
+            updateArrayNum();
+            updateArrayName();
+            updateArrayInterest();
+            updateIntest();
+            addArrayToPieChart();
+        }
+        catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Помилка!");
+            alert.setHeaderText("Неправильно введенні данні!");
+            alert.setContentText("в стовпчику можуть бути лише числа");
+            alert.showAndWait();
+        }
+    }
+
+
     /**
      * saves the specified name
      * @param dataForPieChartStringCellEditEvent
      */
-
-
-
     public void onEditName(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
         dataForPieChart.setName(dataForPieChartStringCellEditEvent.getNewValue());
@@ -232,7 +285,7 @@ public class TabViewController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Помилка!");
             alert.setHeaderText("Неправильно введенні данні!");
-            alert.setContentText("в стовпчику можуть бути лише ЧИСЛА");
+            alert.setContentText("в стовпчику можуть бути лише числа");
             alert.showAndWait();
         }
     }
@@ -257,7 +310,20 @@ public class TabViewController {
             columnDataInterest.add(interest.getCellObservableValue(item).getValue());
         }
     }
+<<<<<<< HEAD
 
+=======
+    /**
+     * update column color
+     *
+     */
+    public void updateArrayColor(){
+        columnDataColor = new ArrayList<>();
+        for (DataForPieChart ignored : tableView.getItems()) {
+            columnDataColor.add(new ColorPicker());
+        }
+    }
+>>>>>>> master
     /**
      * update column num
      *
@@ -289,11 +355,10 @@ public class TabViewController {
      *
      */
     public void updateIntest(){
-
         double temp = 0;
         //add all number
-        for (int i = 0; i<columnDataNum.size();i++){
-            temp += Double.parseDouble(columnDataNum.get(i));
+        for (String s : columnDataNum) {
+            temp += Double.parseDouble(s);
         }
         // "1%"
         temp = 100/temp;
