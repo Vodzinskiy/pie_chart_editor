@@ -6,14 +6,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
-<<<<<<< HEAD
-import javafx.scene.Scene;
-=======
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.PieChart;
->>>>>>> master
+
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -26,13 +24,9 @@ import javax.imageio.ImageIO;
 import javafx.embed.swing.SwingFXUtils;
 
 import java.io.*;
-
-<<<<<<< HEAD
-
 import java.io.IOException;
 import java.io.PrintWriter;
-=======
->>>>>>> master
+
 import java.net.URL;
 import java.util.*;
 
@@ -252,31 +246,6 @@ public class MainController {
         createNewTab.showStage();
         ntab.setText(tabName);
     }
-//    MainController main = new MainController();
-//    DataForPieChart
-//
-//    public void directoryChooser() {
-//        FileChooser chooser = new FileChooser();
-//        chooser.setTitle("Choose location To Save Report"):
-//        File selectedFile = null;
-//        while(selectedFile== null){
-//            selectedFile = chooser.showSaveDialog(null);
-//        }
-//
-//        File file = new File(selectedFile);
-//        PrintWriter outFile = null;
-//        try {
-//            outFile = new PrintWriter(file);
-//        } catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//
-//        for(int i = 0; i<table.getItems().size(); i++){
-//            outFile.println(table.getItems().get(i).toString());
-//        }
-//        outFile.close();
-//    }
 
     /**
      *start when tab closing
@@ -397,33 +366,7 @@ public class MainController {
     /**
      * creates a window to specify the name of the new tab
      */
-<<<<<<< HEAD
-    public void CreateNewTabName(ActionEvent actionEvent) throws IOException {
 
-        /*
-           !!!!
-           Not finished yet,
-           ideally, it should create a window in which the user specifies
-            the name of the new tab-file and the "create" button creates this tab.
-
-            The problem is that it is not possible to link pressing
-            a button in CreateNewTab class with the creation of a new tab
-
-            now this method creates a tab with the given name, if you have ideas - write to me
-         */
-
-
-        //to better times...
-
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("createNewTab.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setTitle("name");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-        CreateNewTab();
-=======
     public void CreateNewTabName() {
         columnOpenName.clear();
         columnOpenNum.clear();
@@ -433,7 +376,7 @@ public class MainController {
         // Show the new stage/window
         createNewTab.showStage();
         CreateNewTab(tabName);
->>>>>>> master
+
     }
     /**
      * create new tab
