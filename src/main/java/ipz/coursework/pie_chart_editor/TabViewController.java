@@ -1,6 +1,7 @@
 package ipz.coursework.pie_chart_editor;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -334,9 +335,12 @@ public class TabViewController {
         for (int i = 0; i<columnDataNum.size();i++){
             //calculates
             columnDataInterest.set(i,Double.toString((Double.parseDouble(columnDataNum.get(i))*temp)));
+
+            DecimalFormat df = new DecimalFormat("###.###");
+
             //add
             DataForPieChart dataForPieChart = tableView.getItems().get(i);
-            dataForPieChart.setInterest(columnDataInterest.get(i)+" %");
+            dataForPieChart.setInterest(df.format(Double.parseDouble(columnDataInterest.get(i)))+" %");
         }
     }
 
