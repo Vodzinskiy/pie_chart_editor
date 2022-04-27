@@ -264,6 +264,9 @@ public class MainController {
     void closeWindow(Event e){
         e.consume();
 
+        if(tabPane.getTabs().size() == 0){
+            exit();
+        }
         for (int i = tabPane.getTabs().size();i>0;i--){
 
             if(!listComparison(tabPane.getTabs().get(i-1))){
