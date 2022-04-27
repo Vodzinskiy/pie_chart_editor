@@ -1,5 +1,5 @@
 package ipz.coursework.pie_chart_editor;
-
+import java.text.DecimalFormat;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -237,12 +237,14 @@ public class TabViewController {
         // "1%"
         temp = 100/temp;
         // calculates all percentage, and add to column
-        for (int i = 0; i<columnDataNum.size();i++){
+        for (int i = 0; i<columnDataNum.size();i++) {
             //calculates
-            columnDataInterest.set(i,Double.toString((Double.parseDouble(columnDataNum.get(i))*temp)));
+            columnDataInterest.set(i, Double.toString((Double.parseDouble(columnDataNum.get(i)) * temp)));
             //add
             DataForPieChart dataForPieChart = tableView.getItems().get(i);
-            dataForPieChart.setInterest(columnDataInterest.get(i)+" %");
+            DecimalFormat df = new DecimalFormat("###.###");
+            dataForPieChart.setInterest(df.format(Double.parseDouble(columnDataInterest.get(i))) + " %");
+
         }
     }
 }
