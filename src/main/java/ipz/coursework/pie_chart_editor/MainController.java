@@ -125,6 +125,13 @@ public class MainController {
     /**
      * table view for get data from TabViewContriller
      */
+
+    /**
+     *  Label for help to create tab
+     */
+    @FXML
+    private Label helpForCreateNewTab;
+
     @FXML
     private TableView<DataForPieChart> tableView;
     /**
@@ -255,6 +262,9 @@ public class MainController {
             saveViewController.showStage();
             arg0.consume();
         }
+        if(tabPane.getTabs().size() == 1){
+            helpForCreateNewTab.setVisible(true);
+        }
     }
 
 
@@ -275,9 +285,10 @@ public class MainController {
             else{
                 tabPane.getTabs().get(i-1).getTabPane().getTabs().remove(tabPane.getTabs().get(i-1));
             }
-            if(tabPane.getTabs().size() == 0){
-                exit();
-            }
+
+        }
+        if(tabPane.getTabs().size() == 0){
+            exit();
         }
     }
 
@@ -375,7 +386,7 @@ public class MainController {
         // Show the new stage/window
         createNewTab.showStage();
         CreateNewTab(tabName);
-
+        helpForCreateNewTab.setVisible(false);
     }
     /**
      * create new tab
