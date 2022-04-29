@@ -2,13 +2,25 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.PersonView">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.PersonView">
    <children>
-      <Label layoutX="211.0" layoutY="30.0" text="розробники:" />
-      <Label layoutX="138.0" layoutY="183.0" text="Карманюк Богдан https://t.me/vodziskiy" />
-      <Label layoutX="132.0" layoutY="72.0" text="Водзінський Роман https://t.me/vodziskiy " />
-      <Label layoutX="139.0" layoutY="296.0" text="Нерода Арсен https://t.me/arseniyb777 " />
+      <Label fx:id="Developers" layoutX="211.0" layoutY="30.0" text="Розробники">
+         <font>
+            <Font name="Comic Sans MS Bold" size="24.0" />
+         </font></Label>
+      <Label layoutX="138.0" layoutY="183.0" text="Карманюк Богдан https://t.me/vodziskiy">
+         <font>
+            <Font name="Comic Sans MS" size="18.0" />
+         </font></Label>
+      <Label layoutX="132.0" layoutY="72.0" text="Водзінський Роман https://t.me/vodziskiy ">
+         <font>
+            <Font name="Comic Sans MS" size="18.0" />
+         </font></Label>
+      <Label layoutX="139.0" layoutY="296.0" text="Нерода Арсен https://t.me/arseniyb777 ">
+         <font>
+            <Font name="Comic Sans MS" size="18.0" />
+         </font></Label>
    </children>
 </AnchorPane>

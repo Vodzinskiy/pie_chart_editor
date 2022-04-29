@@ -178,7 +178,6 @@ public class TabViewController {
 
     @FXML
     void initialize() {
-        //TableColumn selectColor = new TableColumn("Колір");
 
         interest.setCellValueFactory(new PropertyValueFactory<>("interest"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -191,7 +190,7 @@ public class TabViewController {
         color.setCellFactory(cellFactory);
 
         tableView.setItems(dataForPieChart);
-
+        pieChart.setLegendVisible(false);
     }
 
     public void createTableOpenFile(){

@@ -383,6 +383,18 @@ public class MainController {
     /**
      * create new tab
      */
+    List<String> namesOfTabs = new ArrayList<String>();
+
+    public int countSameElementsInArray(String name){
+        int count = 0;
+        for (String s : namesOfTabs){
+            if (name.equals(s)){
+                count += 1;
+            }
+        }
+        return count;
+    }
+
     public void CreateNewTab(String name) {
 
         if(name  != null){
@@ -416,6 +428,13 @@ public class MainController {
                 e.printStackTrace();
             }
             tabPane.getTabs().add(nTab);
+            namesOfTabs.add(tabPane.getTabs().get(tabPane.getTabs().size() - 1).getText());
+            String nameOfTab =tabPane.getTabs().get(tabPane.getTabs().size() - 1).getText();
+            if (countSameElementsInArray(nameOfTab) > 1){
+                String tabStr = Integer.toString(countSameElementsInArray(nameOfTab) - 1);
+                tabPane.getTabs().get(tabPane.getTabs().size() - 1).setText(nameOfTab + "(" + tabStr + ")");
+            }
+
         }
     }
     /**
@@ -779,5 +798,7 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
+
 }
 

@@ -9,7 +9,7 @@ import javafx.scene.Node;
  * Class for table view
  */
 public class DataForPieChart {
-    private String id;
+    private final String id;
     private SimpleStringProperty interest;
     private SimpleStringProperty name;
     private SimpleStringProperty num;
