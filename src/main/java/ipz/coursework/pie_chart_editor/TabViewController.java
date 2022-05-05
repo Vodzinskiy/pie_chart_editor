@@ -79,7 +79,6 @@ public class TabViewController {
     void addToList(ActionEvent event) {
 
         try{
-            addArrayToPieChart();
             /*
         (tableView.getItems().size()+1) -> creates new variable names: 1,2,3,4....
          */

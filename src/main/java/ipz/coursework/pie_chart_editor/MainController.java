@@ -433,9 +433,15 @@ public class MainController {
                         closeTab(arg0, nTab);
                         String tabText = nTab.getText();
                         namesOfTabs.remove(tabText);
-                        String keyNameOfTab = tabText.replace(tabText.substring(tabText.indexOf("("),tabText.indexOf(")")+1),"");
+                        String keyNameOfTab;
+                        if (tabText.contains("(")){
+                            keyNameOfTab = tabText.replace(tabText.substring(tabText.indexOf("("),tabText.indexOf(")")+1),"");
+
+                        }
+                        else {
+                            keyNameOfTab = tabText;
+                        }
                         mapTabNames.get(keyNameOfTab).remove(tabText);
-                        System.out.println(mapTabNames.toString());
                     }
                 });
                 saveViewController.setTab(nTab);
@@ -455,10 +461,11 @@ public class MainController {
             String nameOfTab =tabPane.getTabs().get(tabPane.getTabs().size() - 1).getText();
             List<String> names = new ArrayList<>();
             if (countSameElementsInArray(nameOfTab) > 1){
-                String numOfTabStr = Integer.toString(countSameElementsInArray(nameOfTab) - 1);
+                String numOfTabStr = Integer.toString(countSameElementsInArray(nameOfTab));
                 String formattedName = nameOfTab + "(" + numOfTabStr + ")";
                 tabPane.getTabs().get(tabPane.getTabs().size() - 1).setText(formattedName);
                 mapTabNames.get(nameOfTab).add(formattedName);
+
             }
             else {
                 names.add(nameOfTab);

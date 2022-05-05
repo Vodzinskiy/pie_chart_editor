@@ -23,6 +23,7 @@ public class DataForPieChart {
         this.name = new SimpleStringProperty(name);
         this.num = new SimpleStringProperty(num);
         this.colorPicker = new ColorPicker();
+        colorPicker.getStyleClass().add("split-button");
         colorPicker.setOnAction(event -> {
             String col = colorPicker.getValue().toString();
             String str = "-fx-pie-color:" + col.substring(0, 8).replaceAll("0x", "#") + ";";
