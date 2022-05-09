@@ -90,16 +90,17 @@ public class TabViewController {
             updateArrayNum();
             updateArrayName();
             updateArrayInterest();
-        /*
-        add data to a pie chart
-         */
-            addArrayToPieChart();
+
         /*
         add interest to column,
          */
             updateIntest();
 //            System.out.println(getIndexForDefaultColors());
             setDefaultColorsOfPieChart();
+            /*
+        add data to a pie chart
+         */
+            addArrayToPieChart();
         }
         catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -163,6 +164,8 @@ public class TabViewController {
 
         tableView.setItems(dataForPieChart);
         pieChart.setLegendVisible(false);
+        pieChart.setAnimated(true);
+        pieChart.setLabelsVisible(true);
 
     }
 
@@ -286,10 +289,11 @@ public class TabViewController {
         for (DataForPieChart item : tableView.getItems()) {
             PieChart.Data slice = new PieChart.Data(item.getName(), Double.parseDouble(item.getNum()));
             pieChart.getData().add(slice);
+            String col = item.getColorPicker().getValue().toString();
+            String str = "-fx-pie-color:" + col.substring(0, 8).replaceAll("0x", "#") + ";";
+            slice.getNode().setStyle(str);
             item.setNode(slice.getNode());
-
         }
-
     }
 
     /**
