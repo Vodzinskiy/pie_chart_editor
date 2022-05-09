@@ -145,11 +145,8 @@ public class TabViewController {
         addArrayToPieChart();
     }
     public void setDefaultColorsOfPieChart(){
-        int i = 0;
-        for(DataForPieChart item : tableView.getItems()){
-            item.getColorPicker().setValue(Color.web(defaultColorsOfPieChart[i%8]));
-            i++;
-        }
+        int tabViewSize = tableView.getItems().size();
+        tableView.getItems().get(tabViewSize-1).getColorPicker().setValue(Color.web(defaultColorsOfPieChart[tabViewSize%8 - 1]));
     }
     @FXML
     void initialize() {
