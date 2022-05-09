@@ -365,6 +365,24 @@ public class MainController {
     * Open,create tab
     *
      */
+    public void editMapTabs (){
+        List<String> tabsValueList= new ArrayList<>();
+        for (String key : mapTabNames.keySet()){
+            for (int i = 0; i < mapTabNames.get(key).size(); i++){
+                if (i == 0) continue;
+                if (!mapTabNames.get(key).get(i).equals(key + "(" + i + ")")){
+                    mapTabNames.get(key).set(mapTabNames.get(key).indexOf(mapTabNames.get(key).get(i)), key + "(" + i + ")");
+                }
+            }
+            tabsValueList.addAll(mapTabNames.get(key));
+        }
+        for (int i = 0; i < tabPane.getTabs().size(); i++){
+            if (!tabPane.getTabs().get(i).getText().equals(tabsValueList.get(i))){
+                tabPane.getTabs().get(i).setText(tabsValueList.get(i));
+            }
+        }
+
+    }
     /**
      * creates a window to specify the name of the new tab
      */
@@ -383,6 +401,19 @@ public class MainController {
     /**
      * create new tab
      */
+    List<String> namesOfTabs = new ArrayList<String>();
+    Map<String, List<String>> mapTabNames = new HashMap<>();
+
+    public int countSameElementsInArray(String name){
+        int count = 0;
+        for (String s : namesOfTabs){
+            if (name.equals(s)){
+                count += 1;
+            }
+        }
+        return count;
+    }
+
     public void CreateNewTab(String name) {
 
         if(name  != null){
@@ -394,13 +425,23 @@ public class MainController {
                 controller.createTableOpenFile();
                 nTab.setContent(nRoot);
                 nTab.setUserData(filePath);
-
                 nTab.setOnCloseRequest(new EventHandler<Event>()
                 {
                     @Override
                     public void handle(Event arg0)
                     {
                         closeTab(arg0, nTab);
+                        String tabText = nTab.getText();
+                        namesOfTabs.remove(tabText);
+                        String keyNameOfTab;
+                        if (tabText.contains("(")){
+                            keyNameOfTab = tabText.replace(tabText.substring(tabText.indexOf("("),tabText.indexOf(")")+1),"");
+
+                        }
+                        else {
+                            keyNameOfTab = tabText;
+                        }
+                        mapTabNames.get(keyNameOfTab).remove(tabText);
                     }
                 });
                 saveViewController.setTab(nTab);
@@ -416,6 +457,21 @@ public class MainController {
                 e.printStackTrace();
             }
             tabPane.getTabs().add(nTab);
+            namesOfTabs.add(tabPane.getTabs().get(tabPane.getTabs().size() - 1).getText());
+            String nameOfTab =tabPane.getTabs().get(tabPane.getTabs().size() - 1).getText();
+            List<String> names = new ArrayList<>();
+            if (countSameElementsInArray(nameOfTab) > 1){
+                String numOfTabStr = Integer.toString(countSameElementsInArray(nameOfTab));
+                String formattedName = nameOfTab + "(" + numOfTabStr + ")";
+                tabPane.getTabs().get(tabPane.getTabs().size() - 1).setText(formattedName);
+                mapTabNames.get(nameOfTab).add(formattedName);
+
+            }
+            else {
+                names.add(nameOfTab);
+                mapTabNames.put(nameOfTab, names);
+            }
+            editMapTabs();
         }
     }
     /**
@@ -779,5 +835,7 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
+
 }
 

@@ -1,5 +1,6 @@
 package ipz.coursework.pie_chart_editor;
 
+import java.awt.*;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 
@@ -37,7 +39,7 @@ public class TabViewController {
     private PieChart pieChart;
 
     @FXML
-    private TableColumn<DataForPieChart, Void> color;
+    private TableColumn<DataForPieChart, ColorPicker> color;
 
     @FXML
     private TableColumn<DataForPieChart, String> interest;
@@ -65,49 +67,18 @@ public class TabViewController {
     List<String> columnDataInterest;
     List<String> columnDataNum;
 
-    Map<String, String> colors = new HashMap<>();
-
+    String[] defaultColorsOfPieChart = {"#f3622d", "#fba71b", "#57b757", "#41a9c9", "#4258c9", "#9a42c8", "#c84164", "#888888"};
 
 
     /**
      * adding a new row to the table
      * @param event
      */
-    Callback<TableColumn<DataForPieChart, Void>, TableCell<DataForPieChart, Void>> cellFactory = new
-            Callback<TableColumn<DataForPieChart, Void>, TableCell<DataForPieChart, Void>>() {
-                @Override
-                public TableCell<DataForPieChart, Void> call(final TableColumn<DataForPieChart, Void> param) {
-                    final TableCell<DataForPieChart, Void> cell = new TableCell<DataForPieChart, Void>() {
-                        private final ColorPicker colpicker = new ColorPicker();
-                        {
-//                            colpicker.getStyleClass().add("split-button");
-                            colpicker.setOnAction(event -> {
-                                String col = colpicker.getValue().toString();
-                                String str = "-fx-pie-color:" + col.substring(0, 8).replaceAll("0x", "#") + ";";
-                                String id = this.getTableRow().getItem().getId();
-                                colors.put(id, str);
-                                this.getTableRow().getItem().getNode().setStyle(colors.get(id));
-                            });
-                        }
 
-                        @Override
-                        public void updateItem(Void item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty) {
-                                setGraphic(null);
-                            } else {
-                                setGraphic(colpicker);
-                            }
-                        }
-                    };
-                    return cell;
-                }
-            };
     @FXML
     void addToList(ActionEvent event) {
 
         try{
-            addArrayToPieChart();
             /*
         (tableView.getItems().size()+1) -> creates new variable names: 1,2,3,4....
          */
@@ -116,20 +87,20 @@ public class TabViewController {
         /*
         update all column
          */
-
             updateArrayNum();
             updateArrayName();
             updateArrayInterest();
 
         /*
-        add data to a pie chart
-         */
-            addArrayToPieChart();
-        /*
         add interest to column,
          */
             updateIntest();
-
+//            System.out.println(getIndexForDefaultColors());
+            setDefaultColorsOfPieChart();
+            /*
+        add data to a pie chart
+         */
+            addArrayToPieChart();
         }
         catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -152,7 +123,6 @@ public class TabViewController {
          */
         DataForPieChart item = tableView.getSelectionModel().getSelectedItem();
         tableView.getItems().remove(item);
-        colors.remove(item.getId());
 
         updateArrayNum();
         updateArrayName();
@@ -168,29 +138,34 @@ public class TabViewController {
     @FXML
     void clear(ActionEvent event) {
         tableView.getItems().clear();
-        colors.clear();
+
         updateArrayNum();
         updateArrayName();
         updateArrayInterest();
         updateIntest();
         addArrayToPieChart();
     }
-
+    public void setDefaultColorsOfPieChart(){
+        int tabViewSize = tableView.getItems().size();
+        tableView.getItems().get(tabViewSize-1).getColorPicker().setValue(Color.web(defaultColorsOfPieChart[(tabViewSize-1)%8]));
+    }
     @FXML
     void initialize() {
-        //TableColumn selectColor = new TableColumn("Колір");
 
         interest.setCellValueFactory(new PropertyValueFactory<>("interest"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         num.setCellValueFactory(new PropertyValueFactory<>("num"));
-        //color.setCellValueFactory(new PropertyValueFactory<DataForPieChart, ColorPicker>("color"));
+//        color.setCellValueFactory(new PropertyValueFactory<DataForPieChart, ColorPicker>("color"));
+        color.setCellValueFactory(new PropertyValueFactory<>("colorPicker"));
 
         name.setCellFactory(TextFieldTableCell.forTableColumn());
         interest.setCellFactory(TextFieldTableCell.forTableColumn());
         num.setCellFactory(TextFieldTableCell.forTableColumn());
-        color.setCellFactory(cellFactory);
 
         tableView.setItems(dataForPieChart);
+        pieChart.setLegendVisible(false);
+        pieChart.setAnimated(true);
+        pieChart.setLabelsVisible(true);
 
     }
 
@@ -314,9 +289,11 @@ public class TabViewController {
         for (DataForPieChart item : tableView.getItems()) {
             PieChart.Data slice = new PieChart.Data(item.getName(), Double.parseDouble(item.getNum()));
             pieChart.getData().add(slice);
+            String col = item.getColorPicker().getValue().toString();
+            String str = "-fx-pie-color:" + col.substring(0, 8).replaceAll("0x", "#") + ";";
+            slice.getNode().setStyle(str);
             item.setNode(slice.getNode());
         }
-
     }
 
     /**
