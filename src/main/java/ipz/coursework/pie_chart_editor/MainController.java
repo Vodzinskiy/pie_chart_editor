@@ -6,12 +6,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.PieChart;
-
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -29,7 +27,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-
 import javafx.stage.WindowEvent;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -41,15 +38,12 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-
 /**
  * the main controller, which contains the menu bar
  * and all the buttons that are present in it,
  * as well as the tab bar
- *
  * */
 public class MainController {
-
     /**
      * main stage
      */
@@ -69,7 +63,7 @@ public class MainController {
     private MenuItem creators;
 
     @FXML
-    private Menu settings;
+    private MenuItem settings;
 
     @FXML
     private MenuItem Light;
@@ -147,6 +141,9 @@ public class MainController {
     String filePath;
 
     SaveViewController saveViewController = new SaveViewController(this);
+    SettingsController settingsController = new SettingsController(this);
+    PersonView personView = new PersonView(this);
+    CreateNewTab createNewTab = new CreateNewTab(this);
 
     /**
      * method which launches main window
@@ -188,7 +185,7 @@ public class MainController {
      * this method is performed at the start of the window
      */
     @FXML
-    void initialize() {
+    void initialize() throws IOException {
 
         newTab.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 
@@ -217,22 +214,23 @@ public class MainController {
 
         creators.setOnAction(event -> People());
 
-        settings.setOnAction(event -> Settingsmenu());
+        settings.setOnAction(event -> settingsWindow());
 
         exit.setOnAction(event -> exit());
 
-        Dark.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                tabPane.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
-            }
-        });
-        Light.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                tabPane.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
-            }
-        });
+        settingsController.setTabPane(tabPane);
+    }
+    public boolean darkChoose = false;
+
+    public void setDarkChoose(boolean darkChoose){
+        this.darkChoose = darkChoose;
+    }
+    public boolean getDarkChoose(){
+        return darkChoose;
+    }
+
+    public SettingsController getSettingsController(){
+        return settingsController;
     }
 
     /**
@@ -242,11 +240,15 @@ public class MainController {
         thisStage.close();
     }
 
+
+    void settingsWindow(){
+        settingsController.showStage();
+    }
+
     /**
      * open window to rename the tab
      */
     void ChangeTabName(Tab ntab){
-        CreateNewTab createNewTab = new CreateNewTab(this);
         createNewTab.setNewTabName(ntab.getText());
         // Show the new stage/window
         createNewTab.showStage();
@@ -817,36 +819,7 @@ public class MainController {
      * create creators window
      */
     void People(){
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("person-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-            stage.setTitle("Розробники");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        personView.showStage();
     }
-
-    /**
-     * create settings window
-     */
-    void Settingsmenu()  {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("settingsmenu-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-            stage.setTitle("settings");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
 }
 

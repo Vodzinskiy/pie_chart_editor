@@ -5,13 +5,12 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="960.0">
             <menus>
@@ -28,18 +27,8 @@
                     </items>
                   </Menu>
                   <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="settings" mnemonicParsing="false" text="Налаштування" />
                         <MenuItem fx:id="exit" mnemonicParsing="false" text="Вихід" />
-                    </items>
-                </Menu>
-                <Menu fx:id="settings" mnemonicParsing="false" text="Налаштування">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                        <Menu fx:id="thememenu" mnemonicParsing="false" text="Theme">
-                            <items>
-                                <MenuItem fx:id="Dark" mnemonicParsing="false" text="Dark" />
-                                <MenuItem fx:id="Light" mnemonicParsing="false" text="Light" />
-                            </items>
-                        </Menu>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Допомога">
@@ -54,8 +43,7 @@
             </cursor>
         </MenuBar>
         <TabPane fx:id="tabPane" layoutY="27.0" prefHeight="613.0" prefWidth="960.0" tabClosingPolicy="ALL_TABS" />
-      <ScrollPane layoutX="536.0" layoutY="-284.0" />
-        <Label fx:id="helpForCreateNewTab" layoutX="310.0" layoutY="-181.0" prefHeight="640.0" prefWidth="413.0" text="натисніть Ctrl +N для створення нового файлу " textAlignment="CENTER" textFill="#595858">
+        <Label fx:id="helpForCreateNewTab" layoutX="310.0" layoutY="218.0" prefHeight="162.0" prefWidth="518.0" text="Для створення нового файлу:Ctrl + N" textAlignment="CENTER" textFill="#595858" textOverrun="CENTER_ELLIPSIS">
             <font>
                 <Font size="18.0" />
             </font>

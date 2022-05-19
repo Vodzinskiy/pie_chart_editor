@@ -16,7 +16,7 @@ import javax.imageio.plugins.tiff.FaxTIFFTagSet;
 /**
  * Class - controller for set/change tab name window
  */
-public class CreateNewTab {
+public class CreateNewTab{
 
     @FXML
     private TextField newTabName;
@@ -25,7 +25,8 @@ public class CreateNewTab {
     private Button createNewTabButton;
 
     // Holds this controller's Stage
-    private Stage thisStage;
+    private Stage thisStage = new Stage();
+
 
     // Will hold a reference to the first controller, allowing us to access the methods found there.
     private final MainController mainController;
@@ -38,8 +39,6 @@ public class CreateNewTab {
         this.mainController = mainController;
 
         try {
-            // Create the new stage
-            thisStage = new Stage();
 
             // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateNewTab.fxml"));
@@ -53,7 +52,12 @@ public class CreateNewTab {
             // Setup the window/stage
             thisStage.setTitle("CreateNewTab");
 
-
+            if(!mainController.getDarkChoose()){
+                thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+            }
+            else {
+                thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+            }
         } catch (Exception ignored) {
         }
     }
@@ -65,12 +69,15 @@ public class CreateNewTab {
         thisStage.showAndWait();
     }
 
-
     @FXML
-    void initialize() throws IOException {
+    void initialize(){
         createNewTabButton.setOnAction(event -> showCreateNewTabWindow());
         newTabName.setText("Новий");
+        System.out.println("11");
+        mainController.getSettingsController().setTabNameStage(thisStage);
     }
+
+
 
 //    public boolean checkElementInArray(String[] arr, String s){
 //        return Arrays.asList(arr).contains(s);

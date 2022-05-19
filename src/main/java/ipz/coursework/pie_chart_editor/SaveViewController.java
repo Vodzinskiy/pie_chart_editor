@@ -84,7 +84,14 @@ public class SaveViewController {
             thisStage.setScene(new Scene(loader.load()));
 
             // Setup the window/stage
-            thisStage.setTitle("CreateNewTab");
+            thisStage.setTitle("Save");
+
+            if(!mainController.getDarkChoose()){
+                thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+            }
+            else {
+                thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+            }
 
         } catch (Exception ignored) {
         }
