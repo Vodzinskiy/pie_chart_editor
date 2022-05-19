@@ -11,9 +11,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 public class SettingsController {
@@ -25,7 +27,18 @@ public class SettingsController {
     private URL location;
 
     @FXML
+    private ComboBox<String> labelsChooser;
+
+    @FXML
     private ComboBox<String> themeChooser;
+
+    @FXML
+    private TableView<DataForPieChart> tableView;
+    /**
+     * pie chart for get data from TabViewContriller
+     */
+    @FXML
+    private PieChart pieChart;
 
     // Holds this controller's Stage
     private Stage thisStage;
@@ -80,6 +93,9 @@ public class SettingsController {
     @FXML
     void initialize() {
         ObservableList<String> list = FXCollections.observableArrayList("Світла","Темна");
+        ObservableList<String> lablesChoseList = FXCollections.observableArrayList("Вкл","Викл");
+
+        labelsChooser.setItems(lablesChoseList);
         themeChooser.setItems(list);
         if(mainController.getDarkChoose()){
             themeChooser.getSelectionModel().select(1);
@@ -87,7 +103,14 @@ public class SettingsController {
         else {
             themeChooser.getSelectionModel().selectFirst();
         }
+        pieChart = (PieChart) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("PieChart");
+        if (pieChart.getLabelsVisible()){
+            labelsChooser.setValue("Вкл");
+        }else {
+            labelsChooser.setValue("Викл");
+        }
         themeChooser.setOnAction(event -> themeChange(themeChooser.getSelectionModel().getSelectedItem()));
+        labelsChooser.setOnAction(event -> switchChartLabels(labelsChooser.getSelectionModel().getSelectedItem()));
     }
 
     void themeChange(String item){
@@ -108,6 +131,18 @@ public class SettingsController {
             //aboutStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
             saveStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
             mainController.setDarkChoose(true);
+
+        }
+    }
+
+    void switchChartLabels(String item) {
+        pieChart = (PieChart) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("PieChart");
+        if (item.equals("Вкл") || item.equals("On")){
+            pieChart.setLabelsVisible(true);
+
+        }
+        if (item.equals("Викл") || item.equals("Off")){
+            pieChart.setLabelsVisible(false);
         }
     }
 
