@@ -144,24 +144,6 @@ public class SettingsController {
         }
     }
 
-    void switchChartLabels(CheckBox checkBox) {
-        pieChart = (PieChart) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("PieChart");
-        if(checkBox.isSelected()){
-            pieChart.setLabelsVisible(true);
-
-        }else {
-                pieChart.setLabelsVisible(false);
-            }
-        }
-    void switchChartLegend(CheckBox checkBox) {
-        pieChart = (PieChart) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("PieChart");
-        if(checkBox.isSelected()){
-            pieChart.setLabelsVisible(true);
-
-        }else {
-            pieChart.setLabelsVisible(false);
-        }
-    }
 
     void setTabPane(TabPane tabPane){
         this.tabPane = tabPane;
