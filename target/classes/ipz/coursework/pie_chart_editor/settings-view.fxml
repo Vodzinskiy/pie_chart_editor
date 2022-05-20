@@ -19,5 +19,11 @@
          </font>
       </Label>
       <ComboBox fx:id="labelsChooser" layoutX="173.0" layoutY="74.0" prefWidth="150.0" />
+      <Label layoutX="62.0" layoutY="110.0" text="Легенда">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="legendChooser" layoutX="173.0" layoutY="110.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

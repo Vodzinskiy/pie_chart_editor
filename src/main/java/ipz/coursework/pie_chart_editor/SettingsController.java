@@ -33,6 +33,9 @@ public class SettingsController {
     private ComboBox<String> themeChooser;
 
     @FXML
+    private ComboBox<String> legendChooser;
+
+    @FXML
     private TableView<DataForPieChart> tableView;
     /**
      * pie chart for get data from TabViewContriller
@@ -94,9 +97,11 @@ public class SettingsController {
     void initialize() {
         ObservableList<String> list = FXCollections.observableArrayList("Світла","Темна");
         ObservableList<String> lablesChoseList = FXCollections.observableArrayList("Вкл","Викл");
+        ObservableList<String> legendChoseList = FXCollections.observableArrayList("Вкл","Викл");
 
         labelsChooser.setItems(lablesChoseList);
         themeChooser.setItems(list);
+        legendChooser.setItems(legendChoseList);
         if(mainController.getDarkChoose()){
             themeChooser.getSelectionModel().select(1);
         }
@@ -109,8 +114,14 @@ public class SettingsController {
         }else {
             labelsChooser.setValue("Викл");
         }
+        if (pieChart.isLegendVisible()){
+            legendChooser.setValue("Вкл");
+        }else {
+            legendChooser.setValue("Викл");
+        }
         themeChooser.setOnAction(event -> themeChange(themeChooser.getSelectionModel().getSelectedItem()));
         labelsChooser.setOnAction(event -> switchChartLabels(labelsChooser.getSelectionModel().getSelectedItem()));
+        legendChooser.setOnAction(event -> switchChartLegend(legendChooser.getSelectionModel().getSelectedItem()));
     }
 
     void themeChange(String item){
@@ -143,6 +154,16 @@ public class SettingsController {
         }
         if (item.equals("Викл") || item.equals("Off")){
             pieChart.setLabelsVisible(false);
+        }
+    }
+    void switchChartLegend(String item) {
+        pieChart = (PieChart) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("PieChart");
+        if (item.equals("Вкл") || item.equals("On")){
+            pieChart.setLegendVisible(true);
+
+        }
+        if (item.equals("Викл") || item.equals("Off")){
+            pieChart.setLegendVisible(false);
         }
     }
 

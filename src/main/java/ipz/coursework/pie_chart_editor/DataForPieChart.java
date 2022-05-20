@@ -4,7 +4,12 @@ import java.util.UUID;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Node;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Reflection;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Class for table view
