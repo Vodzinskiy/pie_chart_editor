@@ -101,6 +101,7 @@ public class SettingsController {
 
 
         themeChooser.setItems(list);
+        LanguageChooser.setItems(languages);
         if(mainController.getDarkChoose()){
             themeChooser.getSelectionModel().select(1);
         }
