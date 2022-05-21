@@ -7,8 +7,7 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,10 +29,11 @@ public class SettingsController {
     @FXML
     private CheckBox Legend;
 
-
     @FXML
     private ComboBox<String> themeChooser;
 
+    @FXML
+    private ComboBox<String> LanguageChooser;
 
     @FXML
     private TableView<DataForPieChart> tableView;
@@ -88,6 +88,7 @@ public class SettingsController {
                 thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
             }
 
+
         } catch (Exception ignored) {
         }
         thisStage.showAndWait();
@@ -96,6 +97,7 @@ public class SettingsController {
     @FXML
     void initialize() {
         ObservableList<String> list = FXCollections.observableArrayList("Світла","Темна");
+        ObservableList<String> languages = FXCollections.observableArrayList("Англійська","Українська");
 
 
         themeChooser.setItems(list);
@@ -105,6 +107,7 @@ public class SettingsController {
         else {
             themeChooser.getSelectionModel().selectFirst();
         }
+
         pieChart = (PieChart) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("PieChart");
 
         Labels.setSelected(pieChart.getLabelsVisible());
