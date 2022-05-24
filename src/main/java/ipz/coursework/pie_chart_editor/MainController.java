@@ -1,6 +1,5 @@
 package ipz.coursework.pie_chart_editor;
 
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -49,8 +48,6 @@ public class MainController {
      */
     private final Stage thisStage;
 
-    @FXML
-    private MenuItem Dark;
     /**
      * menu item which opens about project window
      */
@@ -61,21 +58,12 @@ public class MainController {
      */
     @FXML
     private MenuItem creators;
-
+    /**
+     * menu item which opens settings
+     */
     @FXML
     private MenuItem settings;
 
-    @FXML
-    private MenuItem Light;
-
-    @FXML
-    private Menu thememenu;
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
     /**
      * menu item for creating tabs
      */
@@ -119,15 +107,13 @@ public class MainController {
     /**
      * table view for get data from TabViewContriller
      */
-
+    @FXML
+    private TableView<DataForPieChart> tableView;
     /**
      *  Label for help to create tab
      */
     @FXML
     private Label helpForCreateNewTab;
-
-    @FXML
-    private TableView<DataForPieChart> tableView;
     /**
      * pie chart for get data from TabViewContriller
      */
@@ -142,7 +128,6 @@ public class MainController {
 
     SaveViewController saveViewController = new SaveViewController(this);
     SettingsController settingsController = new SettingsController(this);
-    PersonView personView = new PersonView(this);
     CreateNewTab createNewTab = new CreateNewTab(this);
 
     /**
@@ -169,6 +154,14 @@ public class MainController {
             Image icon = new Image("file:icon.png");
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
+            Properties props = new Properties();
+            props.loadFromXML(new FileInputStream("settings.xml"));
+            if (props.getProperty("theme").equals("Light")){
+                thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+            }
+            if (props.getProperty("theme").equals("Dark")){
+                thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -219,14 +212,9 @@ public class MainController {
         exit.setOnAction(event -> exit());
 
         settingsController.setTabPane(tabPane);
-    }
-    public boolean darkChoose = false;
 
-    public void setDarkChoose(boolean darkChoose){
-        this.darkChoose = darkChoose;
-    }
-    public boolean getDarkChoose(){
-        return darkChoose;
+
+
     }
 
     public SettingsController getSettingsController(){
@@ -240,7 +228,9 @@ public class MainController {
         thisStage.close();
     }
 
-
+    /**
+     * open settings window
+     */
     void settingsWindow(){
         settingsController.showStage();
     }
@@ -250,7 +240,6 @@ public class MainController {
      */
     void ChangeTabName(Tab ntab){
         createNewTab.setNewTabName(ntab.getText());
-        // Show the new stage/window
         createNewTab.showStage();
         ntab.setText(tabName);
     }
@@ -264,33 +253,28 @@ public class MainController {
             saveViewController.showStage();
             arg0.consume();
         }
-        if(tabPane.getTabs().size() == 1){
+        if(tabPane.getTabs().size() == 0){
             helpForCreateNewTab.setVisible(true);
         }
     }
-
 
     /**
      *start when window closing
      */
     void closeWindow(Event e){
         e.consume();
-
         if(tabPane.getTabs().size() == 0){
             exit();
         }
         for (int i = tabPane.getTabs().size();i>0;i--){
-
             if(!listComparison(tabPane.getTabs().get(i-1))){
                 // Show the new stage/window
                 saveViewController.setTab(tabPane.getTabs().get(i-1));
                 saveViewController.showStage();
-
             }
             else{
                 tabPane.getTabs().get(i-1).getTabPane().getTabs().remove(tabPane.getTabs().get(i-1));
             }
-
         }
         if(tabPane.getTabs().size() == 0){
             exit();
@@ -301,7 +285,6 @@ public class MainController {
      *Compares the last saved data with the data in the table
      */
     public boolean listComparison(Tab tab){
-
         List<String> nameChange = new ArrayList<>();
         List<String> numChange = new ArrayList<>();
 
@@ -365,11 +348,8 @@ public class MainController {
             }
         }
         if (nameChange.equals(nameLastSave)){
-            if (numChange.equals(numLastSave)){
-                return true;
-            }
+            return numChange.equals(numLastSave);
         }
-
         return false;
     }
 
@@ -396,10 +376,10 @@ public class MainController {
         }
 
     }
+
     /**
      * creates a window to specify the name of the new tab
      */
-
     public void CreateNewTabName() {
         columnOpenName.clear();
         columnOpenNum.clear();
@@ -803,22 +783,14 @@ public class MainController {
      * create about window
      */
     void openAbout() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("about-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-            stage.setTitle("Про програму");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        AboutView aboutView = new AboutView(this);
+        aboutView.showStage();
     }
     /**
      * create creators window
      */
     void People(){
+        PersonView personView = new PersonView(this);
         personView.showStage();
     }
 }

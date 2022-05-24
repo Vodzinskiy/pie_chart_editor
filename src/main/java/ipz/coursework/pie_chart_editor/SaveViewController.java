@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 
 /**
  * class - controller for closing warning
@@ -48,6 +51,7 @@ public class SaveViewController {
         cancel.setOnAction(event -> close());
         save.setOnAction(event -> save());
 
+
         saveText.setText("Зберегти зміни в \""+tab.getText()+"\" ?");
     }
 
@@ -70,6 +74,7 @@ public class SaveViewController {
      * Show the stage that was loaded in the constructor
      */
     public void showStage() {
+        mainController.getSettingsController().setSaveStage(thisStage);
         try {
             // Create the new stage
             thisStage = new Stage();
@@ -85,14 +90,14 @@ public class SaveViewController {
 
             // Setup the window/stage
             thisStage.setTitle("Save");
-
-            if(!mainController.getDarkChoose()){
+            Properties props = new Properties();
+            props.loadFromXML(new FileInputStream("settings.xml"));
+            if (props.getProperty("theme").equals("Light")){
                 thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
             }
-            else {
+            if (props.getProperty("theme").equals("Dark")){
                 thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
             }
-
         } catch (Exception ignored) {
         }
         thisStage.showAndWait();

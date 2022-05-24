@@ -121,14 +121,17 @@ public class TabViewController {
         /*
         remove selection row from table
          */
-        DataForPieChart item = tableView.getSelectionModel().getSelectedItem();
-        tableView.getItems().remove(item);
+        if (!tableView.getSelectionModel().isEmpty()){
+            DataForPieChart item = tableView.getSelectionModel().getSelectedItem();
+            tableView.getItems().remove(item);
 
-        updateArrayNum();
-        updateArrayName();
-        updateArrayInterest();
-        updateIntest();
-        addArrayToPieChart();
+            updateArrayNum();
+            updateArrayName();
+            updateArrayInterest();
+            updateIntest();
+            addArrayToPieChart();
+        }
+
     }
 
     /**

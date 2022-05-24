@@ -1,9 +1,9 @@
 package ipz.coursework.pie_chart_editor;
 
-import java.io.IOException;
+import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import javax.imageio.plugins.tiff.FaxTIFFTagSet;
 
 /**
  * Class - controller for set/change tab name window
@@ -35,27 +34,18 @@ public class CreateNewTab{
 
 
     public CreateNewTab(MainController mainController) {
-        // We received the first controller, now let's make it usable throughout this controller.
         this.mainController = mainController;
-
         try {
-
-            // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateNewTab.fxml"));
-
-            // Set this class as the controller
             loader.setController(this);
-
-            // Load the scene
             thisStage.setScene(new Scene(loader.load()));
-
-            // Setup the window/stage
             thisStage.setTitle("CreateNewTab");
-
-            if(!mainController.getDarkChoose()){
+            Properties props = new Properties();
+            props.loadFromXML(new FileInputStream("settings.xml"));
+            if (props.getProperty("theme").equals("Light")){
                 thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
             }
-            else {
+            if (props.getProperty("theme").equals("Dark")){
                 thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
             }
         } catch (Exception ignored) {
@@ -73,17 +63,8 @@ public class CreateNewTab{
     void initialize(){
         createNewTabButton.setOnAction(event -> showCreateNewTabWindow());
         newTabName.setText("Новий");
-        System.out.println("11");
         mainController.getSettingsController().setTabNameStage(thisStage);
     }
-
-
-
-//    public boolean checkElementInArray(String[] arr, String s){
-//        return Arrays.asList(arr).contains(s);
-//    }
-
-
 
     public void setNewTabName(String name){
         newTabName.setText(name);
@@ -92,14 +73,9 @@ public class CreateNewTab{
     public void showCreateNewTabWindow() {
         if (newTabName.getText().isEmpty()){
             newTabName.setText("Новий");
-//            namesOfTabs.add(newTabName.getText());
-//            System.out.println(namesOfTabs.toString());
         }
-
         else{
             mainController.setTabName(newTabName.getText());
-//            namesOfTabs.add(newTabName.getText());
-//            System.out.println(namesOfTabs.toString());
             thisStage.close();
         }
     }
