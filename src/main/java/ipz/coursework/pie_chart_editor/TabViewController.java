@@ -138,6 +138,7 @@ public class TabViewController {
             updateArrayInterest();
             updateIntest();
             addArrayToPieChart();
+            changeLegendColor();
         }
     }
 
