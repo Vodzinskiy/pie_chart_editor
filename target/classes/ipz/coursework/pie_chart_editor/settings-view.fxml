@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,5 +14,13 @@
          </font>
       </Label>
       <ComboBox fx:id="themeChooser" layoutX="173.0" layoutY="38.0" prefWidth="150.0" />
+      <CheckBox fx:id="Labels" layoutX="62.0" layoutY="81.0" mnemonicParsing="false" text="Підпис сектора" />
+      <CheckBox fx:id="Legend" layoutX="178.0" layoutY="81.0" mnemonicParsing="false" text="Легенда діаграми" />
+      <Label layoutX="62.0" layoutY="113.0" text="Вибір Мови">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="LanguageChooser" layoutX="173.0" layoutY="113.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

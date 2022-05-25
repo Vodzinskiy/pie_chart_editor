@@ -4,7 +4,12 @@ import java.util.UUID;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Node;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Reflection;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Class for table view
@@ -24,11 +29,7 @@ public class DataForPieChart {
         this.num = new SimpleStringProperty(num);
         this.colorPicker = new ColorPicker();
         colorPicker.getStyleClass().add("split-button");
-        colorPicker.setOnAction(event -> {
-            String col = colorPicker.getValue().toString();
-            String str = "-fx-pie-color:" + col.substring(0, 8).replaceAll("0x", "#") + ";";
-            node.setStyle(str);
-        });
+        
     }
 
     public String getId() {

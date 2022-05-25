@@ -560,15 +560,11 @@ public class MainController {
                 //Show save file dialog
                 File file = fileChooser.showSaveDialog(new Stage());
                 if(file != null){
-                    pieChart.setLabelsVisible(true);
-                    pieChart.setLegendVisible(false);
 
                     WritableImage image = pieChart.snapshot(new SnapshotParameters(), null);
 
                     ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
 
-                    pieChart.setLabelsVisible(false);
-                    pieChart.setLegendVisible(true);
                 }
             }
             else {
