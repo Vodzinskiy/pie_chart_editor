@@ -304,7 +304,6 @@ public class MainController {
         if(tab.getUserData() != null) {
             String fileName = (String) tab.getUserData();
             String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, ((String) tab.getUserData()).length());
-
             if (fileExtension.equals("xlsx")) {
                 int j = 0;
                 try {
@@ -334,16 +333,21 @@ public class MainController {
                     e.printStackTrace();
                 }
             } else if (fileExtension.equals("txt")) {
-                int j = 0;
-                Scanner scanner = new Scanner((String) tab.getUserData());
-                while (scanner.hasNextLine()) {
-                    rows.add(j, scanner.nextLine());
-                    j++;
-                }
-                for (int i = 0; i < rows.size(); i++) {
-                    String[] temp = rows.get(i).replaceAll("\\s", "").split(",");
-                    nameLastSave.add(i, temp[0]);
-                    numLastSave.add(i, temp[1]);
+                try {
+                    File fileOpen = new File((String) tab.getUserData());
+                    int j = 0;
+                    Scanner scanner = new Scanner(fileOpen);
+                    rows.clear();
+                    while (scanner.hasNextLine()) {
+                        rows.add(j, scanner.nextLine());
+                        j++;
+                    }
+                    for (int i = 0; i< rows.size();i++){
+                        String[] temp = rows.get(i).replaceAll("\\s", "").split(",");
+                        nameLastSave.add(i,temp[0]);
+                        numLastSave.add(i,temp[1]);
+                    }
+                } catch (FileNotFoundException ignored) {
                 }
             }
         }
@@ -363,8 +367,8 @@ public class MainController {
         for (String key : mapTabNames.keySet()){
             for (int i = 0; i < mapTabNames.get(key).size(); i++){
                 if (i == 0) continue;
-                if (!mapTabNames.get(key).get(i).equals(key + "(" + i + ")")){
-                    mapTabNames.get(key).set(mapTabNames.get(key).indexOf(mapTabNames.get(key).get(i)), key + "(" + i + ")");
+                if (!mapTabNames.get(key).get(i).equals(key + "(" + (i+1) + ")")){
+                    mapTabNames.get(key).set(mapTabNames.get(key).indexOf(mapTabNames.get(key).get(i)), key + "(" + (i+1) + ")");
                 }
             }
             tabsValueList.addAll(mapTabNames.get(key));
@@ -679,7 +683,6 @@ public class MainController {
             return saveToFileAs();
         } else {
 
-
             tableView = (TableView) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("TableView");
 
             List<String> finalNameList = new ArrayList<>();
@@ -752,7 +755,6 @@ public class MainController {
             alert.setHeaderText("Збережено");
             alert.showAndWait();
         }
-
         return false;
     }
 

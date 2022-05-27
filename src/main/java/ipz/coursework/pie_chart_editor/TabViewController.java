@@ -364,7 +364,6 @@ public class TabViewController {
             dataForPieChart.setInterest(df.format(Double.parseDouble(columnDataInterest.get(i)))+" %");
         }
     }
-
 }
 
 
