@@ -1,11 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="113.0" layoutY="123.0" text="програма створена для  курсоваї робити ІПЗ " />
+      <Label fx:id="Redactor" layoutX="193.0" layoutY="14.0" prefHeight="70.0" prefWidth="289.0" text="Редактор кільцевих діаграм   " wrapText="true">
+         <font>
+            <Font size="21.0" />
+         </font></Label>
+      <Label fx:id="Version" layoutX="190.0" layoutY="180.0" prefHeight="41.0" prefWidth="230.0" text="Версія 1.0.0        " wrapText="true">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="Zbirka" layoutX="193.0" layoutY="68.0" prefHeight="57.0" prefWidth="224.0" text="Збірка побудована 01.06.2022">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="image" fitHeight="120.0" fitWidth="173.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icon.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="Programprovision" layoutX="188.0" layoutY="318.0" prefHeight="25.0" prefWidth="224.0" text="На основі програмного забезпечення " wrapText="true" />
+      <Label layoutX="193.0" layoutY="220.0" prefHeight="17.0" prefWidth="256.0" text="JDK: 11.0.2">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="190.0" layoutY="343.0" text="IntelliJ IDEA Community Edition 2021.3.3" />
    </children>
 </AnchorPane>
