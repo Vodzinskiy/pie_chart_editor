@@ -3,12 +3,28 @@ package ipz.coursework.pie_chart_editor;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
+
 
 import java.io.FileInputStream;
 import java.util.Properties;
 
+
 public class AboutView {
+    @FXML
+    private Label Programprovision;
+
+    @FXML
+    private Label Redactor;
+
+    @FXML
+    private Label Version;
+
+    @FXML
+    private Label Zbirka;
 
     private final Stage thisStage = new Stage();
 
@@ -39,8 +55,11 @@ public class AboutView {
         thisStage.showAndWait();
     }
 
+
+
     @FXML
     void initialize() {
         mainController.getSettingsController().setAboutStage(thisStage);
+
     }
 }
