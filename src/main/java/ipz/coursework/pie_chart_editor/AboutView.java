@@ -3,7 +3,9 @@ package ipz.coursework.pie_chart_editor;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
 
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -38,6 +40,9 @@ public class AboutView {
     public void showStage() {
         thisStage.showAndWait();
     }
+
+    public void exit(){thisStage.close();}
+
 
     @FXML
     void initialize() {

@@ -14,13 +14,13 @@
     <children>
         <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="960.0">
             <menus>
-                <Menu mnemonicParsing="false" text="Файл">
+                <Menu fx:id="fileMenu" mnemonicParsing="false" text="Файл">
                     <items>
                         <MenuItem fx:id="newTab" mnemonicParsing="false" text="Новий " />
                         <MenuItem fx:id="openFile" mnemonicParsing="false" text="Відкрити з файлу" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Зберегти" />
-                  <Menu mnemonicParsing="false" text="Зберегти як ...">
+                  <Menu fx:id="saveFileAsMenu" mnemonicParsing="false" text="Зберегти як ...">
                     <items>
                         <MenuItem fx:id="saveFileAs" mnemonicParsing="false" text="таблиця значень" />
                       <MenuItem fx:id="savePieChartPicture" mnemonicParsing="false" text="зображення графіка" />
@@ -31,7 +31,7 @@
                         <MenuItem fx:id="exit" mnemonicParsing="false" text="Вихід" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Допомога">
+                <Menu fx:id="helpMenu" mnemonicParsing="false" text="Допомога">
                     <items>
                         <MenuItem fx:id="creators" mnemonicParsing="false" text="Розробники" />
                         <MenuItem fx:id="aboutProject" mnemonicParsing="false" text="Про програму" />
@@ -43,7 +43,7 @@
             </cursor>
         </MenuBar>
         <TabPane fx:id="tabPane" layoutY="27.0" prefHeight="613.0" prefWidth="960.0" tabClosingPolicy="ALL_TABS" />
-        <Label fx:id="helpForCreateNewTab" layoutX="310.0" layoutY="218.0" prefHeight="162.0" prefWidth="518.0" text="Для створення нового файлу:Ctrl + N" textAlignment="CENTER" textFill="#595858" textOverrun="CENTER_ELLIPSIS">
+        <Label fx:id="helpForCreateNewTab" alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="220.0" prefHeight="160.0" prefWidth="400.0" textAlignment="CENTER" textFill="#595858" textOverrun="CENTER_ELLIPSIS" AnchorPane.bottomAnchor="260.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="220.0">
             <font>
                 <Font size="18.0" />
             </font>

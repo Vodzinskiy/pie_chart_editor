@@ -7,6 +7,10 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
+
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 
 import javafx.collections.FXCollections;
@@ -36,6 +40,9 @@ public class TabViewController {
 
     @FXML
     private URL location;
+
+    @FXML
+    private Button clearButton;
 
     @FXML
     private PieChart pieChart;
@@ -73,6 +80,10 @@ public class TabViewController {
 
     String[] defaultColorsOfPieChart = {"#f3622d", "#fba71b", "#57b757", "#41a9c9", "#4258c9", "#9a42c8", "#c84164", "#888888"};
 
+    String variable;
+    String Title;
+    String HeaderText;
+    String ContentText;
 
     /**
      * adding a new row to the table
@@ -80,14 +91,12 @@ public class TabViewController {
      */
 
     @FXML
-    void addToList(ActionEvent event) {
-
+    void addToList(ActionEvent event) throws IOException {
         try{
             /*
         (tableView.getItems().size()+1) -> creates new variable names: 1,2,3,4....
          */
-            dataForPieChart.add(new DataForPieChart("1","Змінна"+(tableView.getItems().size()+1),"100%"));
-
+            dataForPieChart.add(new DataForPieChart("1",variable+(tableView.getItems().size()+1),"100%"));
         /*
         update all column
          */
@@ -99,7 +108,6 @@ public class TabViewController {
         add interest to column,
          */
             updateIntest();
-//            System.out.println(getIndexForDefaultColors());
             setDefaultColorsOfPieChart();
             addFuncToColPicker();
 
@@ -111,11 +119,7 @@ public class TabViewController {
 
         }
         catch (Exception e){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Помилка!");
-            alert.setHeaderText("Неправильно введенні данні!");
-            alert.setContentText("в стовпчику можуть бути лише числа");
-            alert.showAndWait();
+            numAlert();
         }
     }
 
@@ -166,7 +170,6 @@ public class TabViewController {
         interest.setCellValueFactory(new PropertyValueFactory<>("interest"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         num.setCellValueFactory(new PropertyValueFactory<>("num"));
-//        color.setCellValueFactory(new PropertyValueFactory<DataForPieChart, ColorPicker>("color"));
         color.setCellValueFactory(new PropertyValueFactory<>("colorPicker"));
 
         name.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -180,13 +183,45 @@ public class TabViewController {
 
         pieChart.setLabelsVisible(Boolean.parseBoolean(props.getProperty("labels")));
         pieChart.setLegendVisible(Boolean.parseBoolean(props.getProperty("legend")));
+
+        Properties props = new Properties();
+        props.loadFromXML(new FileInputStream("settings.xml"));
+        if (props.getProperty("language").equals("English")){
+            languageTab("English.xml");
+        }
+        if (props.getProperty("language").equals("Ukrainian")){
+            languageTab("Ukraine.xml");
+        }
     }
 
-    public void createTableOpenFile(){
+    void languageTab(String res){
+        try{
+            Properties prop = new Properties();
+            prop.loadFromXML(new FileInputStream(res));
+
+            clearButton.setText(prop.getProperty("clear"));
+            name.setText(prop.getProperty("nameCol"));
+            num.setText(prop.getProperty("numCol"));
+            interest.setText(prop.getProperty("interestCol"));
+            color.setText(prop.getProperty("colorCol"));
+            variable = prop.getProperty("variable");
+            ContentText = prop.getProperty("alertContentText");
+            HeaderText = prop.getProperty("alertHeaderText");
+            Title = prop.getProperty("alertTitle");
+        }
+        catch (Exception ignored){}
+    }
+
+    public void createTableOpenFile() throws IOException {
         try {
             for(int i = 0; i < mainController.getColumnOpenName().size();i++){
                 dataForPieChart.add(new DataForPieChart(mainController.getColumnOpenNum().get(i),mainController.getColumnOpenName().get(i),""));
+                setDefaultColorsOfPieChart();
             }
+
+            addFuncToColPicker();
+            changeLegendColor();
+
             updateArrayNum();
             updateArrayName();
             updateArrayInterest();
@@ -194,12 +229,25 @@ public class TabViewController {
             addArrayToPieChart();
         }
         catch (Exception e){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Помилка!");
-            alert.setHeaderText("Неправильно введенні данні!");
-            alert.setContentText("в стовпчику можуть бути лише числа");
-            alert.showAndWait();
+            numAlert();
         }
+    }
+
+    void numAlert() throws IOException {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(Title);
+        alert.setHeaderText(HeaderText);
+        DialogPane dialogPane = alert.getDialogPane();
+        alert.setContentText(ContentText);
+        Properties props = new Properties();
+        props.loadFromXML(new FileInputStream("settings.xml"));
+        if (props.getProperty("theme").equals("Light")){
+            dialogPane.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+        }
+        if (props.getProperty("theme").equals("Dark")){
+            dialogPane.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+        }
+        alert.showAndWait();
     }
 
 
@@ -232,12 +280,13 @@ public class TabViewController {
      * saves the specified number
      * @param dataForPieChartStringCellEditEvent
      */
-    public void onEditNum(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
+    public void onEditNum(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) throws IOException {
 
         try{
             DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
             dataForPieChart.setNum(dataForPieChartStringCellEditEvent.getNewValue());
             //replace all "," into "."
+            dataForPieChart.setNum(tableView.getSelectionModel().getSelectedItem().getNum());
             dataForPieChart.setNum(tableView.getSelectionModel().getSelectedItem().getNum().replaceAll(",","."));
             tableView.refresh();
 
@@ -254,12 +303,7 @@ public class TabViewController {
             updateArrayInterest();
             updateIntest();
             addArrayToPieChart();
-            //alert window
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Помилка!");
-            alert.setHeaderText("Неправильно введенні данні!");
-            alert.setContentText("в стовпчику можуть бути лише числа");
-            alert.showAndWait();
+            numAlert();
         }
     }
 
@@ -338,11 +382,8 @@ public class TabViewController {
         }
     }
 
-
-
     /**
      * calculates the percentage of the numbers specified
-     *
      */
     public void updateIntest(){
         double temp = 0;

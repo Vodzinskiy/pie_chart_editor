@@ -23,7 +23,6 @@ import javafx.embed.swing.SwingFXUtils;
 import java.io.*;
 import java.io.IOException;
 
-import java.net.URL;
 import java.util.*;
 
 import javafx.stage.WindowEvent;
@@ -47,6 +46,16 @@ public class MainController {
      * main stage
      */
     private final Stage thisStage;
+    public CreateNewTab getTabViewController;
+
+    @FXML
+    private Menu fileMenu;
+
+    @FXML
+    private Menu helpMenu;
+
+    @FXML
+    private  Menu saveFileAsMenu;
 
     /**
      * menu item which opens about project window
@@ -129,6 +138,9 @@ public class MainController {
     SaveViewController saveViewController = new SaveViewController(this);
     SettingsController settingsController = new SettingsController(this);
     CreateNewTab createNewTab = new CreateNewTab(this);
+    PersonView personView = new PersonView(this);
+    AboutView aboutView = new AboutView(this);
+
 
     /**
      * method which launches main window
@@ -150,7 +162,7 @@ public class MainController {
                     closeWindow(e);
                 }
             });
-            thisStage.setTitle("pie_chart_editor");
+            thisStage.setTitle("Pie chart editor");
             Image icon = new Image("file:icon.png");
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
@@ -161,6 +173,12 @@ public class MainController {
             }
             if (props.getProperty("theme").equals("Dark")){
                 thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+            }
+            if (props.getProperty("language").equals("English")){
+                languageMain("English.xml");
+            }
+            if (props.getProperty("language").equals("Ukrainian")){
+                languageMain("Ukraine.xml");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -213,13 +231,15 @@ public class MainController {
 
         settingsController.setTabPane(tabPane);
 
-
-
     }
 
     public SettingsController getSettingsController(){
         return settingsController;
     }
+    public  CreateNewTab getCreateNewTab(){return createNewTab;}
+    public SaveViewController getSaveViewController(){return  saveViewController;}
+    //public  TabViewController getTabViewController(){return tabViewController;}
+
 
     /**
      * close application
@@ -249,13 +269,34 @@ public class MainController {
      */
     void closeTab(Event arg0, Tab tab){
         if(!listComparison(tab)){
-            // Show the new stage/window
             saveViewController.showStage();
             arg0.consume();
         }
+        //helpTextVisible();
+    }
+
+    void helpTextVisible(){
         if(tabPane.getTabs().size() == 0){
             helpForCreateNewTab.setVisible(true);
         }
+    }
+
+    void languageMain(String res) throws IOException {
+        Properties prop = new Properties();
+        prop.loadFromXML(new FileInputStream(res));
+        fileMenu.setText(prop.getProperty("file"));
+        helpMenu.setText(prop.getProperty("help"));
+        newTab.setText(prop.getProperty("newFile"));
+        openFile.setText(prop.getProperty("openFromFile"));
+        saveFile.setText(prop.getProperty("save"));
+        saveFileAs.setText(prop.getProperty("saveAsTable"));
+        savePieChartPicture.setText(prop.getProperty("saveAsPic"));
+        saveFileAsMenu.setText(prop.getProperty("saveAs"));
+        settings.setText(prop.getProperty("settings"));
+        exit.setText(prop.getProperty("exit"));
+        aboutProject.setText(prop.getProperty("about"));
+        creators.setText(prop.getProperty("creators"));
+        helpForCreateNewTab.setText(prop.getProperty("helpForCreateNewTab"));
     }
 
     /**
@@ -277,6 +318,10 @@ public class MainController {
             }
         }
         if(tabPane.getTabs().size() == 0){
+            settingsController.exit();
+            createNewTab.exit();
+            aboutView.exit();
+            personView.exit();
             exit();
         }
     }
@@ -389,7 +434,6 @@ public class MainController {
         columnOpenNum.clear();
         filePath = null;
         tabName = null;
-        CreateNewTab createNewTab = new CreateNewTab(this);
         // Show the new stage/window
         createNewTab.showStage();
         CreateNewTab(tabName);
@@ -422,13 +466,14 @@ public class MainController {
                 controller.createTableOpenFile();
                 nTab.setContent(nRoot);
                 nTab.setUserData(filePath);
+
                 nTab.setOnCloseRequest(new EventHandler<Event>()
                 {
                     @Override
                     public void handle(Event arg0)
                     {
                         closeTab(arg0, nTab);
-                        String tabText = nTab.getText();
+                        /*String tabText = nTab.getText();
                         namesOfTabs.remove(tabText);
                         String keyNameOfTab;
                         if (tabText.contains("(")){
@@ -438,7 +483,7 @@ public class MainController {
                         else {
                             keyNameOfTab = tabText;
                         }
-                        mapTabNames.get(keyNameOfTab).remove(tabText);
+                        mapTabNames.get(keyNameOfTab).remove(tabText);*/
                     }
                 });
                 saveViewController.setTab(nTab);
@@ -537,6 +582,7 @@ public class MainController {
                 }
                 CreateNewTab(fileOpen.getName().replace(".xlsx", "").replace(".txt", ""));
             }
+            helpForCreateNewTab.setVisible(false);
         }
         catch (Exception ignored){
         }
@@ -570,13 +616,6 @@ public class MainController {
                     ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
 
                 }
-            }
-            else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Помилка");
-                alert.setHeaderText(null);
-                alert.setContentText("Відсутні данні для зберігання");
-                alert.showAndWait();
             }
         }
         catch (Exception ignored){
@@ -621,7 +660,7 @@ public class MainController {
             File file = fileChooser.showSaveDialog(new Stage());
 
             XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFSheet sheet = workbook.createSheet("1");
+            XSSFSheet sheet = workbook.createSheet(tabName);
 
             //Data to write to Excel file.
             int rowCount = 0;
@@ -660,7 +699,7 @@ public class MainController {
 
                     // Запись содержимого в файл
                     for (int i = 0; i<finalNameList.size();i++){
-                        writer.write(finalNameList.get(i)+", "+finalNumList.get(i)+"\n");
+                        writer.write(finalNameList.get(i) + ", " + finalNumList.get(i) + ", " + finalInterestList.get(i) +"\n");
                     }
                     writer.flush();
                     writer.close();
@@ -682,7 +721,6 @@ public class MainController {
         if (tabPane.getSelectionModel().getSelectedItem().getUserData() == null) {
             return saveToFileAs();
         } else {
-
             tableView = (TableView) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("TableView");
 
             List<String> finalNameList = new ArrayList<>();
@@ -740,7 +778,7 @@ public class MainController {
 
                         // Запись содержимого в файл
                         for (int i = 0; i < finalNameList.size(); i++) {
-                            writer.write(finalNameList.get(i) + ", " + finalNumList.get(i) + "\n");
+                            writer.write(finalNameList.get(i) + ", " + finalNumList.get(i) + ", " + finalInterestList.get(i) +"\n");
                         }
                         writer.flush();
                         writer.close();
@@ -750,6 +788,8 @@ public class MainController {
                     }
                 }
             }
+
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("");
             alert.setHeaderText("Збережено");
@@ -781,14 +821,12 @@ public class MainController {
      * create about window
      */
     void openAbout() {
-        AboutView aboutView = new AboutView(this);
         aboutView.showStage();
     }
     /**
      * create creators window
      */
     void People(){
-        PersonView personView = new PersonView(this);
         personView.showStage();
     }
 }

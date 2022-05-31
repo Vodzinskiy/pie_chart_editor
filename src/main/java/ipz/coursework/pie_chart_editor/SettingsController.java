@@ -16,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class SettingsController {
@@ -31,6 +32,12 @@ public class SettingsController {
 
     @FXML
     private CheckBox Legend;
+
+    @FXML
+    private Label themeLabel;
+
+    @FXML
+    private Label languageLabel;
 
     @FXML
     private ComboBox<String> themeChooser;
@@ -56,6 +63,10 @@ public class SettingsController {
     private TabPane tabPane;
 
     Properties props = new Properties();
+    Properties prop = new Properties();
+
+    ObservableList<String> list;
+    ObservableList<String> languages;
 
     private final MainController mainController;
 
@@ -67,6 +78,9 @@ public class SettingsController {
             loader.setController(this);
             thisStage.setScene(new Scene(loader.load()));
             thisStage.setTitle("Налаштування");
+            Image icon = new Image("file:icon.png");
+            thisStage.getIcons().add(icon);
+            thisStage.setResizable(false);
             Properties props = new Properties();
             props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
@@ -74,6 +88,13 @@ public class SettingsController {
             }
             if (props.getProperty("theme").equals("Dark")){
                 thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+            }
+
+            if (props.getProperty("language").equals("English")){
+                languageSettings("English.xml");
+            }
+            if (props.getProperty("language").equals("Ukrainian")){
+                languageSettings("Ukraine.xml");
             }
         } catch (Exception ignored) {
         }
@@ -88,8 +109,17 @@ public class SettingsController {
 
     @FXML
     void initialize() throws IOException {
-        ObservableList<String> list = FXCollections.observableArrayList("Світла","Темна");
-        ObservableList<String> languages = FXCollections.observableArrayList("Англійська","Українська");
+        props.loadFromXML(new FileInputStream("settings.xml"));
+        if (props.getProperty("language").equals("English")){
+            prop.loadFromXML(new FileInputStream("English.xml"));
+            list = FXCollections.observableArrayList(prop.getProperty("light"),prop.getProperty("dark"));
+            languages = FXCollections.observableArrayList(prop.getProperty("English"),prop.getProperty("Ukrainian"));
+        }
+        if (props.getProperty("language").equals("Ukrainian")){
+            prop.loadFromXML(new FileInputStream("Ukraine.xml"));
+            list = FXCollections.observableArrayList(prop.getProperty("light"),prop.getProperty("dark"));
+            languages = FXCollections.observableArrayList(prop.getProperty("English"),prop.getProperty("Ukrainian"));
+        }
 
         themeChooser.setItems(list);
         LanguageChooser.setItems(languages);
@@ -106,7 +136,7 @@ public class SettingsController {
         if (props.getProperty("language").equals("English")){
             LanguageChooser.getSelectionModel().select(0);
         }
-        if (props.getProperty("language").equals("Ukraine")){
+        if (props.getProperty("language").equals("Ukrainian")){
             LanguageChooser.getSelectionModel().select(1);
         }
 
@@ -134,7 +164,7 @@ public class SettingsController {
 
         LanguageChooser.setOnAction(event -> {
             try {
-                languageChange(LanguageChooser.getSelectionModel().getSelectedItem());
+                languageChange();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -163,19 +193,42 @@ public class SettingsController {
         });
     }
 
-    void languageChange(String item) throws IOException {
-        if(item.equals("Ukraine") || item.equals("Українська")){
-            props.setProperty("language","Ukraine");
+    void languageChange() throws IOException {
+        TabViewController tabViewController = new TabViewController();
+        if(LanguageChooser.getSelectionModel().getSelectedItem().equals("Ukrainian") || LanguageChooser.getSelectionModel().getSelectedItem().equals("Українська")){
+            props.setProperty("language","Ukrainian");
             props.storeToXML(new FileOutputStream("settings.xml"), "");
 
-            //here cod for Ukraine
+            languageSettings("Ukraine.xml");
+            mainController.languageMain("Ukraine.xml");
+            mainController.getCreateNewTab().languageCreateNewTab("Ukraine.xml");
+            mainController.getSaveViewController().language("Ukraine.xml");
+            tabViewController.languageTab("Ukraine.xml");
+
         }
-        if(item.equals("English") || item.equals("Англійська")) {
+        if(LanguageChooser.getSelectionModel().getSelectedItem().equals("English") || LanguageChooser.getSelectionModel().getSelectedItem().equals("Англійська")) {
             props.setProperty("language","English");
             props.storeToXML(new FileOutputStream("settings.xml"), "");
 
-            //here cod for English
+            languageSettings("English.xml");
+            mainController.languageMain("English.xml");
+            mainController.getCreateNewTab().languageCreateNewTab("English.xml");
+            mainController.getSaveViewController().language("English.xml");
+            tabViewController.languageTab("English.xml");
         }
+    }
+
+    void languageSettings(String res) throws IOException {
+        prop.loadFromXML(new FileInputStream(res));
+        Labels.setText(prop.getProperty("labelsCheck"));
+        Legend.setText(prop.getProperty("legendCheck"));
+        thisStage.setTitle(prop.getProperty("settings"));
+        themeLabel.setText(prop.getProperty("themeLabel"));
+        languageLabel.setText(prop.getProperty("languageLabel"));
+        themeChooser.getItems().set(0,prop.getProperty("light"));
+        themeChooser.getItems().set(1,prop.getProperty("dark"));
+        LanguageChooser.getItems().set(0,prop.getProperty("English"));
+        LanguageChooser.getItems().set(1,prop.getProperty("Ukrainian"));
     }
 
     void themeChange(String item) throws IOException {
@@ -209,6 +262,8 @@ public class SettingsController {
             }
         }
     }
+
+    public void exit(){thisStage.close();}
 
 
     void setTabPane(TabPane tabPane){

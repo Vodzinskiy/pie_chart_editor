@@ -6,9 +6,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
 
@@ -50,9 +53,6 @@ public class SaveViewController {
         dontSave.setOnAction(event -> notSave());
         cancel.setOnAction(event -> close());
         save.setOnAction(event -> save());
-
-
-        saveText.setText("Зберегти зміни в \""+tab.getText()+"\" ?");
     }
 
     void close(){
@@ -62,12 +62,14 @@ public class SaveViewController {
     void notSave(){
         tab.getTabPane().getTabs().remove(tab);
         thisStage.close();
+        mainController.helpTextVisible();
     }
 
     void save(){
         if(mainController.saveToFile()){
             notSave();
         }
+        mainController.helpTextVisible();
     }
 
     /**
@@ -87,9 +89,9 @@ public class SaveViewController {
 
             // Load the scene
             thisStage.setScene(new Scene(loader.load()));
-
-            // Setup the window/stage
-            thisStage.setTitle("Save");
+            Image icon = new Image("file:icon.png");
+            thisStage.getIcons().add(icon);
+            thisStage.setResizable(false);
             Properties props = new Properties();
             props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
@@ -98,8 +100,27 @@ public class SaveViewController {
             if (props.getProperty("theme").equals("Dark")){
                 thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
             }
+            if (props.getProperty("language").equals("English")){
+                language("English.xml");
+            }
+            if (props.getProperty("language").equals("Ukrainian")){
+                language("Ukraine.xml");
+            }
         } catch (Exception ignored) {
         }
         thisStage.showAndWait();
+    }
+
+    void language(String res) throws IOException {
+        try{
+            Properties prop = new Properties();
+            prop.loadFromXML(new FileInputStream(res));
+            saveText.setText((prop.getProperty("saveWindowLabel")) + " \""+tab.getText()+"\" ?");
+            save.setText(prop.getProperty("saveButton"));
+            dontSave.setText(prop.getProperty("dontSaveButton"));
+            cancel.setText(prop.getProperty("cancel"));
+        }
+        catch (Exception ignored){}
+
     }
 }

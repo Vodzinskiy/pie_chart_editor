@@ -46,4 +46,6 @@ public class PersonView {
     void initialize() {
         mainController.getSettingsController().setCreatorsStage(thisStage);
     }
+
+    public void exit(){thisStage.close();}
 }
