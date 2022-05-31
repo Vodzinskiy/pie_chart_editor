@@ -70,6 +70,12 @@ public class PersonView {
             if (props.getProperty("theme").equals("Dark")){
                 thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
             }
+            if (props.getProperty("language").equals("English")){
+                language("English.xml");
+            }
+            if (props.getProperty("language").equals("Ukrainian")){
+                language("Ukraine.xml");
+            }
         } catch (Exception ignored) {
         }
     }
@@ -119,6 +125,20 @@ public class PersonView {
             }
         });
     }
+    void language(String res) throws IOException {
+        try{
+            Properties prop = new Properties();
+            prop.loadFromXML(new FileInputStream(res));
+            thisStage.setTitle((prop.getProperty("personTitle")));
+            Developers1.setText(prop.getProperty("personTitle"));
+            Gmail.setText(prop.getProperty("personMail"));
+            Telegram.setText(prop.getProperty("personTg"));
+            Roma1.setText(prop.getProperty("Roma"));
+            Arsen1.setText(prop.getProperty("Arsen"));
+            Bohdan1.setText(prop.getProperty("Bohdan"));
+        }
+        catch (Exception ignored){}
 
+    }
     public void exit(){thisStage.close();}
 }

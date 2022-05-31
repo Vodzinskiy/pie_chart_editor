@@ -11,7 +11,7 @@
     <entry key="saveAsPic">graphic image</entry>
     <entry key="settings">Settings</entry>
     <entry key="exit">Exit</entry>
-    <entry key="creators">Creators</entry>
+    <entry key="creators">Developers</entry>
     <entry key="about">About</entry>
     <entry key="CreateTabLabel">Enter a file name</entry>
     <entry key="CreateTabButton">Done</entry>
@@ -43,5 +43,15 @@
     <entry key="alertTitle">Error</entry>
     <entry key="alertHeaderText">Incorrectly entered data!</entry>
     <entry key="alertContentText">only numbers can be in a column</entry>
-    <entry key=""></entry>
+    <entry key="aboutWindow">About</entry>
+    <entry key="aboutTitle">Pie chart editor</entry>
+    <entry key="aboutVersion">Version: 1.0.0</entry>
+    <entry key="aboutCreateDate">date of creation: 01.06.2022</entry>
+    <entry key="aboutProgram">Software based:</entry>
+    <entry key="personTitle">Developers</entry>
+    <entry key="personTg">Telegram</entry>
+    <entry key="personMail">Email</entry>
+    <entry key="Roma">Vodzinskiy Roman</entry>
+    <entry key="Arsen">Neroda Arsen</entry>
+    <entry key="Bohdan">Karmanyuk Bohdan</entry>
 </properties>

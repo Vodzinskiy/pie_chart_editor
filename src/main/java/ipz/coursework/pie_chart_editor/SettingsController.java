@@ -203,6 +203,8 @@ public class SettingsController {
             mainController.languageMain("Ukraine.xml");
             mainController.getCreateNewTab().languageCreateNewTab("Ukraine.xml");
             mainController.getSaveViewController().language("Ukraine.xml");
+            mainController.getAboutView().language("Ukraine.xml");
+            mainController.getPersonView().language("Ukraine.xml");
             tabViewController.languageTab("Ukraine.xml");
 
         }
@@ -214,6 +216,8 @@ public class SettingsController {
             mainController.languageMain("English.xml");
             mainController.getCreateNewTab().languageCreateNewTab("English.xml");
             mainController.getSaveViewController().language("English.xml");
+            mainController.getAboutView().language("English.xml");
+            mainController.getPersonView().language("English.xml");
             tabViewController.languageTab("English.xml");
         }
     }

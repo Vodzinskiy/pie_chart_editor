@@ -43,5 +43,15 @@
     <entry key="alertTitle">Помилка</entry>
     <entry key="alertHeaderText">Неправильно введенні данні!</entry>
     <entry key="alertContentText">в стовпчику можуть бути лише числа</entry>
-    <entry key=""></entry>
+    <entry key="aboutWindow">Про програму</entry>
+    <entry key="aboutTitle">Редактор кільцевих діаграм</entry>
+    <entry key="aboutVersion">Версія 1.0.0</entry>
+    <entry key="aboutCreateDate">Дата створення: 01.06.2022</entry>
+    <entry key="aboutProgram">На основі програмного забезпечення</entry>
+    <entry key="personTitle">Розробники</entry>
+    <entry key="personTg">Телеграм</entry>
+    <entry key="personMail">Пошта</entry>
+    <entry key="Roma">Водзінський Роман</entry>
+    <entry key="Arsen">Нерода Арсен</entry>
+    <entry key="Bohdan">Карманюк Богдан</entry>
 </properties>

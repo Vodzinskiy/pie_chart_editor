@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="320.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="test" layoutX="113.0" layoutY="123.0" text="програма створена для  курсоваї робити ІПЗ " />
+      <Label fx:id="Redactor" layoutX="182.0" layoutY="14.0" prefHeight="70.0" prefWidth="289.0" text="Редактор кільцевих діаграм   " wrapText="true">
+         <font>
+            <Font size="21.0" />
+         </font></Label>
+      <Label fx:id="Version" layoutX="179.0" layoutY="100.0" prefHeight="33.0" prefWidth="230.0" text="Версія 1.0.0        " wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="Zbirka" layoutX="179.0" layoutY="134.0" prefHeight="34.0" prefWidth="224.0" text="Збірка побудована 01.06.2022">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="image" fitHeight="120.0" fitWidth="173.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icon.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="Programprovision" layoutX="179.0" layoutY="213.0" prefHeight="26.0" prefWidth="269.0" text="На основі програмного забезпечення:" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="179.0" layoutY="167.0" prefHeight="17.0" prefWidth="256.0" text="JDK: 11.0.2">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="193.0" layoutY="239.0" text="IntelliJ IDEA ">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="191.0" layoutY="259.0" text="SceneBuilder">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

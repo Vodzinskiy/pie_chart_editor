@@ -238,7 +238,9 @@ public class MainController {
     }
     public  CreateNewTab getCreateNewTab(){return createNewTab;}
     public SaveViewController getSaveViewController(){return  saveViewController;}
-    //public  TabViewController getTabViewController(){return tabViewController;}
+    public AboutView getAboutView(){return  aboutView;}
+    public PersonView getPersonView(){return  personView;}
+
 
 
     /**
