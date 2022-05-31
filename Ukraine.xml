@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="file">Файл</entry>
+    <entry key="help">Допомога</entry>
+    <entry key="newFile">Новий</entry>
+    <entry key="openFromFile">Відкрити з файлу</entry>
+    <entry key="save">Зберегти</entry>
+    <entry key="saveAs">Зберегти як...</entry>
+    <entry key="saveAsTable">таблиця значень</entry>
+    <entry key="saveAsPic">зображення графіка</entry>
+    <entry key="settings">Налаштування</entry>
+    <entry key="exit">Вихід</entry>
+    <entry key="creators">Розробники</entry>
+    <entry key="about">Про програму</entry>
+    <entry key="CreateTabLabel">Введіть назву файлу</entry>
+    <entry key="CreateTabButton">Готово</entry>
+    <entry key="CreateTabText">Новий</entry>
+    <entry key="clear">Очистити</entry>
+    <entry key="nameCol">Назва</entry>
+    <entry key="numCol">Число</entry>
+    <entry key="interestCol">Відсоток</entry>
+    <entry key="colorCol">Колір</entry>
+    <entry key="namesTabItem">Перейменувати</entry>
+    <entry key="variable">Змінна</entry>
+    <entry key="legendCheck">Легенда діаграми</entry>
+    <entry key="labelsCheck">Підпис сектора</entry>
+    <entry key="themeLabel">Тема:</entry>
+    <entry key="dark">Темна</entry>
+    <entry key="light">Світла</entry>
+    <entry key="languageLabel">Мова:</entry>
+    <entry key="Ukrainian">Українська</entry>
+    <entry key="English">Англійська</entry>
+    <entry key="saveWindowLabel">Зберегти зміни в</entry>
+    <entry key="saveButton">Зберегти</entry>
+    <entry key="dontSaveButton">Не зберігати</entry>
+    <entry key="cancel">Скасувати</entry>
+    <entry key="helpForCreateNewTab">
+        Для створення нового файлу:
+        Ctrl + N  або  Файл -> Новий
+        Для відкриття з файлу:
+        Ctrl + О  або  Файл -> Відкрити з файлу</entry>
+    <entry key="alertTitle">Помилка</entry>
+    <entry key="alertHeaderText">Неправильно введенні данні!</entry>
+    <entry key="alertContentText">в стовпчику можуть бути лише числа</entry>
+    <entry key=""></entry>
+</properties>
