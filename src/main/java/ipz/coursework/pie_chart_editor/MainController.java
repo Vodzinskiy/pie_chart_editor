@@ -271,6 +271,7 @@ public class MainController {
      */
     void closeTab(Event arg0, Tab tab){
         if(!listComparison(tab)){
+            saveViewController.setTab(tab);
             saveViewController.showStage();
             arg0.consume();
         }
@@ -488,7 +489,6 @@ public class MainController {
                         mapTabNames.get(keyNameOfTab).remove(tabText);*/
                     }
                 });
-                saveViewController.setTab(nTab);
 
                 ContextMenu contextMenu = new ContextMenu();
                 //Creating the menu Items for the context menu
