@@ -8,10 +8,10 @@
 
 <AnchorPane prefHeight="585.6" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.TabViewController">
    <children>
-      <Button fx:id="clearButton" layoutX="169.0" layoutY="36.0" mnemonicParsing="false" onAction="#clear" prefHeight="26.0" prefWidth="70.0" text="Очистити" />
-      <Button layoutX="296.0" layoutY="35.0" mnemonicParsing="false" onAction="#removeFromList" prefHeight="26.0" prefWidth="25.0" text="-" />
-      <PieChart fx:id="pieChart" animated="false" clockwise="false" labelsVisible="false" layoutX="357.0" layoutY="15.0" legendVisible="false" prefHeight="574.0" prefWidth="598.0" />
-      <TableView fx:id="tableView" editable="true" layoutX="35.0" layoutY="76.0" prefHeight="470.0" prefWidth="306.0">
+      <Button fx:id="clearButton" layoutX="35.0" layoutY="35.0" mnemonicParsing="false" onAction="#clear" prefHeight="26.0" prefWidth="70.0" text="Очистити" />
+      <Button layoutX="323.0" layoutY="35.0" mnemonicParsing="false" onAction="#removeFromList" prefHeight="25.0" prefWidth="25.0" text="-" />
+      <PieChart fx:id="pieChart" animated="false" clockwise="false" labelsVisible="false" layoutX="349.0" legendVisible="false" prefHeight="589.0" prefWidth="604.0" />
+      <TableView fx:id="tableView" accessibleText=" " editable="true" layoutX="35.0" layoutY="75.0" prefHeight="490.0" prefWidth="315.0">
          <columns>
             <TableColumn fx:id="num" onEditCommit="#onEditNum" prefWidth="152.8000030517578" text="Число" />
             <TableColumn fx:id="interest" editable="false" onEditCommit="#onEditInterest" prefWidth="91.20001220703125" text="Відсоток" />
@@ -22,6 +22,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="256.0" layoutY="36.0" mnemonicParsing="false" onAction="#addToList" text="+" />
+      <Button layoutX="282.0" layoutY="35.0" mnemonicParsing="false" onAction="#addToList" prefHeight="25.0" prefWidth="25.0" text="+" textAlignment="CENTER" textOverrun="LEADING_ELLIPSIS" wrapText="true" />
    </children>
 </AnchorPane>

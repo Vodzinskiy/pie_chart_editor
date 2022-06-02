@@ -129,7 +129,7 @@ public class PersonView {
         try{
             Properties prop = new Properties();
             prop.loadFromXML(new FileInputStream(res));
-            thisStage.setTitle((prop.getProperty("personTitle")));
+            thisStage.setTitle((prop.getProperty("personWindow")));
             Developers1.setText(prop.getProperty("personTitle"));
             Gmail.setText(prop.getProperty("personMail"));
             Telegram.setText(prop.getProperty("personTg"));
