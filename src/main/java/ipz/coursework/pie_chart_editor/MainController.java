@@ -129,6 +129,8 @@ public class MainController {
     @FXML
     private PieChart pieChart;
 
+    String nameOfXMLPropsFile;
+
     List<String> rows = new ArrayList<>();
     public String tabName;
     static List<String> columnOpenName = new ArrayList<>();
@@ -176,9 +178,11 @@ public class MainController {
             }
             if (props.getProperty("language").equals("English")){
                 languageMain("English.xml");
+                this.nameOfXMLPropsFile = "English.xml";
             }
             if (props.getProperty("language").equals("Ukrainian")){
                 languageMain("Ukraine.xml");
+                this.nameOfXMLPropsFile = "Ukraine.xml";
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -476,23 +480,14 @@ public class MainController {
                     public void handle(Event arg0)
                     {
                         closeTab(arg0, nTab);
-                        /*String tabText = nTab.getText();
-                        namesOfTabs.remove(tabText);
-                        String keyNameOfTab;
-                        if (tabText.contains("(")){
-                            keyNameOfTab = tabText.replace(tabText.substring(tabText.indexOf("("),tabText.indexOf(")")+1),"");
-
-                        }
-                        else {
-                            keyNameOfTab = tabText;
-                        }
-                        mapTabNames.get(keyNameOfTab).remove(tabText);*/
                     }
                 });
 
                 ContextMenu contextMenu = new ContextMenu();
                 //Creating the menu Items for the context menu
-                MenuItem item = new MenuItem("переіменувати");
+                Properties props = new Properties();
+                props.loadFromXML(new FileInputStream(this.nameOfXMLPropsFile));
+                MenuItem item = new MenuItem(props.getProperty("rename"));
                 item.setOnAction(event -> ChangeTabName(nTab));
                 contextMenu.getItems().addAll(item);
                 //Adding the context menu to the button and the text field
