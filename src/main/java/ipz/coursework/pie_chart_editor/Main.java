@@ -2,8 +2,6 @@ package ipz.coursework.pie_chart_editor;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 /**
  * Main class of the program
  * */
@@ -18,7 +16,7 @@ public class Main extends Application {
      * creating the initial program window
      * */
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         MainController mainController = new MainController();
         mainController.showStage();
     }

@@ -25,6 +25,7 @@
     <entry key="variable">Variable</entry>
     <entry key="legendCheck">Chart legend</entry>
     <entry key="labelsCheck">Sector signature</entry>
+    <entry key="bgCheck">Graphic image background</entry>
     <entry key="themeLabel">Theme:</entry>
     <entry key="dark">Dark</entry>
     <entry key="light">Light</entry>

@@ -5,17 +5,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.Objects;
 import java.util.Properties;
 
+/**
+ * class controller for PersonView-window
+ */
 public class PersonView {
 
     @FXML
@@ -45,30 +46,28 @@ public class PersonView {
     @FXML
     private Label Telegram;
 
-
-
-
-    @FXML
-    private Label Developers;
-
     private final Stage thisStage = new Stage();
 
     private final MainController mainController;
 
+    /**
+     *PersonView-window startup method
+     */
     public PersonView(MainController mainController) {
         this.mainController = mainController;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("person-view.fxml"));
             loader.setController(this);
             thisStage.setScene(new Scene(loader.load()));
-            thisStage.setTitle("Розробники");
+            Image icon = new Image("file:icon.png");
+            thisStage.getIcons().add(icon);
             Properties props = new Properties();
             props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
-                thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+                thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             if (props.getProperty("theme").equals("Dark")){
-                thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+                thisStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             if (props.getProperty("language").equals("English")){
                 language("English.xml");
@@ -76,8 +75,7 @@ public class PersonView {
             if (props.getProperty("language").equals("Ukrainian")){
                 language("Ukraine.xml");
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
     }
     /**
      * Show the stage that was loaded in the constructor
@@ -88,18 +86,18 @@ public class PersonView {
 
 
     void openLink1() throws Exception{
-
         Desktop.getDesktop().browse(new URI("https://t.me/vodziskiy"));
     }
     void openLink2() throws Exception{
-
         Desktop.getDesktop().browse(new URI("https://t.me/arseniyb777"));
     }
     void openLink3() throws Exception{
-
         Desktop.getDesktop().browse(new URI("https://t.me/bk_cullinan"));
     }
 
+    /**
+     * method which is started at start PersonView class
+     */
     @FXML
     void initialize() {
         mainController.getSettingsController().setCreatorsStage(thisStage);
@@ -125,7 +123,10 @@ public class PersonView {
             }
         });
     }
-    void language(String res) throws IOException {
+    /**
+     *translation PersonView-window
+     */
+    void language(String res){
         try{
             Properties prop = new Properties();
             prop.loadFromXML(new FileInputStream(res));
@@ -138,7 +139,9 @@ public class PersonView {
             Bohdan1.setText(prop.getProperty("Bohdan"));
         }
         catch (Exception ignored){}
-
     }
+    /**
+     * closing PersonView-window
+     */
     public void exit(){thisStage.close();}
 }

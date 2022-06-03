@@ -25,6 +25,7 @@
     <entry key="variable">Змінна</entry>
     <entry key="legendCheck">Легенда діаграми</entry>
     <entry key="labelsCheck">Підпис сектора</entry>
+    <entry key="bgCheck">Фон зображення графіка</entry>
     <entry key="themeLabel">Тема:</entry>
     <entry key="dark">Темна</entry>
     <entry key="light">Світла</entry>

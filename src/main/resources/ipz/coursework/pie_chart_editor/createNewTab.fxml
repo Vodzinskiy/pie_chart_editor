@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="120.0" prefWidth="240.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="120.0" prefWidth="240.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="createNewTabButton" layoutX="84.0" layoutY="76.0" mnemonicParsing="false" prefWidth="70.0" text="Готово" textAlignment="CENTER">
          <font>

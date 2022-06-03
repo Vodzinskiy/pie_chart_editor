@@ -6,41 +6,41 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="320.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="280.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="Redactor" layoutX="182.0" layoutY="14.0" prefHeight="70.0" prefWidth="289.0" text="Редактор кільцевих діаграм   " wrapText="true">
+      <Label fx:id="Redactor" alignment="CENTER" layoutX="178.0" layoutY="14.0" prefHeight="34.0" prefWidth="282.0" text="Редактор кільцевих діаграм   " textAlignment="CENTER" wrapText="true">
          <font>
-            <Font size="21.0" />
+            <Font size="20.0" />
          </font></Label>
-      <Label fx:id="Version" layoutX="179.0" layoutY="100.0" prefHeight="33.0" prefWidth="230.0" text="Версія 1.0.0        " wrapText="true">
+      <Label fx:id="Version" layoutX="170.0" layoutY="60.0" prefHeight="33.0" prefWidth="230.0" text="Версія 1.0.0        ">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="Zbirka" layoutX="179.0" layoutY="134.0" prefHeight="34.0" prefWidth="224.0" text="Збірка побудована 01.06.2022">
+      <Label fx:id="Zbirka" layoutX="170.0" layoutY="100.0" prefHeight="34.0" prefWidth="224.0" text="Збірка побудована 01.06.2022">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <ImageView fx:id="image" fitHeight="120.0" fitWidth="173.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="image" fitHeight="129.0" fitWidth="129.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@icon.png" />
          </image>
       </ImageView>
-      <Label fx:id="Programprovision" layoutX="179.0" layoutY="213.0" prefHeight="26.0" prefWidth="269.0" text="На основі програмного забезпечення:" wrapText="true">
+      <Label fx:id="Programprovision" layoutX="170.0" layoutY="180.0" prefHeight="26.0" prefWidth="298.0" text="На основі програмного забезпечення:" wrapText="true">
          <font>
-            <Font size="14.0" />
+            <Font size="16.0" />
          </font></Label>
-      <Label layoutX="179.0" layoutY="167.0" prefHeight="17.0" prefWidth="256.0" text="JDK: 11.0.2">
+      <Label layoutX="170.0" layoutY="140.0" prefHeight="17.0" prefWidth="256.0" text="JDK: 11.0.2">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="193.0" layoutY="239.0" text="IntelliJ IDEA ">
+      <Label layoutX="200.0" layoutY="210.0" text="IntelliJ IDEA ">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="191.0" layoutY="259.0" text="SceneBuilder">
+      <Label layoutX="200.0" layoutY="230.0" text="SceneBuilder">
          <font>
             <Font size="14.0" />
          </font>

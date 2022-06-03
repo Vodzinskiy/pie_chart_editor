@@ -3,6 +3,7 @@ package ipz.coursework.pie_chart_editor;
 import java.io.*;
 import java.net.URL;
 
+import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -19,6 +20,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * class controller for Settings-window
+ */
 public class SettingsController {
 
     @FXML
@@ -37,6 +41,9 @@ public class SettingsController {
     private Label themeLabel;
 
     @FXML
+    private  CheckBox backGround;
+
+    @FXML
     private Label languageLabel;
 
     @FXML
@@ -45,15 +52,12 @@ public class SettingsController {
     @FXML
     private ComboBox<String> LanguageChooser;
 
-    @FXML
-    private TableView<DataForPieChart> tableView;
     /**
      * pie chart for get data from TabViewContriller
      */
     @FXML
     private PieChart pieChart;
 
-    // Holds this controller's Stage
     private Stage thisStage = new Stage();
     public Stage tabNameStage = new Stage();
     private Stage creatorsStage = new Stage();
@@ -70,6 +74,9 @@ public class SettingsController {
 
     private final MainController mainController;
 
+    /**
+     *SettingsController-window startup method
+     */
     public SettingsController(MainController mainController) {
         this.mainController = mainController;
         try {
@@ -84,10 +91,10 @@ public class SettingsController {
             Properties props = new Properties();
             props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
-                thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+                thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             if (props.getProperty("theme").equals("Dark")){
-                thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+                thisStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
 
             if (props.getProperty("language").equals("English")){
@@ -107,6 +114,9 @@ public class SettingsController {
         thisStage.showAndWait();
     }
 
+    /**
+     * method which is started at start SettingsController class
+     */
     @FXML
     void initialize() throws IOException {
         props.loadFromXML(new FileInputStream("settings.xml"));
@@ -120,10 +130,8 @@ public class SettingsController {
             list = FXCollections.observableArrayList(prop.getProperty("light"),prop.getProperty("dark"));
             languages = FXCollections.observableArrayList(prop.getProperty("English"),prop.getProperty("Ukrainian"));
         }
-
         themeChooser.setItems(list);
         LanguageChooser.setItems(languages);
-
         props.loadFromXML(new FileInputStream("settings.xml"));
 
         if (props.getProperty("theme").equals("Light")){
@@ -153,6 +161,13 @@ public class SettingsController {
         if (props.getProperty("labels").equals("false")){
             Labels.setSelected(false);
         }
+        if (props.getProperty("bg").equals("true")){
+            backGround.setSelected(true);
+        }
+        if (props.getProperty("bg").equals("false")){
+            backGround.setSelected(false);
+        }
+
 
         themeChooser.setOnAction(event -> {
             try {
@@ -191,8 +206,23 @@ public class SettingsController {
             }
             catch (Exception ignored){}
         });
+        backGround.setOnAction(actionEvent -> backGround());
     }
 
+    /**
+     * set or remove bg
+     */
+    void backGround(){
+        props.replace("bg", String.valueOf(backGround.isSelected()));
+        try {
+            props.storeToXML(new FileOutputStream("settings.xml"), "");
+        } catch (IOException ignored) {}
+    }
+
+
+    /**
+     *translation all program
+     */
     void languageChange() throws IOException {
         TabViewController tabViewController = new TabViewController();
         if(LanguageChooser.getSelectionModel().getSelectedItem().equals("Ukrainian") || LanguageChooser.getSelectionModel().getSelectedItem().equals("Українська")){
@@ -222,6 +252,9 @@ public class SettingsController {
         }
     }
 
+    /**
+     *translation Settings window
+     */
     void languageSettings(String res) throws IOException {
         prop.loadFromXML(new FileInputStream(res));
         Labels.setText(prop.getProperty("labelsCheck"));
@@ -229,23 +262,27 @@ public class SettingsController {
         thisStage.setTitle(prop.getProperty("settings"));
         themeLabel.setText(prop.getProperty("themeLabel"));
         languageLabel.setText(prop.getProperty("languageLabel"));
+        backGround.setText(prop.getProperty("bgCheck"));
         themeChooser.getItems().set(0,prop.getProperty("light"));
         themeChooser.getItems().set(1,prop.getProperty("dark"));
         LanguageChooser.getItems().set(0,prop.getProperty("English"));
         LanguageChooser.getItems().set(1,prop.getProperty("Ukrainian"));
     }
 
+    /**
+     *theme change all program
+     */
     void themeChange(String item) throws IOException {
         if (item.equals("Світла") || item.equals("Light")){
             props.setProperty("theme","Light");
             props.storeToXML(new FileOutputStream("settings.xml"), "");
             try {
-                tabPane.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
-                thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
-                tabNameStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
-                creatorsStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
-                aboutStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
-                saveStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+                tabPane.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
+                thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
+                tabNameStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
+                creatorsStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
+                aboutStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
+                saveStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             catch (Exception ignored){
             }
@@ -255,12 +292,12 @@ public class SettingsController {
             props.setProperty("theme","Dark");
             props.storeToXML(new FileOutputStream("settings.xml"), "");
             try{
-                tabPane.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
-                thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
-                tabNameStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
-                creatorsStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
-                aboutStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
-                saveStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+                tabPane.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
+                thisStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
+                tabNameStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
+                creatorsStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
+                aboutStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
+                saveStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             catch (Exception ignored){
             }

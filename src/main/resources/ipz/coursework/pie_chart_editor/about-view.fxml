@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="280.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="280.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="Redactor" alignment="CENTER" layoutX="178.0" layoutY="14.0" prefHeight="34.0" prefWidth="282.0" text="Редактор кільцевих діаграм   " textAlignment="CENTER" wrapText="true">
          <font>

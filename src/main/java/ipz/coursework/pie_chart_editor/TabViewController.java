@@ -1,26 +1,18 @@
 package ipz.coursework.pie_chart_editor;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
-import java.util.function.UnaryOperator;
-import java.util.regex.Pattern;
 
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
-
 import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -31,15 +23,8 @@ import javafx.scene.paint.Color;
 
 /**
  * Class - Controller for create a tab
- *
  */
 public class TabViewController {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Button clearButton;
@@ -68,7 +53,7 @@ public class TabViewController {
      *
      * */
 
-    private ObservableList<DataForPieChart> dataForPieChart = FXCollections.observableArrayList();
+    private final ObservableList<DataForPieChart> dataForPieChart = FXCollections.observableArrayList();
 
     MainController mainController = new MainController();
 
@@ -87,15 +72,10 @@ public class TabViewController {
 
     /**
      * adding a new row to the table
-     * @param event
      */
-
     @FXML
-    void addToList(ActionEvent event) throws IOException {
+    void addToList() throws IOException {
         try{
-            /*
-        (tableView.getItems().size()+1) -> creates new variable names: 1,2,3,4....
-         */
             dataForPieChart.add(new DataForPieChart("1",variable+(tableView.getItems().size()+1),"100%"));
         /*
         update all column
@@ -103,33 +83,22 @@ public class TabViewController {
             updateArrayNum();
             updateArrayName();
             updateArrayInterest();
-
-        /*
-        add interest to column,
-         */
             updateIntest();
             setDefaultColorsOfPieChart();
             addFuncToColPicker();
-
-            /*
-        add data to a pie chart
-         */
             addArrayToPieChart();
             changeLegendColor();
-
         }
         catch (Exception e){
             numAlert();
         }
     }
 
-
     /**
      *remove rows from the table
-     * @param event
      */
     @FXML
-    void removeFromList(ActionEvent event) {
+    void removeFromList() {
         /*
         remove selection row from table
          */
@@ -148,10 +117,9 @@ public class TabViewController {
 
     /**
      * cleaning the table
-     * @param event
      */
     @FXML
-    void clear(ActionEvent event) {
+    void clear() {
         tableView.getItems().clear();
 
         updateArrayNum();
@@ -164,6 +132,10 @@ public class TabViewController {
         int tabViewSize = tableView.getItems().size();
         tableView.getItems().get(tabViewSize-1).getColorPicker().setValue(Color.web(defaultColorsOfPieChart[(tabViewSize-1)%8]));
     }
+
+    /**
+     * method which is started at start TabViewController class
+     */
     @FXML
     void initialize() throws IOException {
 
@@ -192,8 +164,12 @@ public class TabViewController {
         if (props.getProperty("language").equals("Ukrainian")){
             languageTab("Ukraine.xml");
         }
+
     }
 
+    /**
+     * translation tab window
+     */
     void languageTab(String res){
         try{
             Properties prop = new Properties();
@@ -212,6 +188,9 @@ public class TabViewController {
         catch (Exception ignored){}
     }
 
+    /**
+     * entering data into a table from an open file
+     */
     public void createTableOpenFile() throws IOException {
         try {
             for(int i = 0; i < mainController.getColumnOpenName().size();i++){
@@ -233,19 +212,21 @@ public class TabViewController {
         }
     }
 
+    /**
+     * warnings about incorrectly entered data
+     */
     void numAlert() throws IOException {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(Title);
         alert.setHeaderText(HeaderText);
         DialogPane dialogPane = alert.getDialogPane();
         alert.setContentText(ContentText);
-        Properties props = new Properties();
         props.loadFromXML(new FileInputStream("settings.xml"));
         if (props.getProperty("theme").equals("Light")){
-            dialogPane.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+            dialogPane.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
         }
         if (props.getProperty("theme").equals("Dark")){
-            dialogPane.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+            dialogPane.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
         }
         alert.showAndWait();
     }
@@ -253,7 +234,6 @@ public class TabViewController {
 
     /**
      * saves the specified name
-     * @param dataForPieChartStringCellEditEvent
      */
     public void onEditName(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
@@ -265,7 +245,6 @@ public class TabViewController {
 
     /**
      * saves the specified interest
-     * @param dataForPieChartStringCellEditEvent
      */
     public void onEditInterest(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) {
         DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
@@ -278,14 +257,12 @@ public class TabViewController {
 
     /**
      * saves the specified number
-     * @param dataForPieChartStringCellEditEvent
      */
     public void onEditNum(TableColumn.CellEditEvent<DataForPieChart, String> dataForPieChartStringCellEditEvent) throws IOException {
 
         try{
             DataForPieChart dataForPieChart = tableView.getSelectionModel().getSelectedItem();
             dataForPieChart.setNum(dataForPieChartStringCellEditEvent.getNewValue());
-            //replace all "," into "."
             dataForPieChart.setNum(tableView.getSelectionModel().getSelectedItem().getNum());
             dataForPieChart.setNum(tableView.getSelectionModel().getSelectedItem().getNum().replaceAll(",","."));
             tableView.refresh();
@@ -397,9 +374,7 @@ public class TabViewController {
         for (int i = 0; i<columnDataNum.size();i++){
             //calculates
             columnDataInterest.set(i,Double.toString((Double.parseDouble(columnDataNum.get(i))*temp)));
-
             DecimalFormat df = new DecimalFormat("###.###");
-
             //add
             DataForPieChart dataForPieChart = tableView.getItems().get(i);
             dataForPieChart.setInterest(df.format(Double.parseDouble(columnDataInterest.get(i)))+" %");

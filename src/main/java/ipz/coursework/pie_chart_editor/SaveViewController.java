@@ -10,10 +10,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
-
 
 /**
  * class - controller for closing warning
@@ -36,18 +34,18 @@ public class SaveViewController {
 
     Tab tab;
 
-    public void setTab(Tab tab){
-        this.tab = tab;
-    }
-
-    // Will hold a reference to the first controller, allowing us to access the methods found there.
     private final MainController mainController;
 
+    /**
+     *SaveViewController-window startup method
+     */
     public SaveViewController(MainController mainController) {
-        // We received the first controller, now let's make it usable throughout this controller.
         this.mainController = mainController;
     }
 
+    /**
+     * method which is started at start SaveViewController class
+     */
     @FXML
     void initialize() {
         dontSave.setOnAction(event -> notSave());
@@ -78,16 +76,10 @@ public class SaveViewController {
     public void showStage() {
         mainController.getSettingsController().setSaveStage(thisStage);
         try {
-            // Create the new stage
             thisStage = new Stage();
-
-            // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("save-view.fxml"));
-
-            // Set this class as the controller
             loader.setController(this);
 
-            // Load the scene
             thisStage.setScene(new Scene(loader.load()));
             Image icon = new Image("file:icon.png");
             thisStage.getIcons().add(icon);
@@ -95,10 +87,10 @@ public class SaveViewController {
             Properties props = new Properties();
             props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
-                thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+                thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             if (props.getProperty("theme").equals("Dark")){
-                thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+                thisStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             if (props.getProperty("language").equals("English")){
                 language("English.xml");
@@ -106,12 +98,14 @@ public class SaveViewController {
             if (props.getProperty("language").equals("Ukrainian")){
                 language("Ukraine.xml");
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         thisStage.showAndWait();
     }
 
-    void language(String res) throws IOException {
+    /**
+     *translation SaveViewController window
+     */
+    void language(String res){
         try{
             Properties prop = new Properties();
             prop.loadFromXML(new FileInputStream(res));
@@ -121,6 +115,17 @@ public class SaveViewController {
             cancel.setText(prop.getProperty("cancel"));
         }
         catch (Exception ignored){}
-
     }
+
+    /**
+     * specify a name for the closed tab
+     */
+    public void setTab(Tab tab){
+        this.tab = tab;
+    }
+
+    /**
+     * closing about-window
+     */
+    public void exit(){thisStage.close();}
 }

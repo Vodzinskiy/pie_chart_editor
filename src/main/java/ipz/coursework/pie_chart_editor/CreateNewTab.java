@@ -2,17 +2,17 @@ package ipz.coursework.pie_chart_editor;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 
 /**
  * Class - controller for set/change tab name window
@@ -25,21 +25,19 @@ public class CreateNewTab{
     @FXML
     private Button createNewTabButton;
 
-    // Holds this controller's Stage
-    private Stage thisStage = new Stage();
-
     @FXML
     private Label label;
 
+    private Stage thisStage = new Stage();
+
     String TabText;
 
-
-    // Will hold a reference to the first controller, allowing us to access the methods found there.
     private final MainController mainController;
+    Properties prop = new Properties();
 
-    List<String> namesOfTabs = new ArrayList<String>();
-
-
+    /**
+     *CreateNewTab-window startup method
+     */
     public CreateNewTab(MainController mainController) {
         this.mainController = mainController;
         try {
@@ -52,10 +50,10 @@ public class CreateNewTab{
             Properties props = new Properties();
             props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
-                thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+                thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             if (props.getProperty("theme").equals("Dark")){
-                thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+                thisStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             if (props.getProperty("language").equals("English")){
                 languageCreateNewTab("English.xml");
@@ -63,8 +61,7 @@ public class CreateNewTab{
             if (props.getProperty("language").equals("Ukrainian")){
                 languageCreateNewTab("Ukraine.xml");
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
     }
 
     /**
@@ -74,27 +71,42 @@ public class CreateNewTab{
         thisStage.showAndWait();
     }
 
+    /**
+     *translation CreateNewTab window
+     */
     void languageCreateNewTab(String res) throws IOException {
-        Properties prop = new Properties();
         prop.loadFromXML(new FileInputStream(res));
         label.setText(prop.getProperty("CreateTabLabel"));
         createNewTabButton.setText(prop.getProperty("CreateTabButton"));
+        newTabName.setText(prop.getProperty("newFile"));
         TabText = prop.getProperty("newFile");
-
     }
 
-
+    /**
+     * method which is started at start CreateNewTab class
+     */
     @FXML
     void initialize(){
-        createNewTabButton.setOnAction(event -> showCreateNewTabWindow());
+        //mainController.setTabName(newTabName.getText());
+        if (newTabName.getText().isEmpty()){
+            newTabName.setText(TabText);
+            mainController.setTabName(newTabName.getText());
+        }
+        createNewTabButton.setOnAction(event -> checkIsEmpty());
         mainController.getSettingsController().setTabNameStage(thisStage);
     }
 
+    /**
+     * gives the name of the newly created tab
+     */
     public void setNewTabName(String name){
         newTabName.setText(name);
     }
 
-    public void showCreateNewTabWindow() {
+    /**
+     * check if the tab name is empty
+     */
+    public void checkIsEmpty() {
         if (newTabName.getText().isEmpty()){
             newTabName.setText(TabText);
         }
@@ -103,6 +115,8 @@ public class CreateNewTab{
             thisStage.close();
         }
     }
-
+    /**
+     * closing CreateNewTab-window
+     */
     public void exit(){thisStage.close();}
 }
