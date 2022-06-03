@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
@@ -224,6 +225,9 @@ public class SettingsController {
      *translation all program
      */
     void languageChange() throws IOException {
+
+        mainController.getTabPane().getTabs().get(0).getContent();
+
         TabViewController tabViewController = new TabViewController();
         if(LanguageChooser.getSelectionModel().getSelectedItem().equals("Ukrainian") || LanguageChooser.getSelectionModel().getSelectedItem().equals("Українська")){
             props.setProperty("language","Ukrainian");

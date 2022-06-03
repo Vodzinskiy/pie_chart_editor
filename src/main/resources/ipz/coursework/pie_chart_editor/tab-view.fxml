@@ -2,11 +2,12 @@
 
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="585.6" prefWidth="960.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.TabViewController">
+<AnchorPane prefHeight="585.6" prefWidth="960.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ipz.coursework.pie_chart_editor.TabViewController">
    <children>
       <Button fx:id="clearButton" layoutX="35.0" layoutY="35.0" mnemonicParsing="false" onAction="#clear" prefHeight="26.0" prefWidth="70.0" text="Очистити" />
       <Button layoutX="323.0" layoutY="35.0" mnemonicParsing="false" onAction="#removeFromList" prefHeight="25.0" prefWidth="25.0" text="-" />
@@ -23,5 +24,6 @@
          </columnResizePolicy>
       </TableView>
       <Button layoutX="282.0" layoutY="35.0" mnemonicParsing="false" onAction="#addToList" prefHeight="25.0" prefWidth="25.0" text="+" textAlignment="CENTER" textOverrun="LEADING_ELLIPSIS" wrapText="true" />
+      <CheckBox fx:id="tr" layoutX="162.0" layoutY="39.0" mnemonicParsing="false" visible="false" />
    </children>
 </AnchorPane>

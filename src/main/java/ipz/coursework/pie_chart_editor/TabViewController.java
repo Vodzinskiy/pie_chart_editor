@@ -98,7 +98,7 @@ public class TabViewController {
      *remove rows from the table
      */
     @FXML
-    void removeFromList() {
+    void removeFromList(){
         /*
         remove selection row from table
          */
@@ -119,7 +119,8 @@ public class TabViewController {
      * cleaning the table
      */
     @FXML
-    void clear() {
+    void clear(){
+
         tableView.getItems().clear();
 
         updateArrayNum();
@@ -137,7 +138,7 @@ public class TabViewController {
      * method which is started at start TabViewController class
      */
     @FXML
-    void initialize() throws IOException {
+    void initialize() throws IOException{
 
         interest.setCellValueFactory(new PropertyValueFactory<>("interest"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -187,6 +188,18 @@ public class TabViewController {
         }
         catch (Exception ignored){}
     }
+
+    void language() throws IOException {
+        Properties properties = new Properties();
+        properties.loadFromXML(new FileInputStream("settings.xml"));
+        if(properties.getProperty("language").equals("Ukrainian")){
+            languageTab("Ukraine.xml");
+        }
+        if (properties.getProperty("language").equals("English")){
+            languageTab("English.xml");
+        }
+    }
+
 
     /**
      * entering data into a table from an open file
@@ -296,7 +309,6 @@ public class TabViewController {
     }
     /**
      * update column interest
-     *
      */
     public void updateArrayInterest(){
         columnDataInterest = new ArrayList<>();
@@ -307,7 +319,6 @@ public class TabViewController {
 
     /**
      * update column num
-     *
      */
     public void updateArrayNum(){
 
@@ -317,10 +328,8 @@ public class TabViewController {
         }
 
     }
-
     /**
      * add all data to pie chart
-     *
      */
     public void addArrayToPieChart(){
         pieChart.getData().clear();

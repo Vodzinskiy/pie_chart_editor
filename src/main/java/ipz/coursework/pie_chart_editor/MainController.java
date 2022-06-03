@@ -46,7 +46,6 @@ public class MainController {
      * main stage
      */
     private final Stage thisStage;
-    public CreateNewTab getTabViewController;
 
     @FXML
     private Menu fileMenu;
@@ -258,27 +257,36 @@ public class MainController {
      * open settings window
      */
     void settingsWindow(){
-        settingsController.showStage();
+        try{
+            settingsController.showStage();
+        }
+        catch (Exception ignored){}
     }
 
     /**
      * open window to rename the tab
      */
     void ChangeTabName(Tab ntab){
-        createNewTab.setNewTabName(ntab.getText());
-        createNewTab.showStage();
-        ntab.setText(tabName);
+        try{
+            createNewTab.setNewTabName(ntab.getText());
+            createNewTab.showStage();
+            ntab.setText(tabName);
+        }
+        catch (Exception ignored){}
     }
 
     /**
      *start when tab closing
      */
     void closeTab(Event arg0, Tab tab){
-        if(!listComparison(tab)){
-            saveViewController.setTab(tab);
-            saveViewController.showStage();
-            arg0.consume();
+        try{
+            if(!listComparison(tab)){
+                saveViewController.setTab(tab);
+                saveViewController.showStage();
+                arg0.consume();
+            }
         }
+        catch (Exception ignored){}
         //helpTextVisible();
     }
 
@@ -449,7 +457,7 @@ public class MainController {
     /**
      * create new tab
      */
-    List<String> namesOfTabs = new ArrayList<String>();
+    List<String> namesOfTabs = new ArrayList<>();
     Map<String, List<String>> mapTabNames = new HashMap<>();
 
     public int countSameElementsInArray(String name){
@@ -814,17 +822,27 @@ public class MainController {
         return columnOpenNum;
     }
 
+    TabPane getTabPane(){
+        return tabPane;
+    }
+
     /**
      * create about window
      */
     void openAbout() {
-        aboutView.showStage();
+        try{
+            aboutView.showStage();
+        }
+        catch (Exception ignored){}
     }
     /**
      * create creators window
      */
     void People(){
-        personView.showStage();
+        try{
+            personView.showStage();
+        }
+        catch (Exception ignored){}
     }
 }
 

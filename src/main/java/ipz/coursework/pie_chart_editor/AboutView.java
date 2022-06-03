@@ -42,6 +42,7 @@ public class AboutView {
             thisStage.setScene(new Scene(loader.load()));
             Image icon = new Image("file:icon.png");
             thisStage.getIcons().add(icon);
+            thisStage.setResizable(false);
             Properties props = new Properties();
             props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
