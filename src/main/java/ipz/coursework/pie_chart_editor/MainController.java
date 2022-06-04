@@ -1,7 +1,6 @@
 package ipz.coursework.pie_chart_editor;
 
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
@@ -15,6 +14,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
@@ -25,7 +25,6 @@ import java.io.IOException;
 
 import java.util.*;
 
-import javafx.stage.WindowEvent;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -56,55 +55,30 @@ public class MainController {
     @FXML
     private  Menu saveFileAsMenu;
 
-    /**
-     * menu item which opens about project window
-     */
     @FXML
     private MenuItem aboutProject;
-    /**
-     * menu item which opens list of creators window
-     */
+
     @FXML
     private MenuItem creators;
-    /**
-     * menu item which opens settings
-     */
+
     @FXML
     private MenuItem settings;
 
-    /**
-     * menu item for creating tabs
-     */
     @FXML
     private MenuItem newTab;
-    /**
-     * menu item for change the theme
-     */
-    @FXML
-    private MenuItem changeTheme;
-    /**
-     * menu item for open file
-     */
+
     @FXML
     private MenuItem openFile;
-    /**
-     * menu item for save file from the already open
-     */
+
     @FXML
     private MenuItem saveFile;
-    /**
-     * menu item for save file as xlsx or  txt
-     */
+
     @FXML
     private  MenuItem saveFileAs;
-    /**
-     * menu item for save pie chart image
-     */
+
     @FXML
     private  MenuItem savePieChartPicture;
-    /**
-     * menu item for closing the program
-     */
+
     @FXML
     private MenuItem exit;
     /**
@@ -113,7 +87,7 @@ public class MainController {
     @FXML
     private TabPane tabPane;
     /**
-     * table view for get data from TabViewContriller
+     * table view for get data from TabViewController
      */
     @FXML
     private TableView<DataForPieChart> tableView;
@@ -123,46 +97,35 @@ public class MainController {
     @FXML
     private Label helpForCreateNewTab;
     /**
-     * pie chart for get data from TabViewContriller
+     * pie chart for get data from TabViewContr0ller
      */
     @FXML
     private PieChart pieChart;
 
     String nameOfXMLPropsFile;
-
     List<String> rows = new ArrayList<>();
     public String tabName;
     static List<String> columnOpenName = new ArrayList<>();
     static List<String> columnOpenNum = new ArrayList<>();
     String filePath;
-
+    List<String> namesOfTabs = new ArrayList<>();
+    Map<String, List<String>> mapTabNames = new HashMap<>();
     SaveViewController saveViewController = new SaveViewController(this);
     SettingsController settingsController = new SettingsController(this);
     CreateNewTab createNewTab = new CreateNewTab(this);
     PersonView personView = new PersonView(this);
     AboutView aboutView = new AboutView(this);
 
-
     /**
      * method which launches main window
      */
     public MainController() {
-        // Create the new stage
         thisStage = new Stage();
-        // Load the FXML file
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
-            // Set this class as the controller
             loader.setController(this);
-            // Load the scene
             thisStage.setScene(new Scene(loader.load()));
-            // Setup the window/stage
-            thisStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent e) {
-                    closeWindow(e);
-                }
-            });
+            thisStage.setOnCloseRequest(this::closeWindow);
             thisStage.setTitle("Pie chart editor");
             Image icon = new Image("file:icon.png");
             thisStage.getIcons().add(icon);
@@ -170,10 +133,10 @@ public class MainController {
             Properties props = new Properties();
             props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
-                thisStage.getScene().getRoot().getStylesheets().remove(getClass().getResource("style.css").toString());
+                thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             if (props.getProperty("theme").equals("Dark")){
-                thisStage.getScene().getRoot().getStylesheets().add(getClass().getResource("style.css").toString());
+                thisStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
             if (props.getProperty("language").equals("English")){
                 languageMain("English.xml");
@@ -199,52 +162,25 @@ public class MainController {
      * this method is performed at the start of the window
      */
     @FXML
-    void initialize() throws IOException {
-
+    void initialize(){
         newTab.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
-
         openFile.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
-
         saveFile.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
-
         saveFileAs.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
-
         savePieChartPicture.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
-
         exit.setAccelerator(new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN));
 
-
         newTab.setOnAction(event -> CreateNewTabName());
-
         openFile.setOnAction(event -> openNewFile());
-
         saveFile.setOnAction(event -> saveToFile());
-
         saveFileAs.setOnAction(event -> saveToFileAs());
-
         savePieChartPicture.setOnAction(event -> savePieChartPicture());
-
         aboutProject.setOnAction(event -> openAbout());
-
         creators.setOnAction(event -> People());
-
         settings.setOnAction(event -> settingsWindow());
-
         exit.setOnAction(event -> exit());
-
         settingsController.setTabPane(tabPane);
-
     }
-
-    public SettingsController getSettingsController(){
-        return settingsController;
-    }
-    public  CreateNewTab getCreateNewTab(){return createNewTab;}
-    public SaveViewController getSaveViewController(){return  saveViewController;}
-    public AboutView getAboutView(){return  aboutView;}
-    public PersonView getPersonView(){return  personView;}
-
-
 
     /**
      * close application
@@ -254,48 +190,8 @@ public class MainController {
     }
 
     /**
-     * open settings window
+     *translate main window
      */
-    void settingsWindow(){
-        try{
-            settingsController.showStage();
-        }
-        catch (Exception ignored){}
-    }
-
-    /**
-     * open window to rename the tab
-     */
-    void ChangeTabName(Tab ntab){
-        try{
-            createNewTab.setNewTabName(ntab.getText());
-            createNewTab.showStage();
-            ntab.setText(tabName);
-        }
-        catch (Exception ignored){}
-    }
-
-    /**
-     *start when tab closing
-     */
-    void closeTab(Event arg0, Tab tab){
-        try{
-            if(!listComparison(tab)){
-                saveViewController.setTab(tab);
-                saveViewController.showStage();
-                arg0.consume();
-            }
-        }
-        catch (Exception ignored){}
-        //helpTextVisible();
-    }
-
-    void helpTextVisible(){
-        if(tabPane.getTabs().size() == 0){
-            helpForCreateNewTab.setVisible(true);
-        }
-    }
-
     void languageMain(String res) throws IOException {
         Properties prop = new Properties();
         prop.loadFromXML(new FileInputStream(res));
@@ -323,8 +219,7 @@ public class MainController {
             exit();
         }
         for (int i = tabPane.getTabs().size();i>0;i--){
-            if(!listComparison(tabPane.getTabs().get(i-1))){
-                // Show the new stage/window
+            if(listComparison(tabPane.getTabs().get(i - 1))){
                 saveViewController.setTab(tabPane.getTabs().get(i-1));
                 saveViewController.showStage();
             }
@@ -333,11 +228,17 @@ public class MainController {
             }
         }
         if(tabPane.getTabs().size() == 0){
-            settingsController.exit();
-            createNewTab.exit();
-            aboutView.exit();
-            personView.exit();
-            exit();
+            try{
+                settingsController.exit();
+                createNewTab.exit();
+                aboutView.exit();
+                personView.exit();
+                saveViewController.exit();
+                exit();
+            }
+            catch (Exception exception){
+                exit();
+            }
         }
     }
 
@@ -412,9 +313,9 @@ public class MainController {
             }
         }
         if (nameChange.equals(nameLastSave)){
-            return numChange.equals(numLastSave);
+            return !numChange.equals(numLastSave);
         }
-        return false;
+        return true;
     }
 
     /*
@@ -449,16 +350,10 @@ public class MainController {
         columnOpenNum.clear();
         filePath = null;
         tabName = null;
-        // Show the new stage/window
         createNewTab.showStage();
         CreateNewTab(tabName);
         helpForCreateNewTab.setVisible(false);
     }
-    /**
-     * create new tab
-     */
-    List<String> namesOfTabs = new ArrayList<>();
-    Map<String, List<String>> mapTabNames = new HashMap<>();
 
     public int countSameElementsInArray(String name){
         int count = 0;
@@ -470,6 +365,9 @@ public class MainController {
         return count;
     }
 
+    /**
+     * create new tab
+     */
     public void CreateNewTab(String name) {
 
         if(name  != null){
@@ -481,24 +379,14 @@ public class MainController {
                 controller.createTableOpenFile();
                 nTab.setContent(nRoot);
                 nTab.setUserData(filePath);
-
-                nTab.setOnCloseRequest(new EventHandler<Event>()
-                {
-                    @Override
-                    public void handle(Event arg0)
-                    {
-                        closeTab(arg0, nTab);
-                    }
-                });
+                nTab.setOnCloseRequest(arg0 -> closeTab(arg0, nTab));
 
                 ContextMenu contextMenu = new ContextMenu();
-                //Creating the menu Items for the context menu
                 Properties props = new Properties();
                 props.loadFromXML(new FileInputStream(this.nameOfXMLPropsFile));
                 MenuItem item = new MenuItem(props.getProperty("rename"));
                 item.setOnAction(event -> ChangeTabName(nTab));
                 contextMenu.getItems().addAll(item);
-                //Adding the context menu to the button and the text field
                 nTab.setContextMenu(contextMenu);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -512,7 +400,6 @@ public class MainController {
                 String formattedName = nameOfTab + "(" + numOfTabStr + ")";
                 tabPane.getTabs().get(tabPane.getTabs().size() - 1).setText(formattedName);
                 mapTabNames.get(nameOfTab).add(formattedName);
-
             }
             else {
                 names.add(nameOfTab);
@@ -607,18 +494,25 @@ public class MainController {
             tableView = (TableView) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("TableView");
             pieChart = (PieChart) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("PieChart");
             FileChooser fileChooser = new FileChooser();
-            //Set extension filter to .xlsx files
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
             fileChooser.getExtensionFilters().add(extFilter);
 
             if (!tableView.getItems().get(0).getName().isEmpty()){
-                //Show save file dialog
                 File file = fileChooser.showSaveDialog(new Stage());
                 if(file != null){
 
-                    WritableImage image = pieChart.snapshot(new SnapshotParameters(), null);
-
-                    ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+                    Properties properties = new Properties();
+                    properties.loadFromXML(new FileInputStream("settings.xml"));
+                    if(properties.getProperty("bg").equals("true")){
+                        WritableImage image = pieChart.snapshot(new SnapshotParameters(), null);
+                        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+                    }
+                    if(properties.getProperty("bg").equals("false")){
+                        SnapshotParameters parameters = new SnapshotParameters();
+                        parameters.setFill(Color.TRANSPARENT);
+                        WritableImage image = pieChart.snapshot(parameters , null);
+                        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+                    }
 
                 }
             }
@@ -653,23 +547,16 @@ public class MainController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialFileName(tabPane.getSelectionModel().getSelectedItem().getText());
 
-        //Set extension filter to .xlsx files
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Excel files (*.xlsx)", "*.xlsx");
         FileChooser.ExtensionFilter extTxtFilter = new FileChooser.ExtensionFilter("Txt files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.getExtensionFilters().add(extTxtFilter);
 
         if(!tableView.getItems().get(0).getNum().isEmpty()){
-
-            //Show save file dialog
             File file = fileChooser.showSaveDialog(new Stage());
-
             XSSFWorkbook workbook = new XSSFWorkbook();
             XSSFSheet sheet = workbook.createSheet(tabName);
-
-            //Data to write to Excel file.
             int rowCount = 0;
-
             for(int i = 0;i<finalNameList.size();i++){
                 XSSFRow row = sheet.createRow(rowCount++);
                 int columnCount = 0;
@@ -682,7 +569,6 @@ public class MainController {
                 cell.setCellValue(finalInterestList.get(i));
             }
 
-            //If file is not null, write to file using output stream.
             String fileName = file.getName();
             String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, file.getName().length());
 
@@ -698,11 +584,7 @@ public class MainController {
             if (fileExtension.equals("txt")){
                 try {
                     File fileTxt = new File(file.getAbsolutePath());
-
-                    // Создание объекта FileWriter
                     FileWriter writer = new FileWriter(fileTxt);
-
-                    // Запись содержимого в файл
                     for (int i = 0; i<finalNameList.size();i++){
                         writer.write(finalNameList.get(i) + ", " + finalNumList.get(i) + ", " + finalInterestList.get(i) +"\n");
                     }
@@ -746,11 +628,8 @@ public class MainController {
             String fileName = (String) tabPane.getSelectionModel().getSelectedItem().getUserData();
             String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
             if (!tableView.getItems().get(0).getNum().isEmpty()) {
-
                 XSSFWorkbook workbook = new XSSFWorkbook();
                 XSSFSheet sheet = workbook.createSheet("1");
-
-                //Data to write to Excel file.
                 int rowCount = 0;
 
                 for (int i = 0; i < finalNameList.size(); i++) {
@@ -764,7 +643,6 @@ public class MainController {
                     cell = row.createCell(columnCount);
                     cell.setCellValue(finalInterestList.get(i));
                 }
-
                 if (fileExtension.equals("xlsx")) {
 
                     try (FileOutputStream outputStream = new FileOutputStream(String.valueOf(tabPane.getSelectionModel().getSelectedItem().getUserData()))) {
@@ -777,18 +655,13 @@ public class MainController {
                 if (fileExtension.equals("txt")) {
                     try {
                         File fileTxt = new File(String.valueOf(tabPane.getSelectionModel().getSelectedItem().getUserData()));
-
-                        // Создание объекта FileWriter
                         FileWriter writer = new FileWriter(fileTxt);
-
-                        // Запись содержимого в файл
                         for (int i = 0; i < finalNameList.size(); i++) {
                             writer.write(finalNameList.get(i) + ", " + finalNumList.get(i) + ", " + finalInterestList.get(i) +"\n");
                         }
                         writer.flush();
                         writer.close();
                         return true;
-
                     } catch (IOException ignored) {
                     }
                 }
@@ -822,10 +695,6 @@ public class MainController {
         return columnOpenNum;
     }
 
-    TabPane getTabPane(){
-        return tabPane;
-    }
-
     /**
      * create about window
      */
@@ -844,5 +713,51 @@ public class MainController {
         }
         catch (Exception ignored){}
     }
+
+    /**
+     * open settings window
+     */
+    void settingsWindow(){
+        try{
+            settingsController.showStage();
+        }
+        catch (Exception ignored){}
+    }
+    /**
+     * open window to rename the tab
+     */
+    void ChangeTabName(Tab ntab){
+        try{
+            createNewTab.setNewTabName(ntab.getText());
+            createNewTab.showStage();
+            ntab.setText(tabName);
+        }
+        catch (Exception ignored){}
+    }
+
+    /**
+     *start when tab closing
+     */
+    void closeTab(Event arg0, Tab tab){
+        try{
+            if(listComparison(tab)){
+                saveViewController.setTab(tab);
+                saveViewController.showStage();
+                arg0.consume();
+            }
+        }
+        catch (Exception ignored){}
+    }
+
+    void helpTextVisible(){
+        if(tabPane.getTabs().size() == 0){
+            helpForCreateNewTab.setVisible(true);
+        }
+    }
+    public SettingsController getSettingsController(){return settingsController;}
+    public  CreateNewTab getCreateNewTab(){return createNewTab;}
+    public SaveViewController getSaveViewController(){return  saveViewController;}
+    public AboutView getAboutView(){return  aboutView;}
+    public PersonView getPersonView(){return  personView;}
 }
 

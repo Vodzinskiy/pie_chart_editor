@@ -87,7 +87,6 @@ public class CreateNewTab{
      */
     @FXML
     void initialize(){
-        //mainController.setTabName(newTabName.getText());
         if (newTabName.getText().isEmpty()){
             newTabName.setText(TabText);
             mainController.setTabName(newTabName.getText());
