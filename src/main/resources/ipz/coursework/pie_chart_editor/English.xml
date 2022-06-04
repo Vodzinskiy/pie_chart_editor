@@ -40,7 +40,7 @@
         To create a new file:
         Ctrl + N or File -> New
         To open from a file:
-        Ctrl + O or File -> Open from File</entry>
+        Ctrl + O or File -> Open</entry>
     <entry key="alertTitle">Error</entry>
     <entry key="alertHeaderText">Incorrectly entered data!</entry>
     <entry key="alertContentText">only numbers can be in a column</entry>

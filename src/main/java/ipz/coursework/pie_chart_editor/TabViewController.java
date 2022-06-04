@@ -174,7 +174,7 @@ public class TabViewController {
     void languageTab(String res){
         try{
             Properties prop = new Properties();
-            prop.loadFromXML(new FileInputStream(res));
+            prop.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream(res)));
 
             clearButton.setText(prop.getProperty("clear"));
             name.setText(prop.getProperty("nameCol"));

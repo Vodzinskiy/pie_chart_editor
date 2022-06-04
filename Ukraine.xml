@@ -4,7 +4,7 @@
     <entry key="file">Файл</entry>
     <entry key="help">Допомога</entry>
     <entry key="newFile">Новий</entry>
-    <entry key="openFromFile">Відкрити з файлу</entry>
+    <entry key="openFromFile">Відкрити</entry>
     <entry key="save">Зберегти</entry>
     <entry key="saveAs">Зберегти як...</entry>
     <entry key="saveAsTable">таблиця значень</entry>
@@ -40,7 +40,7 @@
         Для створення нового файлу:
         Ctrl + N  або  Файл -> Новий
         Для відкриття з файлу:
-        Ctrl + О  або  Файл -> Відкрити з файлу</entry>
+        Ctrl + О  або  Файл -> Відкрити</entry>
     <entry key="alertTitle">Помилка</entry>
     <entry key="alertHeaderText">Неправильно введенні данні!</entry>
     <entry key="alertContentText">в стовпчику можуть бути лише числа</entry>

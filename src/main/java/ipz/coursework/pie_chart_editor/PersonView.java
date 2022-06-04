@@ -59,7 +59,7 @@ public class PersonView {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("person-view.fxml"));
             loader.setController(this);
             thisStage.setScene(new Scene(loader.load()));
-            Image icon = new Image("file:icon.png");
+            Image icon = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("icon.png")));
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
             Properties props = new Properties();
@@ -130,7 +130,7 @@ public class PersonView {
     void language(String res){
         try{
             Properties prop = new Properties();
-            prop.loadFromXML(new FileInputStream(res));
+            prop.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream(res)));
             thisStage.setTitle((prop.getProperty("personWindow")));
             Developers1.setText(prop.getProperty("personTitle"));
             Gmail.setText(prop.getProperty("personMail"));

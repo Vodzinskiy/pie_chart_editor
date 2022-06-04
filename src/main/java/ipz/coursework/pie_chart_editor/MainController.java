@@ -102,6 +102,8 @@ public class MainController {
     @FXML
     private PieChart pieChart;
 
+    Properties prop = new Properties();
+
     String nameOfXMLPropsFile;
     List<String> rows = new ArrayList<>();
     public String tabName;
@@ -127,7 +129,7 @@ public class MainController {
             thisStage.setScene(new Scene(loader.load()));
             thisStage.setOnCloseRequest(this::closeWindow);
             thisStage.setTitle("Pie chart editor");
-            Image icon = new Image("file:icon.png");
+            Image icon = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("icon.png")));
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
             Properties props = new Properties();
@@ -193,8 +195,8 @@ public class MainController {
      *translate main window
      */
     void languageMain(String res) throws IOException {
-        Properties prop = new Properties();
-        prop.loadFromXML(new FileInputStream(res));
+
+        prop.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream(res)));
         fileMenu.setText(prop.getProperty("file"));
         helpMenu.setText(prop.getProperty("help"));
         newTab.setText(prop.getProperty("newFile"));
@@ -350,6 +352,7 @@ public class MainController {
         columnOpenNum.clear();
         filePath = null;
         tabName = null;
+        createNewTab.setNewTabName(prop.getProperty("newFile"));
         createNewTab.showStage();
         CreateNewTab(tabName);
         helpForCreateNewTab.setVisible(false);
@@ -369,7 +372,6 @@ public class MainController {
      * create new tab
      */
     public void CreateNewTab(String name) {
-
         if(name  != null){
             Tab nTab = new Tab(name);
             FXMLLoader nLoader = new FXMLLoader(getClass().getResource("tab-view.fxml"));
@@ -383,7 +385,7 @@ public class MainController {
 
                 ContextMenu contextMenu = new ContextMenu();
                 Properties props = new Properties();
-                props.loadFromXML(new FileInputStream(this.nameOfXMLPropsFile));
+                props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream(this.nameOfXMLPropsFile)));
                 MenuItem item = new MenuItem(props.getProperty("rename"));
                 item.setOnAction(event -> ChangeTabName(nTab));
                 contextMenu.getItems().addAll(item);
@@ -555,7 +557,7 @@ public class MainController {
         if(!tableView.getItems().get(0).getNum().isEmpty()){
             File file = fileChooser.showSaveDialog(new Stage());
             XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFSheet sheet = workbook.createSheet(tabName);
+            XSSFSheet sheet = workbook.createSheet("1");
             int rowCount = 0;
             for(int i = 0;i<finalNameList.size();i++){
                 XSSFRow row = sheet.createRow(rowCount++);
@@ -728,9 +730,12 @@ public class MainController {
      */
     void ChangeTabName(Tab ntab){
         try{
+            tabName = null;
             createNewTab.setNewTabName(ntab.getText());
             createNewTab.showStage();
-            ntab.setText(tabName);
+            if (!tabName.isEmpty()){
+                ntab.setText(tabName);
+            }
         }
         catch (Exception ignored){}
     }

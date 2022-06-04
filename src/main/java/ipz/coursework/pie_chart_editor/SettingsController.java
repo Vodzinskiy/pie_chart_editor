@@ -86,7 +86,7 @@ public class SettingsController {
             loader.setController(this);
             thisStage.setScene(new Scene(loader.load()));
             thisStage.setTitle("Налаштування");
-            Image icon = new Image("file:icon.png");
+            Image icon = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("icon.png")));
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
             Properties props = new Properties();
@@ -122,12 +122,12 @@ public class SettingsController {
     void initialize() throws IOException {
         props.loadFromXML(new FileInputStream("settings.xml"));
         if (props.getProperty("language").equals("English")){
-            prop.loadFromXML(new FileInputStream("English.xml"));
+            prop.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("English.xml")));
             list = FXCollections.observableArrayList(prop.getProperty("light"),prop.getProperty("dark"));
             languages = FXCollections.observableArrayList(prop.getProperty("English"),prop.getProperty("Ukrainian"));
         }
         if (props.getProperty("language").equals("Ukrainian")){
-            prop.loadFromXML(new FileInputStream("Ukraine.xml"));
+            prop.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("Ukraine.xml")));
             list = FXCollections.observableArrayList(prop.getProperty("light"),prop.getProperty("dark"));
             languages = FXCollections.observableArrayList(prop.getProperty("English"),prop.getProperty("Ukrainian"));
         }
@@ -257,7 +257,7 @@ public class SettingsController {
      *translation Settings window
      */
     void languageSettings(String res) throws IOException {
-        prop.loadFromXML(new FileInputStream(res));
+        prop.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream(res)));
         Labels.setText(prop.getProperty("labelsCheck"));
         Legend.setText(prop.getProperty("legendCheck"));
         thisStage.setTitle(prop.getProperty("settings"));

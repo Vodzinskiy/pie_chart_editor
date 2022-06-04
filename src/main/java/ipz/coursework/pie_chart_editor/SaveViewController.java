@@ -81,7 +81,7 @@ public class SaveViewController {
             loader.setController(this);
 
             thisStage.setScene(new Scene(loader.load()));
-            Image icon = new Image("file:icon.png");
+            Image icon = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("icon.png")));
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
             Properties props = new Properties();
@@ -108,7 +108,7 @@ public class SaveViewController {
     void language(String res){
         try{
             Properties prop = new Properties();
-            prop.loadFromXML(new FileInputStream(res));
+            prop.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream(res)));
             saveText.setText((prop.getProperty("saveWindowLabel")) + " \""+tab.getText()+"\" ?");
             save.setText(prop.getProperty("saveButton"));
             dontSave.setText(prop.getProperty("dontSaveButton"));

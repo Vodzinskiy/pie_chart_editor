@@ -30,8 +30,6 @@ public class CreateNewTab{
 
     private Stage thisStage = new Stage();
 
-    String TabText;
-
     private final MainController mainController;
     Properties prop = new Properties();
 
@@ -44,7 +42,7 @@ public class CreateNewTab{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateNewTab.fxml"));
             loader.setController(this);
             thisStage.setScene(new Scene(loader.load()));
-            Image icon = new Image("file:icon.png");
+            Image icon = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("icon.png")));
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
             Properties props = new Properties();
@@ -75,11 +73,10 @@ public class CreateNewTab{
      *translation CreateNewTab window
      */
     void languageCreateNewTab(String res) throws IOException {
-        prop.loadFromXML(new FileInputStream(res));
+        prop.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream(res)));
         label.setText(prop.getProperty("CreateTabLabel"));
         createNewTabButton.setText(prop.getProperty("CreateTabButton"));
         newTabName.setText(prop.getProperty("newFile"));
-        TabText = prop.getProperty("newFile");
     }
 
     /**
@@ -87,10 +84,6 @@ public class CreateNewTab{
      */
     @FXML
     void initialize(){
-        if (newTabName.getText().isEmpty()){
-            newTabName.setText(TabText);
-            mainController.setTabName(newTabName.getText());
-        }
         createNewTabButton.setOnAction(event -> checkIsEmpty());
         mainController.getSettingsController().setTabNameStage(thisStage);
     }
@@ -107,7 +100,7 @@ public class CreateNewTab{
      */
     public void checkIsEmpty() {
         if (newTabName.getText().isEmpty()){
-            newTabName.setText(TabText);
+            newTabName.setText(prop.getProperty("newFile"));
         }
         else{
             mainController.setTabName(newTabName.getText());
