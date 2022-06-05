@@ -186,19 +186,6 @@ public class TabViewController {
         }
         catch (Exception ignored){}
     }
-
-    void language() throws IOException {
-        Properties properties = new Properties();
-        props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
-        if(properties.getProperty("language").equals("Ukrainian")){
-            languageTab("Ukraine.xml");
-        }
-        if (properties.getProperty("language").equals("English")){
-            languageTab("English.xml");
-        }
-    }
-
-
     /**
      * entering data into a table from an open file
      */

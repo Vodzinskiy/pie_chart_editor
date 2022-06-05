@@ -668,12 +668,6 @@ public class MainController {
                     }
                 }
             }
-
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("");
-            alert.setHeaderText("Збережено");
-            alert.showAndWait();
         }
         return false;
     }
@@ -733,9 +727,9 @@ public class MainController {
             tabName = null;
             createNewTab.setNewTabName(ntab.getText());
             createNewTab.showStage();
-            if (!tabName.isEmpty()){
+            /*if (!tabName.isEmpty()){
                 ntab.setText(tabName);
-            }
+            }*/
         }
         catch (Exception ignored){}
     }
@@ -749,6 +743,11 @@ public class MainController {
                 saveViewController.setTab(tab);
                 saveViewController.showStage();
                 arg0.consume();
+            }
+            else{
+                if(tabPane.getTabs().size() == 1){
+                    helpForCreateNewTab.setVisible(true);
+                }
             }
         }
         catch (Exception ignored){}

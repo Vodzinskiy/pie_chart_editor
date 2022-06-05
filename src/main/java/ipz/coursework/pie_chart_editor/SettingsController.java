@@ -188,9 +188,9 @@ public class SettingsController {
 
         Labels.setOnAction(event -> {
             props.replace("labels", String.valueOf(Labels.isSelected()));
-            /*try {
+            try {
                 props.storeToXML(new FileOutputStream("settings.xml"), "");
-            } catch (IOException ignored) {}*/
+            } catch (IOException ignored) {}
             try{
                 ((PieChart) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("PieChart")).setLabelsVisible(Labels.isSelected());
             }
@@ -199,9 +199,9 @@ public class SettingsController {
 
         Legend.setOnAction(event -> {
             props.replace("legend", String.valueOf(Legend.isSelected()));
-            /*try {
+            try {
                 props.storeToXML(new FileOutputStream("settings.xml"), "");
-            } catch (IOException ignored) {}*/
+            } catch (IOException ignored) {}
             try{
                 ((PieChart) tabPane.getSelectionModel().getSelectedItem().getContent().lookup("PieChart")).setLegendVisible(Legend.isSelected());
             }
@@ -214,10 +214,10 @@ public class SettingsController {
      * set or remove bg
      */
     void backGround(){
-        props.replace("bg", String.valueOf(backGround.isSelected()));
-        /*try {
+        props.setProperty("bg", String.valueOf(backGround.isSelected()));
+        try {
             props.storeToXML(new FileOutputStream("settings.xml"), "");
-        } catch (IOException ignored) {}*/
+        } catch (IOException ignored) {}
     }
 
 
@@ -228,7 +228,7 @@ public class SettingsController {
         TabViewController tabViewController = new TabViewController();
         if(LanguageChooser.getSelectionModel().getSelectedItem().equals("Ukrainian") || LanguageChooser.getSelectionModel().getSelectedItem().equals("Українська")){
             props.setProperty("language","Ukrainian");
-            //props.storeToXML(new FileOutputStream("settings.xml"), "");
+            props.storeToXML(new FileOutputStream("settings.xml"), "");
 
             languageSettings("Ukraine.xml");
             mainController.languageMain("Ukraine.xml");
@@ -236,12 +236,12 @@ public class SettingsController {
             mainController.getSaveViewController().language("Ukraine.xml");
             mainController.getAboutView().language("Ukraine.xml");
             mainController.getPersonView().language("Ukraine.xml");
-            tabViewController.languageTab("Ukraine.xml");
+            //tabViewController.languageTab("Ukraine.xml");
 
         }
         if(LanguageChooser.getSelectionModel().getSelectedItem().equals("English") || LanguageChooser.getSelectionModel().getSelectedItem().equals("Англійська")) {
             props.setProperty("language","English");
-            //props.storeToXML(new FileOutputStream("settings.xml"), "");
+            props.storeToXML(new FileOutputStream("settings.xml"), "");
 
             languageSettings("English.xml");
             mainController.languageMain("English.xml");
@@ -249,7 +249,7 @@ public class SettingsController {
             mainController.getSaveViewController().language("English.xml");
             mainController.getAboutView().language("English.xml");
             mainController.getPersonView().language("English.xml");
-            tabViewController.languageTab("English.xml");
+            //tabViewController.languageTab("English.xml");
         }
     }
 
@@ -276,7 +276,7 @@ public class SettingsController {
     void themeChange(String item) throws IOException {
         if (item.equals("Світла") || item.equals("Light")){
             props.setProperty("theme","Light");
-            //props.storeToXML(new FileOutputStream("settings.xml"), "");
+            props.storeToXML(new FileOutputStream("settings.xml"), "");
             try {
                 tabPane.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
                 thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
@@ -291,7 +291,7 @@ public class SettingsController {
         }
         if (item.equals("Темна") || item.equals("Dark")){
             props.setProperty("theme","Dark");
-            //props.storeToXML(new FileOutputStream("settings.xml"), "");
+            props.storeToXML(new FileOutputStream("settings.xml"), "");
             try{
                 tabPane.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
                 thisStage.getScene().getRoot().getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toString());
