@@ -152,13 +152,11 @@ public class TabViewController {
         tableView.setItems(dataForPieChart);
         pieChart.setAnimated(true);
 
-        props.loadFromXML(new FileInputStream("settings.xml"));
+        props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
 
         pieChart.setLabelsVisible(Boolean.parseBoolean(props.getProperty("labels")));
         pieChart.setLegendVisible(Boolean.parseBoolean(props.getProperty("legend")));
 
-        Properties props = new Properties();
-        props.loadFromXML(new FileInputStream("settings.xml"));
         if (props.getProperty("language").equals("English")){
             languageTab("English.xml");
         }
@@ -191,7 +189,7 @@ public class TabViewController {
 
     void language() throws IOException {
         Properties properties = new Properties();
-        properties.loadFromXML(new FileInputStream("settings.xml"));
+        props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
         if(properties.getProperty("language").equals("Ukrainian")){
             languageTab("Ukraine.xml");
         }
@@ -234,7 +232,7 @@ public class TabViewController {
         alert.setHeaderText(HeaderText);
         DialogPane dialogPane = alert.getDialogPane();
         alert.setContentText(ContentText);
-        props.loadFromXML(new FileInputStream("settings.xml"));
+        props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
         if (props.getProperty("theme").equals("Light")){
             dialogPane.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
         }
@@ -373,18 +371,13 @@ public class TabViewController {
      */
     public void updateIntest(){
         double temp = 0;
-        //add all number
         for (String s : columnDataNum) {
             temp += Double.parseDouble(s);
         }
-        // "1%"
         temp = 100/temp;
-        // calculates all percentage, and add to column
         for (int i = 0; i<columnDataNum.size();i++){
-            //calculates
             columnDataInterest.set(i,Double.toString((Double.parseDouble(columnDataNum.get(i))*temp)));
             DecimalFormat df = new DecimalFormat("###.###");
-            //add
             DataForPieChart dataForPieChart = tableView.getItems().get(i);
             dataForPieChart.setInterest(df.format(Double.parseDouble(columnDataInterest.get(i)))+" %");
         }

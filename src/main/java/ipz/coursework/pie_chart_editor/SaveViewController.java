@@ -85,7 +85,7 @@ public class SaveViewController {
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
             Properties props = new Properties();
-            props.loadFromXML(new FileInputStream("settings.xml"));
+            props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
             if (props.getProperty("theme").equals("Light")){
                 thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }

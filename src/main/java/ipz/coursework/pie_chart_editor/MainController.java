@@ -133,7 +133,7 @@ public class MainController {
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
             Properties props = new Properties();
-            props.loadFromXML(new FileInputStream("settings.xml"));
+            props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
             if (props.getProperty("theme").equals("Light")){
                 thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
@@ -504,7 +504,7 @@ public class MainController {
                 if(file != null){
 
                     Properties properties = new Properties();
-                    properties.loadFromXML(new FileInputStream("settings.xml"));
+                    properties.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
                     if(properties.getProperty("bg").equals("true")){
                         WritableImage image = pieChart.snapshot(new SnapshotParameters(), null);
                         ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
