@@ -393,6 +393,16 @@ public class MainController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            /*int count = 1;
+            namesOfTabs.add(nTab.getText());
+            for (int i = 0; i<tabPane.getTabs().size();i++){
+                if(nTab.getText().equals(namesOfTabs.get(i))){
+                    count++;
+                }
+            }
+            if(count>=2){
+                nTab.setText(nTab.getText()+"("+count+")");
+            }*/
             tabPane.getTabs().add(nTab);
             namesOfTabs.add(tabPane.getTabs().get(tabPane.getTabs().size() - 1).getText());
             String nameOfTab =tabPane.getTabs().get(tabPane.getTabs().size() - 1).getText();
@@ -727,9 +737,9 @@ public class MainController {
             tabName = null;
             createNewTab.setNewTabName(ntab.getText());
             createNewTab.showStage();
-            /*if (!tabName.isEmpty()){
+            if (!tabName.isEmpty()){
                 ntab.setText(tabName);
-            }*/
+            }
         }
         catch (Exception ignored){}
     }
@@ -749,6 +759,7 @@ public class MainController {
                     helpForCreateNewTab.setVisible(true);
                 }
             }
+
         }
         catch (Exception ignored){}
     }
