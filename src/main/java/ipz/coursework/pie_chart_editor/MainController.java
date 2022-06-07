@@ -325,24 +325,25 @@ public class MainController {
     * Open,create tab
     *
      */
-    public void editMapTabs (){
-        List<String> tabsValueList= new ArrayList<>();
-        for (String key : mapTabNames.keySet()){
-            for (int i = 0; i < mapTabNames.get(key).size(); i++){
-                if (i == 0) continue;
-                if (!mapTabNames.get(key).get(i).equals(key + "(" + (i+1) + ")")){
-                    mapTabNames.get(key).set(mapTabNames.get(key).indexOf(mapTabNames.get(key).get(i)), key + "(" + (i+1) + ")");
-                }
-            }
-            tabsValueList.addAll(mapTabNames.get(key));
-        }
-        for (int i = 0; i < tabPane.getTabs().size(); i++){
-            if (!tabPane.getTabs().get(i).getText().equals(tabsValueList.get(i))){
-                tabPane.getTabs().get(i).setText(tabsValueList.get(i));
-            }
-        }
-
-    }
+//    public List<String> tabsValueList;
+//    public void editMapTabs (){
+//        tabsValueList= new ArrayList<>();
+//        for (String key : mapTabNames.keySet()){
+//            for (int i = 0; i < mapTabNames.get(key).size(); i++){
+//                if (mapTabNames.get(key).get(i).equals(key)) continue;
+//                if (!mapTabNames.get(key).get(i).equals(key + "(" + (i+1) + ")")){
+//                    if (i == 0){
+//                        mapTabNames.get(key).set(mapTabNames.get(key).indexOf(mapTabNames.get(key).get(i)), key);
+//                    } else {
+//                        mapTabNames.get(key).set(mapTabNames.get(key).indexOf(mapTabNames.get(key).get(i)), key + "(" + (i+1) + ")");
+//
+//                    }
+//                }
+//            }
+//            tabsValueList.addAll(mapTabNames.get(key));
+//        }
+//
+//    }
 
     /**
      * creates a window to specify the name of the new tab
@@ -358,9 +359,9 @@ public class MainController {
         helpForCreateNewTab.setVisible(false);
     }
 
-    public int countSameElementsInArray(String name){
+    public int countSameElementsInArray(String name, List<String> arr){
         int count = 0;
-        for (String s : namesOfTabs){
+        for (String s : arr){
             if (name.equals(s)){
                 count += 1;
             }
@@ -381,8 +382,21 @@ public class MainController {
                 controller.createTableOpenFile();
                 nTab.setContent(nRoot);
                 nTab.setUserData(filePath);
-                nTab.setOnCloseRequest(arg0 -> closeTab(arg0, nTab));
+                nTab.setOnCloseRequest(arg0 -> {closeTab(arg0, nTab);
+                String keyNameOfTab;
+                try {
+                    keyNameOfTab = nTab.getText().replace(nTab.getText().substring(nTab.getText().indexOf("("),nTab.getText().indexOf(")")+1),"");
+                } catch (Exception e) {
+                    keyNameOfTab = nTab.getText();
+                }
+                mapTabNames.get(keyNameOfTab).remove(nTab.getText());
+                System.out.println(mapTabNames);
+                namesOfTabs.remove(keyNameOfTab);
+                System.out.println(namesOfTabs);
 
+                }
+
+);
                 ContextMenu contextMenu = new ContextMenu();
                 Properties props = new Properties();
                 props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream(this.nameOfXMLPropsFile)));
@@ -393,33 +407,73 @@ public class MainController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            /*int count = 1;
+//            if (countSameElementsInArray(nTab.getText()) == 0){namesOfTabs.add(nTab.getText());}
+//            int count = 1;
+//            for (int i = 0; i<tabPane.getTabs().size();i++){
+//                if(nTab.getText().equals(namesOfTabs.get(i))){
+//                    count++;
+//                }
+//
+//            }
+//            if(count>=2){
+//                nTab.setText(nTab.getText()+"("+count+")");
+//
+//                if (countSameElementsInArray(nTab.getText()) > 0){
+//                    int count2 = count - 1;
+//                    nTab.setText(nTab.getText().replace("("+count2+")", "("+count+")"));
+//
+//                }
+//                count++;
+//
+//
+//                namesOfTabs.add(nTab.getText());
+//
+//            }
+
             namesOfTabs.add(nTab.getText());
-            for (int i = 0; i<tabPane.getTabs().size();i++){
-                if(nTab.getText().equals(namesOfTabs.get(i))){
-                    count++;
-                }
-            }
-            if(count>=2){
-                nTab.setText(nTab.getText()+"("+count+")");
-            }*/
-            tabPane.getTabs().add(nTab);
-            namesOfTabs.add(tabPane.getTabs().get(tabPane.getTabs().size() - 1).getText());
-            String nameOfTab =tabPane.getTabs().get(tabPane.getTabs().size() - 1).getText();
+            String nameOfTab =nTab.getText();
             List<String> names = new ArrayList<>();
-            if (countSameElementsInArray(nameOfTab) > 1){
-                String numOfTabStr = Integer.toString(countSameElementsInArray(nameOfTab));
+            if (countSameElementsInArray(nameOfTab, namesOfTabs) > 1){
+                String numOfTabStr = Integer.toString(countSameElementsInArray(nameOfTab, namesOfTabs));
                 String formattedName = nameOfTab + "(" + numOfTabStr + ")";
-                tabPane.getTabs().get(tabPane.getTabs().size() - 1).setText(formattedName);
                 mapTabNames.get(nameOfTab).add(formattedName);
+                nTab.setText(formattedName);
             }
             else {
                 names.add(nameOfTab);
                 mapTabNames.put(nameOfTab, names);
+
             }
-            editMapTabs();
+//            editMapTabs();
+//            List<String> missedNames = new ArrayList<String>();
+//            for (int i = 0; i < tabPane.getTabs().size(); i++){
+//                if (!tabPane.getTabs().get(i).getText().equals(tabsValueList.get(i))){
+//                    missedNames.add(tabsValueList.get(i));
+//                    nTab.setText(missedNames.get(0));
+//                    missedNames.remove(nTab.getText());
+//                }
+//                }
+            List<String> tabNamesFromPane = new ArrayList<String>();
+            for (Tab tab : tabPane.getTabs()){tabNamesFromPane.add(tab.getText());}
+
+            if (!mapTabNames.get(nameOfTab).contains(nameOfTab)){
+                nTab.setText(nameOfTab);
+                System.out.println(namesOfTabs);
+                mapTabNames.get(nameOfTab).add(nameOfTab);
+            }
+
+            for (int i = 0; i<mapTabNames.get(nameOfTab).size(); i++){
+                if (!tabNamesFromPane.contains(nameOfTab + "("+(i+1)+")") & tabNamesFromPane.contains(nameOfTab)){
+                    nTab.setText(nameOfTab + "("+(i+1)+")");
+                }
+            }
+
+            tabPane.getTabs().add(nTab);
+//            System.out.println(tabsValueList);
+
         }
-    }
+
+        }
     /**
      * open file and assigns data to list`s
      */
@@ -752,7 +806,9 @@ public class MainController {
             if(listComparison(tab)){
                 saveViewController.setTab(tab);
                 saveViewController.showStage();
+
                 arg0.consume();
+
             }
             else{
                 if(tabPane.getTabs().size() == 1){

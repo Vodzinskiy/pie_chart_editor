@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="file">File</entry>
+    <entry key="help">Help</entry>
+    <entry key="newFile">New</entry>
+    <entry key="openFromFile">Open</entry>
+    <entry key="save">Save</entry>
+    <entry key="saveAs">Save as...</entry>
+    <entry key="saveAsTable">table of values</entry>
+    <entry key="saveAsPic">graphic image</entry>
+    <entry key="settings">Settings</entry>
+    <entry key="exit">Exit</entry>
+    <entry key="creators">Developers</entry>
+    <entry key="about">About</entry>
+    <entry key="CreateTabLabel">Enter a file name</entry>
+    <entry key="CreateTabButton">Done</entry>
+    <entry key="CreateTabText">New</entry>
+    <entry key="clear">Clear</entry>
+    <entry key="nameCol">Name</entry>
+    <entry key="numCol">Numeric</entry>
+    <entry key="interestCol">Percentage</entry>
+    <entry key="colorCol">Color</entry>
+    <entry key="namesTabItem">Rename</entry>
+    <entry key="variable">Variable</entry>
+    <entry key="legendCheck">Chart legend</entry>
+    <entry key="labelsCheck">Sector signature</entry>
+    <entry key="bgCheck">Graphic image background</entry>
+    <entry key="themeLabel">Theme:</entry>
+    <entry key="dark">Dark</entry>
+    <entry key="light">Light</entry>
+    <entry key="languageLabel">Language:</entry>
+    <entry key="Ukrainian">Ukrainian</entry>
+    <entry key="English">English</entry>
+    <entry key="saveWindowLabel">Save changes in</entry>
+    <entry key="saveButton">Save</entry>
+    <entry key="dontSaveButton">Don`t save</entry>
+    <entry key="cancel">Cancel</entry>
+    <entry key="helpForCreateNewTab">
+        To create a new file:
+        Ctrl + N or File -> New
+        To open from a file:
+        Ctrl + O or File -> Open</entry>
+    <entry key="alertTitle">Error</entry>
+    <entry key="alertHeaderText">Incorrectly entered data!</entry>
+    <entry key="alertContentText">only numbers can be in a column</entry>
+    <entry key="aboutWindow">About</entry>
+    <entry key="aboutTitle">Pie chart editor</entry>
+    <entry key="aboutVersion">Version: 1.0.0</entry>
+    <entry key="aboutCreateDate">date of creation: 01.06.2022</entry>
+    <entry key="aboutProgram">Software based:</entry>
+    <entry key="personWindow">Developers</entry>
+    <entry key="personTitle">Developed by students of the IO-04 group</entry>
+    <entry key="personTg">Telegram</entry>
+    <entry key="personMail">Email</entry>
+    <entry key="Roma">Vodzinskiy Roman</entry>
+    <entry key="Arsen">Neroda Arsen</entry>
+    <entry key="Bohdan">Karmanyuk Bohdan</entry>
+    <entry key="rename">rename</entry>
+</properties>

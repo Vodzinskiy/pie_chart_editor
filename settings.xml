@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="bg">false</entry>
+<entry key="legend">false</entry>
+<entry key="theme">Light</entry>
+<entry key="language">English</entry>
+<entry key="labels">true</entry>
+</properties>
