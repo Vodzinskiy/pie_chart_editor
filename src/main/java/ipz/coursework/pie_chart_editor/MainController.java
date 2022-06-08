@@ -390,9 +390,7 @@ public class MainController {
                     keyNameOfTab = nTab.getText();
                 }
                 mapTabNames.get(keyNameOfTab).remove(nTab.getText());
-                System.out.println(mapTabNames);
                 namesOfTabs.remove(keyNameOfTab);
-                System.out.println(namesOfTabs);
 
                 }
 
@@ -433,9 +431,10 @@ public class MainController {
             namesOfTabs.add(nTab.getText());
             String nameOfTab =nTab.getText();
             List<String> names = new ArrayList<>();
+            String formattedName;
             if (countSameElementsInArray(nameOfTab, namesOfTabs) > 1){
                 String numOfTabStr = Integer.toString(countSameElementsInArray(nameOfTab, namesOfTabs));
-                String formattedName = nameOfTab + "(" + numOfTabStr + ")";
+                formattedName = nameOfTab + "(" + numOfTabStr + ")";
                 mapTabNames.get(nameOfTab).add(formattedName);
                 nTab.setText(formattedName);
             }
@@ -458,13 +457,16 @@ public class MainController {
 
             if (!mapTabNames.get(nameOfTab).contains(nameOfTab)){
                 nTab.setText(nameOfTab);
-                System.out.println(namesOfTabs);
-                mapTabNames.get(nameOfTab).add(nameOfTab);
+                mapTabNames.get(nameOfTab).add(nTab.getText());
+
             }
 
-            for (int i = 0; i<mapTabNames.get(nameOfTab).size(); i++){
+            for (int i = 1; i<mapTabNames.get(nameOfTab).size(); i++){
                 if (!tabNamesFromPane.contains(nameOfTab + "("+(i+1)+")") & tabNamesFromPane.contains(nameOfTab)){
                     nTab.setText(nameOfTab + "("+(i+1)+")");
+                    mapTabNames.get(nameOfTab).add(nTab.getText());
+                    break;
+
                 }
             }
 
