@@ -402,7 +402,7 @@ public class MainController {
             List<String> tabNamesFromPane = new ArrayList<String>();
             for (Tab tab : tabPane.getTabs()){tabNamesFromPane.add(tab.getText());}
 
-            if (!mapTabNames.get(nameOfTab).contains(nameOfTab)){
+            if (!tabNamesFromPane.contains(nameOfTab)){
                 nTab.setText(nameOfTab);
                 mapTabNames.get(nameOfTab).add(nTab.getText());
 
