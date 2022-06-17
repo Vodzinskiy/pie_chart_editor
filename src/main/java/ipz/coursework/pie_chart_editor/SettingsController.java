@@ -12,7 +12,6 @@ import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
@@ -90,7 +89,7 @@ public class SettingsController {
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
             Properties props = new Properties();
-            props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
+            props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
                 thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
@@ -120,7 +119,7 @@ public class SettingsController {
      */
     @FXML
     void initialize() throws IOException {
-        props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
+        props.loadFromXML(new FileInputStream("settings.xml"));
         if (props.getProperty("language").equals("English")){
             prop.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("English.xml")));
             list = FXCollections.observableArrayList(prop.getProperty("light"),prop.getProperty("dark"));

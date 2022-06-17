@@ -152,7 +152,7 @@ public class TabViewController {
         tableView.setItems(dataForPieChart);
         pieChart.setAnimated(true);
 
-        props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
+        props.loadFromXML(new FileInputStream("settings.xml"));
 
         pieChart.setLabelsVisible(Boolean.parseBoolean(props.getProperty("labels")));
         pieChart.setLegendVisible(Boolean.parseBoolean(props.getProperty("legend")));
@@ -219,7 +219,7 @@ public class TabViewController {
         alert.setHeaderText(HeaderText);
         DialogPane dialogPane = alert.getDialogPane();
         alert.setContentText(ContentText);
-        props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
+        props.loadFromXML(new FileInputStream("settings.xml"));
         if (props.getProperty("theme").equals("Light")){
             dialogPane.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
         }

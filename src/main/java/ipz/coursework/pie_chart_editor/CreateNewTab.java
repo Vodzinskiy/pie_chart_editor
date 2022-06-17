@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -39,14 +37,14 @@ public class CreateNewTab{
     public CreateNewTab(MainController mainController) {
         this.mainController = mainController;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateNewTab.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("createNewTab-view.fxml"));
             loader.setController(this);
             thisStage.setScene(new Scene(loader.load()));
             Image icon = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("icon.png")));
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
             Properties props = new Properties();
-            props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
+            props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
                 thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }

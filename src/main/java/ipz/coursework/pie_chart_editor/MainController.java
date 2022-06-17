@@ -111,7 +111,6 @@ public class MainController {
     static List<String> columnOpenNum = new ArrayList<>();
     String filePath;
     List<String> namesOfTabs = new ArrayList<>();
-    Map<String, List<String>> mapTabNames = new HashMap<>();
     SaveViewController saveViewController = new SaveViewController(this);
     SettingsController settingsController = new SettingsController(this);
     CreateNewTab createNewTab = new CreateNewTab(this);
@@ -133,7 +132,7 @@ public class MainController {
             thisStage.getIcons().add(icon);
             thisStage.setResizable(false);
             Properties props = new Properties();
-            props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
+            props.loadFromXML(new FileInputStream("settings.xml"));
             if (props.getProperty("theme").equals("Light")){
                 thisStage.getScene().getRoot().getStylesheets().remove(Objects.requireNonNull(getClass().getResource("style.css")).toString());
             }
@@ -172,13 +171,13 @@ public class MainController {
         savePieChartPicture.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
         exit.setAccelerator(new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN));
 
-        newTab.setOnAction(event -> CreateNewTabName());
+        newTab.setOnAction(event -> createNewTabName());
         openFile.setOnAction(event -> openNewFile());
         saveFile.setOnAction(event -> saveToFile());
         saveFileAs.setOnAction(event -> saveToFileAs());
         savePieChartPicture.setOnAction(event -> savePieChartPicture());
         aboutProject.setOnAction(event -> openAbout());
-        creators.setOnAction(event -> People());
+        creators.setOnAction(event -> people());
         settings.setOnAction(event -> settingsWindow());
         exit.setOnAction(event -> exit());
         settingsController.setTabPane(tabPane);
@@ -324,14 +323,14 @@ public class MainController {
     /**
      * creates a window to specify the name of the new tab
      */
-    public void CreateNewTabName() {
+    public void createNewTabName() {
         columnOpenName.clear();
         columnOpenNum.clear();
         filePath = null;
         tabName = null;
         createNewTab.setNewTabName(prop.getProperty("newFile"));
         createNewTab.showStage();
-        CreateNewTab(tabName);
+        createTab(tabName);
         helpForCreateNewTab.setVisible(false);
     }
 
@@ -348,7 +347,7 @@ public class MainController {
     /**
      * create new tab
      */
-    public void CreateNewTab(String name) {
+    public void createTab(String name) {
         if(name  != null){
             Tab nTab = new Tab(name);
             FXMLLoader nLoader = new FXMLLoader(getClass().getResource("tab-view.fxml"));
@@ -365,17 +364,14 @@ public class MainController {
                 } catch (Exception e) {
                     keyNameOfTab = nTab.getText();
                 }
-                mapTabNames.get(keyNameOfTab).remove(nTab.getText());
                 namesOfTabs.remove(keyNameOfTab);
-
                 }
-
 );
                 ContextMenu contextMenu = new ContextMenu();
                 Properties props = new Properties();
                 props.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream(this.nameOfXMLPropsFile)));
                 MenuItem item = new MenuItem(props.getProperty("rename"));
-                item.setOnAction(event -> ChangeTabName(nTab));
+                item.setOnAction(event -> changeTabName(nTab));
                 contextMenu.getItems().addAll(item);
                 nTab.setContextMenu(contextMenu);
             } catch (IOException e) {
@@ -390,13 +386,10 @@ public class MainController {
             if (countSameElementsInArray(nameOfTab, namesOfTabs) > 1){
                 String numOfTabStr = Integer.toString(countSameElementsInArray(nameOfTab, namesOfTabs));
                 formattedName = nameOfTab + "(" + numOfTabStr + ")";
-                mapTabNames.get(nameOfTab).add(formattedName);
                 nTab.setText(formattedName);
             }
             else {
                 names.add(nameOfTab);
-                mapTabNames.put(nameOfTab, names);
-
             }
 
             List<String> tabNamesFromPane = new ArrayList<String>();
@@ -404,21 +397,16 @@ public class MainController {
 
             if (!tabNamesFromPane.contains(nameOfTab)){
                 nTab.setText(nameOfTab);
-                mapTabNames.get(nameOfTab).add(nTab.getText());
-
             }
 
             for (int i = 1; i<tabNamesFromPane.size(); i++){
                 if (!tabNamesFromPane.contains(nameOfTab + "("+(i+1)+")") & tabNamesFromPane.contains(nameOfTab)){
                     nTab.setText(nameOfTab + "("+(i+1)+")");
-                    mapTabNames.get(nameOfTab).add(nTab.getText());
                     break;
 
                 }
             }
-
             tabPane.getTabs().add(nTab);
-
         }
 
         }
@@ -486,7 +474,7 @@ public class MainController {
                         e.printStackTrace();
                     }
                 }
-                CreateNewTab(fileOpen.getName().replace(".xlsx", "").replace(".txt", ""));
+                createTab(fileOpen.getName().replace(".xlsx", "").replace(".txt", ""));
             }
             helpForCreateNewTab.setVisible(false);
         }
@@ -516,7 +504,7 @@ public class MainController {
                 if(file != null){
 
                     Properties properties = new Properties();
-                    properties.loadFromXML(Objects.requireNonNull(this.getClass().getResourceAsStream("settings.xml")));
+                    properties.loadFromXML(new FileInputStream("settings.xml"));
                     if(properties.getProperty("bg").equals("true")){
                         WritableImage image = pieChart.snapshot(new SnapshotParameters(), null);
                         ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
@@ -715,7 +703,7 @@ public class MainController {
     /**
      * create creators window
      */
-    void People(){
+    void people(){
         try{
             personView.showStage();
         }
@@ -734,7 +722,7 @@ public class MainController {
     /**
      * open window to rename the tab
      */
-    void ChangeTabName(Tab ntab){
+    void changeTabName(Tab ntab){
         try{
             tabName = null;
             createNewTab.setNewTabName(ntab.getText());
@@ -779,4 +767,3 @@ public class MainController {
     public AboutView getAboutView(){return  aboutView;}
     public PersonView getPersonView(){return  personView;}
 }
-
